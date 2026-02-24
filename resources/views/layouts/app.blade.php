@@ -26,18 +26,21 @@
         <nav class="flex flex-col p-2 gap-1 mt-4 flex-1">
 
             <a href="/dashboard"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg hover:bg-white/20 transition whitespace-nowrap">
-               <img/> <span class="hidden group-hover:block">Home</span>
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
+                <x-icons.home classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Home</span>
             </a>
 
             <a href="/compose"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg hover:bg-white/20 transition whitespace-nowrap">
-               <img/> <span class="hidden group-hover:block">Compose Email</span>
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
+                <x-icons.email classes="w-6 h-6 focus-clr-accent" />
+                <span class="hidden group-hover:block">Compose Email</span>
             </a>
 
             <a href="/draft"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg hover:bg-white/20 transition whitespace-nowrap">
-                <img/> <span class="hidden group-hover:block">Draft</span>
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
+                <x-icons.icon-draft classes="w-6 h-6 focus-clr-accent" />
+                <span class="hidden group-hover:block">Draft</span>
             </a>
 
         </nav>
@@ -46,7 +49,7 @@
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit"
-                    class="w-full flex items-center gap-4 px-3 py-3 rounded-lg hover:bg-white/20 transition whitespace-nowrap">
+                    class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
                     <img/> <span class="hidden group-hover:block">Logout</span>
                 </button>
             </form>
