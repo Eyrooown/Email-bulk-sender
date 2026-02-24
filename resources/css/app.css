@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn-error {
+    background-color: #c0392b;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #205375;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    color: black;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+.btn-neutral {
+    background-color: #333333;
+    color: white;
+}
+
+.clr-primary{
+    background-color: #102B3C;;
+}
