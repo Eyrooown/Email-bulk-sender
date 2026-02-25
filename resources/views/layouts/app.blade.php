@@ -26,20 +26,20 @@
         <nav class="flex flex-col p-2 gap-1 mt-4 flex-1">
 
             <a href="/dashboard"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('dashboard') ? 'focus-clr-accent' : 'text-white' }}">
                 <x-icons.home classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Home</span>
             </a>
 
             <a href="/compose"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                <x-icons.email classes="w-6 h-6 focus-clr-accent" />
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('compose') ? 'focus-clr-accent' : '' }} hover-clr-accent">
+                <x-icons.email classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Compose Email</span>
             </a>
 
             <a href="/draft"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                <x-icons.icon-draft classes="w-6 h-6 focus-clr-accent" />
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('draft') ? 'focus-clr-accent' : '' }} hover-clr-accent">
+                <x-icons.icon-draft classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Draft</span>
             </a>
 

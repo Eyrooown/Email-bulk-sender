@@ -18,12 +18,12 @@
 
 * {
         font-family: 'Ubuntu';
-        font-weight: 500;
-        font-style: Medium;
+        font-weight: 400;
+        font-style: normal;
 }
 
 .primary {
-    --color-primary: 
+    --color-primary:
 }
 
 .btn-error {
@@ -69,11 +69,25 @@
     color: #ED1C24;
 }
 
+.clr-bg-accent {
+    background-color: #ED1C24;
+}
+
 .hover-clr-accent:hover {
     color: #ED1C24;
 }
 
-.focus-clr-accent:active {
+.active-clr-accent:active {
     color: #ED1C24;
 }
+
+.focus-clr-accent {
+    color: #ED1C24;
+}
+
+.hover-clr-bg-accent:hover {
+    background-color: #ED1C24;
+}
+
+
 

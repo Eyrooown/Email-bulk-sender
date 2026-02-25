@@ -2,14 +2,13 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmailController;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [EmailController::class, 'index'])->name('dashboard');
+    Route::get('/compose', [EmailController::class, 'compose'])->name('compose');
+    Route::post('/compose', [EmailController::class, 'store'])->name('compose.store');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
 
 // ->middleware(['auth', 'verified'])
 
