@@ -73,6 +73,10 @@
     background-color: #ED1C24;
 }
 
+.hover-clr-bg-accent-light:hover {
+    background-color: #ff575d;
+}
+
 .hover-clr-accent:hover {
     color: #ED1C24;
 }

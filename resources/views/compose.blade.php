@@ -25,7 +25,7 @@
                             class="input input-sm input-bordered flex-1 focus:outline-none focus:border-base-300"
                             onkeydown="handleManualInputKey(event)"
                         />
-                        <button onclick="addManualRecipient()" class="btn btn-sm clr-bg-accent text-white rounded-lg">Add</button>
+                        <button onclick="addManualRecipient()" class="btn p-4 btn-sm clr-bg-accent text-white rounded-lg hover-clr-bg-accent-light">Add</button>
                     </div>
                     <p id="manualInputError" class="text-xs text-red-500 mt-1 hidden">Please enter a valid email address.</p>
                 </div>
@@ -112,7 +112,7 @@
                         <input type="file" id="fileInput" multiple class="hidden" onchange="handleFiles(this.files)" />
                         <span id="attachCount" class="hidden text-xs clr-accent font-mono"></span>
                     </div>
-                    <button onclick="simulateSend()" class="btn btn-sm clr-bg-accent text-white rounded-lg gap-2 p-2">
+                    <button onclick="simulateSend()" class="btn btn-sm clr-bg-accent text-white rounded-lg gap-2 p-4 hover-clr-bg-accent-light">
                         <x-icons.send classes="w-3 h-3" />
                         Send
                     </button>
@@ -201,6 +201,7 @@
         let recipients = [];
         let csvRows = [];
         let csvHeaders = [];
+        let recipients_status = {};
         let showAllRecipients = false;
 
         function fmt(cmd, val) {
@@ -442,7 +443,7 @@
                 tr.innerHTML =
                     '<td class="text-xs text-gray-400 font-mono">' + (i + 1) + '</td>' +
                     '<td><div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">' + email[0].toUpperCase() + '</div>' + email + '</div></td>' +
-                    '<td><span class="badge badge-success badge-sm">Pending</span></td>' +
+                    '<td><span class="badge badge-sm ' + (recipients_status[email] === 'sent' ? 'badge-success' : recipients_status[email] === 'failed' ? 'badge-error' : 'badge-warning') + '">' + (recipients_status[email] ? recipients_status[email].charAt(0).toUpperCase() + recipients_status[email].slice(1) : 'Pending') + '</span></td>' +
                     '<td><button onclick="removeRecipientByEmail(\'' + email + '\')" class="btn btn-xs btn-ghost hover:text-red-500">×</button></td>';
                 tbody.appendChild(tr);
             });
@@ -474,28 +475,30 @@
             })
             .then(function(res) { return res.json(); })
             .then(function(data) {
-                overlay.classList.add('hidden'); overlay.classList.remove('flex');
+            overlay.classList.add('hidden'); overlay.classList.remove('flex');
 
                 if (data.success) {
+                    // Update recipient statuses from response
+                    if (data.recipients) {
+                        data.recipients.forEach(function(r) {
+                            recipients_status[r.email] = r.status;
+                        });
+                        renderRecipientsTable();
+                    }
+
                     const toast = document.getElementById('toast');
                     const fileCount = attachedFiles.length;
                     document.getElementById('toastMeta').textContent = 'Sent to ' + recipients.length + ' recipient' + (recipients.length > 1 ? 's' : '') + (fileCount > 0 ? ' · ' + fileCount + ' attachment' + (fileCount > 1 ? 's' : '') : '');
                     toast.classList.remove('translate-y-20', 'opacity-0');
                     toast.classList.add('translate-y-0', 'opacity-100');
 
-                    document.getElementById('editor').innerHTML = '';
-                    attachedFiles = []; recipients = [];
-                    renderAttachments(); renderRecipients(); renderRecipientsTable(); updateWordCount();
-
                     setTimeout(function() {
-                        toast.classList.add('translate-y-20', 'opacity-0');
-                        toast.classList.remove('translate-y-0', 'opacity-100');
-                    }, 4000);
+                        window.location.href = '{{ route("dashboard") }}';
+                    }, 2000);
                 }
             })
             .catch(function() {
                 overlay.classList.add('hidden'); overlay.classList.remove('flex');
-                alert('Something went wrong. Please try again.');
             });
         }
     </script>

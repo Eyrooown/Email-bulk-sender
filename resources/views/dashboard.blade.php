@@ -17,7 +17,7 @@
                         </div>
 
                         <div>
-                            <button class="btn clr-bg-accent text-base-100 rounded-xl p-4">+ Compose Email</button>
+                            <button class="btn clr-bg-accent text-base-100 rounded-xl p-4 hover-clr-bg-accent-light">+ Compose Email</button>
                         </div>
                     </div>
             <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg">
