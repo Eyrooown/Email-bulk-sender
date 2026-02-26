@@ -141,6 +141,12 @@ class ComposeEmail extends Component
         $this->closeCsvModal();
     }
 
+    public function sendWithBody(string $body)
+    {
+        $this->body = $body;
+        $this->send();
+    }
+
     public function send()
     {
         if (empty($this->recipients)) {

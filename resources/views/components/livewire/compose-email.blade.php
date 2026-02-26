@@ -5,9 +5,9 @@
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden">
             <div class="flex items-center justify-between px-4 py-3 bg-base-100 border-b border-base-300">
                 <span class="text-sm font-semibold text-gray-700">To:</span>
-                <button wire:click="openCsvModal" class="flex items-center gap-2 btn btn-xs btn-outline hover-clr-accent rounded-lg">
+                <button wire:click="openCsvModal" class="flex items-center gap-2 btn btn-xs btn-outline clr-bg-accent text-white hover-clr-bg-accent-light rounded-lg p-4">
                     <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-                    Import from CSV
+                    Import
                 </button>
             </div>
 
@@ -21,7 +21,7 @@
                         placeholder="Type an email and press Enter or click Add..."
                         class="input input-sm input-bordered flex-1 focus:outline-none focus:border-base-300"
                     />
-                    <button wire:click="addRecipient" class="btn btn-sm clr-bg-accent text-white rounded-lg">Add</button>
+                    <button wire:click="addRecipient" class="btn btn-sm clr-bg-accent text-white rounded-lg p-4 hover-clr-bg-accent-light">Add</button>
                 </div>
                 @if($manualEmailError)
                     <p class="text-xs text-red-500 mt-1">{{ $manualEmailError }}</p>
@@ -38,10 +38,10 @@
                         <span class="text-sm text-gray-300 italic">No recipients yet. Type an email above or import a CSV.</span>
                     @else
                         @foreach($visibleRecipients as $email)
-                            <div class="badge badge-info gap-1 text-xs py-3 px-2">
+                            <div wire:key="chip-{{ $email }}" class="badge badge-info gap-1 text-xs py-3 px-2">
                                 <span class="w-4 h-4 rounded-full bg-blue-700 text-white text-[9px] font-bold flex items-center justify-center">{{ strtoupper($email[0]) }}</span>
                                 {{ $email }}
-                                <button wire:click="removeRecipient('{{ $email }}')" class="ml-1 hover:text-red-500">×</button>
+                                <button type="button" wire:click="removeRecipient('{{ $email }}')" class="ml-1 hover:text-red-500">×</button>
                             </div>
                         @endforeach
 
@@ -66,38 +66,38 @@
     <input type="text" wire:model="subject" placeholder="Subject..." class="input input-bordered w-full mb-4" />
 
     {{-- Compose Editor --}}
-    <div class="mb-4">
+    <div class="mb-4" x-data="richTextEditor()">
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Compose Message</p>
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden focus-within:border-red-500 focus-within:shadow-md transition-all">
 
             {{-- Toolbar --}}
             <div class="flex items-center flex-wrap gap-4 px-3 py-2 bg-base-100 border-b border-base-300">
-                <button type="button" onclick="fmt('bold')" class="btn btn-xs btn-ghost font-mono font-bold">B</button>
-                <button type="button" onclick="fmt('italic')" class="btn btn-xs btn-ghost font-mono italic">I</button>
-                <button type="button" onclick="fmt('underline')" class="btn btn-xs btn-ghost font-mono underline">U</button>
-                <button type="button" onclick="fmt('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through">S</button>
+                <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold">B</button>
+                <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic">I</button>
+                <button type="button" @mousedown.prevent="format('underline')" class="btn btn-xs btn-ghost font-mono underline">U</button>
+                <button type="button" @mousedown.prevent="format('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through">S</button>
                 <div class="w-px h-5 bg-base-300 mx-1"></div>
-                <button type="button" onclick="fmt('insertUnorderedList')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('insertUnorderedList')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
                 </button>
-                <button type="button" onclick="fmt('insertOrderedList')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('insertOrderedList')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
                 </button>
                 <div class="w-px h-5 bg-base-300 mx-1"></div>
-                <button type="button" onclick="fmt('justifyLeft')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('justifyLeft')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
                 </button>
-                <button type="button" onclick="fmt('justifyCenter')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('justifyCenter')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
                 </button>
-                <button type="button" onclick="fmt('justifyRight')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('justifyRight')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
                 </button>
                 <div class="w-px h-5 bg-base-300 mx-1"></div>
-                <button type="button" onclick="fmt('undo')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('undo')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
                 </button>
-                <button type="button" onclick="fmt('redo')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('redo')" class="btn btn-xs btn-ghost">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
                 </button>
             </div>
@@ -105,11 +105,10 @@
             {{-- Editable Area --}}
             <div wire:ignore>
                 <div
-                    id="editor"
+                    x-ref="editor"
                     contenteditable="true"
                     data-placeholder="Start typing your message here..."
-                    oninput="syncBody(this)"
-                    class="p-5 min-h-[240px] outline-none text-sm leading-relaxed text-gray-800"
+                    class="prose-editor p-5 min-h-[240px] outline-none text-sm leading-relaxed text-gray-800 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5"
                 ></div>
             </div>
 
@@ -138,11 +137,11 @@
                         <input type="file" wire:model="attachments" multiple class="hidden" />
                     </label>
                 </div>
-                <button wire:click="send" wire:loading.attr="disabled" x-on:click="document.getElementById('sendingModal').style.cssText='display:flex !important; position:fixed;'" class="btn btn-sm clr-bg-accent text-white rounded-lg gap-2 p-4">
-                    <span wire:loading.remove wire:target="send">
+                <button @click="sendEmail()" wire:loading.attr="disabled" wire:target="sendWithBody" class="btn btn-sm clr-bg-accent text-white rounded-lg gap-2 p-4 hover-clr-bg-accent-light">
+                    <span wire:loading.remove wire:target="sendWithBody">
                         <x-icons.send classes="w-3 h-3" />
                     </span>
-                    <span wire:loading wire:target="send">
+                    <span wire:loading wire:target="sendWithBody">
                         <span class="loading loading-spinner loading-xs"></span>
                     </span>
                     Send
@@ -289,19 +288,8 @@
         </div>
     @endif
 
+    @script
     <script>
-        function fmt(cmd, val) {
-            document.execCommand(cmd, false, val || null);
-            syncBody(document.getElementById('editor'));
-        }
-
-        function syncBody(el) {
-            @this.set('body', el.innerHTML);
-            const text = el.innerText.trim();
-            const words = text ? text.split(/\s+/).length : 0;
-            document.getElementById('wordCount').textContent = words + (words === 1 ? ' word' : ' words');
-        }
-
         document.addEventListener('livewire:initialized', () => {
             const componentId = @this.id;
 
@@ -329,4 +317,5 @@
                 });
         });
     </script>
+    @endscript
 </div>
