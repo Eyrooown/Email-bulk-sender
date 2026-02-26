@@ -6,8 +6,11 @@ use App\Http\Controllers\EmailController;
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [EmailController::class, 'index'])->name('dashboard');
-    Route::get('/compose', [EmailController::class, 'compose'])->name('compose');
+    Route::get('/compose', function () {
+        return view('compose');
+    })->name('compose');
     Route::post('/compose', [EmailController::class, 'store'])->name('compose.store');
+    Route::get('/recepients/{email}', [EmailController::class, 'show'])->name('recepients.show');
 });
 
 // ->middleware(['auth', 'verified'])

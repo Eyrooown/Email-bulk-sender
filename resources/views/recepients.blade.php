@@ -2,6 +2,6 @@
     <x-slot name="header"></x-slot>
 
     <div class="w-full mx-auto sm:px-6 lg:px-8">
-        @livewire('compose-email')
+        @livewire('email-detail', ['email' => $email->id])
     </div>
 </x-app-layout>
