@@ -28,10 +28,16 @@ class EmailController extends Controller
         return view('compose');
     }
 
+    public function show(Email $email)
+    {
+        $email->load('recipients', 'attachments');
+        return view('recepients', compact('email'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'subject'       => 'nullable|string|max:255',
+            'subject'       => 'required|string|max:255',
             'body'          => 'required|string',
             'recipients'    => 'required|array|min:1',
             'recipients.*'  => 'email',

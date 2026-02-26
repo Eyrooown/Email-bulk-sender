@@ -17,14 +17,14 @@
                         </div>
 
                         <div>
-                            <button class="btn clr-bg-accent text-base-100 rounded-xl p-4">+ Compose Email</button>
+                            <button class="btn clr-bg-accent text-base-100 rounded-xl p-4 hover-clr-bg-accent-light">+ Compose Email</button>
                         </div>
                     </div>
             <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div x-data="{ selectAll: false }" class="overflow-x-auto">
+                <div x-data="{ selectAll: false }" class="overflow-auto" style="max-height: 65vh;">
                     <table class="table">
                         <!-- head -->
-                        <thead>
+                        <thead class="sticky top-0 bg-base-100 z-10">
                         <tr>
                             <th>
                             <label>
@@ -40,10 +40,10 @@
                         </thead>
                         <tbody>
                             @forelse ($emails as $email)
-                                <tr>
+                                <tr class="cursor-pointer hover:bg-base-200" onclick="window.location='{{ route('recepients.show', $email->id) }}'">
                                     <th>
                                         <label>
-                                            <input type="checkbox" class="focus-within:ring-0" :checked="selectAll" />
+                                            <input type="checkbox" class="focus-within:ring-0" :checked="selectAll" onclick="event.stopPropagation()" />
                                         </label>
                                     </th>
                                     <td>
@@ -59,9 +59,6 @@
                                     <th>
                                         <span class="text-xs text-gray-400">{{ $email->created_at->format('M d, Y') }}</span>
                                     </th>
-                                    <th>
-                                        <button class="btn btn-ghost btn-xs">details</button>
-                                    </th>
                                 </tr>
                             @empty
                                 <tr>
@@ -70,10 +67,10 @@
                             @endforelse
                         </tbody>
                     </table>
-                    <div class="flex items-center justify-end p-2">
+                </div>
+                <div class="flex items-center justify-end p-2">
                         <Button class="clr-bg-accent text-base-100 rounded-xl w-24 p-2">Export</Button>
                     </div>
-                </div>
             </div>
         </div>
     </div>
