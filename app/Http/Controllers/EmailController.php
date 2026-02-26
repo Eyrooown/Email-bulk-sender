@@ -15,12 +15,7 @@ class EmailController extends Controller
 {
     public function index()
     {
-        $emails = Email::where('user_id', Auth::id())
-            ->withCount('recipients')
-            ->latest()
-            ->get();
-
-        return view('dashboard', compact('emails'));
+        return view('dashboard');
     }
 
     public function compose()

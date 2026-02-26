@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailController;
 
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [EmailController::class, 'index'])->name('dashboard');
     Route::get('/compose', function () {
