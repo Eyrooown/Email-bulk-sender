@@ -1,59 +1,55 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+// Register richTextEditor on Livewire's Alpine (avoids "multiple instances" + "richTextEditor is not defined")
+document.addEventListener('livewire:init', () => {
+    window.Alpine.data('richTextEditor', () => ({
+        savedRange: null,
+        selectionHandler: null,
+        sending: false,
 
-window.Alpine = Alpine;
+        init() {
+            this.selectionHandler = () => {
+                const editor = this.$refs?.editor;
+                if (!editor) return;
+                const sel = window.getSelection();
+                if (sel.rangeCount > 0 && editor.contains(sel.anchorNode)) {
+                    try {
+                        this.savedRange = sel.getRangeAt(0).cloneRange();
+                    } catch (e) {
+                        this.savedRange = null;
+                    }
+                }
+            };
+            document.addEventListener('selectionchange', this.selectionHandler);
+        },
 
-Alpine.data('richTextEditor', () => ({
-    savedRange: null,
-    selectionHandler: null,
-
-    init() {
-        this.selectionHandler = () => {
-            const editor = this.$refs?.editor;
+        format(cmd) {
+            const editor = this.$refs.editor;
             if (!editor) return;
-            const sel = window.getSelection();
-            if (sel.rangeCount > 0 && editor.contains(sel.anchorNode)) {
+            editor.focus();
+            if (this.savedRange) {
                 try {
-                    this.savedRange = sel.getRangeAt(0).cloneRange();
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(this.savedRange);
                 } catch (e) {
-                    this.savedRange = null;
+                    // Range may be invalid if DOM changed
                 }
             }
-        };
-        document.addEventListener('selectionchange', this.selectionHandler);
-    },
+            document.execCommand(cmd, false, null);
+        },
 
-    format(cmd) {
-        const editor = this.$refs.editor;
-        if (!editor) return;
-        editor.focus();
-        if (this.savedRange) {
-            try {
-                const sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(this.savedRange);
-            } catch (e) {
-                // Range may be invalid if DOM changed
-            }
-        }
-        document.execCommand(cmd, false, null);
-    },
-
-    sendEmail() {
-        const editor = this.$refs?.editor;
-        const html = editor?.innerHTML ?? '';
-        document.getElementById('sendingModal').style.cssText = 'display:flex !important; position:fixed;';
-        if (typeof this.$wire !== 'undefined') {
-            this.$wire.call('sendWithBody', html);
-        } else if (typeof window.Livewire !== 'undefined') {
+        sendEmail() {
+            this.sending = true;
+            const editor = document.getElementById('compose-editor-body');
+            const html = editor?.innerHTML ?? '';
             const wireEl = this.$el?.closest?.('[wire\\:id]');
             const id = wireEl?.getAttribute?.('wire:id');
-            if (id) {
+            if (id && typeof window.Livewire !== 'undefined') {
                 window.Livewire.find(id).call('sendWithBody', html);
+            } else if (typeof this.$wire !== 'undefined') {
+                this.$wire.call('sendWithBody', html);
             }
-        }
-    },
-}));
-
-Alpine.start();
+        },
+    }));
+});

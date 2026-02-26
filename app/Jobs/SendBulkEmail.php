@@ -11,8 +11,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
-use Livewire\Component;
 
 class SendBulkEmail implements ShouldQueue
 {
@@ -59,21 +59,19 @@ class SendBulkEmail implements ShouldQueue
                 ]);
             }
 
-            // Dispatch progress event
-            event(new \App\Events\EmailProgress(
-                $this->livewireId,
-                $index + 1,
-                $total,
-                $recipient
-            ));
+            // Store progress in cache for Livewire polling
+            Cache::put("sending_progress_{$this->emailId}", [
+                'current' => $index + 1,
+                'total' => $total,
+                'currentEmail' => $recipient,
+            ], 300);
         }
 
-        // Dispatch done event
-        event(new \App\Events\EmailProgress(
-            $this->livewireId,
-            $total,
-            $total,
-            'done'
-        ));
+        // Mark as done
+        Cache::put("sending_progress_{$this->emailId}", [
+            'current' => $total,
+            'total' => $total,
+            'currentEmail' => 'done',
+        ], 300);
     }
 }

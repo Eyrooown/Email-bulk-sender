@@ -7,6 +7,7 @@ use App\Models\Email;
 use App\Models\EmailAttachment;
 use App\Models\EmailRecipient;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -27,6 +28,8 @@ class ComposeEmail extends Component
     public string $selectedEmailColumn = '';
     public bool $showCsvModal = false;
     public bool $showOverlay = false;
+    public bool $showSendingModal = false;
+    public ?int $sendingEmailId = null;
     public bool $showToast = false;
     public string $toastMessage = '';
     public bool $showAllRecipients = false;
@@ -141,9 +144,9 @@ class ComposeEmail extends Component
         $this->closeCsvModal();
     }
 
-    public function sendWithBody(string $body)
+    public function sendWithBody($body = '')
     {
-        $this->body = $body;
+        $this->body = is_array($body) ? ($body['body'] ?? '') : (string) $body;
         $this->send();
     }
 
@@ -162,6 +165,7 @@ class ComposeEmail extends Component
         $this->sendTotal = count($this->recipients);
         $this->sendCurrent = 0;
         $this->showOverlay = true;
+        $this->showSendingModal = true;
 
         // Create email record
         $email = Email::create([
@@ -188,6 +192,13 @@ class ComposeEmail extends Component
             }
         }
 
+        // Initialize progress for polling (job will update it)
+        Cache::put("sending_progress_{$email->id}", [
+            'current' => 0,
+            'total' => count($this->recipients),
+            'currentEmail' => 'Starting...',
+        ], 300);
+
         // Dispatch job
         \App\Jobs\SendBulkEmail::dispatch(
             $email->id,
@@ -198,14 +209,36 @@ class ComposeEmail extends Component
             $this->getId()
         );
 
-        // Reset form but keep overlay open
+        // Reset form, show modal, start polling
+        $this->sendingEmailId = $email->id;
+        $this->showSendingModal = true;
         $this->subject = '';
         $this->body = '';
         $this->attachments = [];
         $this->recipients = [];
         $this->recipientStatuses = [];
         $this->sendCurrent = 0;
-        // showOverlay stays true until JS listener closes it
+    }
+
+    public function checkSendingProgress()
+    {
+        if (!$this->sendingEmailId) return;
+
+        $progress = Cache::get("sending_progress_{$this->sendingEmailId}");
+        if ($progress) {
+            $this->sendCurrent = $progress['current'];
+            $this->sendTotal = $progress['total'];
+            $this->sendCurrentEmail = $progress['currentEmail'];
+
+            if ($progress['currentEmail'] === 'done') {
+                $this->showSendingModal = false;
+                $this->sendingEmailId = null;
+                $this->showToast = true;
+                $this->toastMessage = 'Sent to ' . $progress['total'] . ' recipient' . ($progress['total'] !== 1 ? 's' : '');
+                Cache::forget("sending_progress_{$this->sendingEmailId}");
+                $this->redirect(route('dashboard'), navigate: true);
+            }
+        }
     }
 
     public function dismissToast()

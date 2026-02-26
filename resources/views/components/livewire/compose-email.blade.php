@@ -105,6 +105,7 @@
             {{-- Editable Area --}}
             <div wire:ignore>
                 <div
+                    id="compose-editor-body"
                     x-ref="editor"
                     contenteditable="true"
                     data-placeholder="Start typing your message here..."
@@ -146,6 +147,14 @@
                     </span>
                     Send
                 </button>
+            </div>
+        </div>
+        {{-- Immediate overlay when Send is clicked (before Livewire response) --}}
+        <div x-show="sending" x-cloak x-transition class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
+            <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
+                <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+                <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
+                <p class="text-sm text-gray-500">Please wait.</p>
             </div>
         </div>
     </div>
@@ -261,18 +270,22 @@
         </div>
     @endif
 
-    {{-- Sending Overlay --}}
-    <div id="sendingModal" style="display:none !important" class="fixed inset-0 bg-black/40 z-[9999] items-center justify-center">
-        <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
-            <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
-            <p class="text-sm clr-accent font-bold mb-3" id="sendProgressText">Preparing...</p>
-            <div class="w-full bg-base-200 rounded-full h-2 mb-3">
-                <div id="sendProgressBar" class="clr-bg-accent h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+    {{-- Sending Modal --}}
+    @if($showSendingModal)
+        <div wire:poll.500ms="checkSendingProgress" class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
+            <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
+                <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+                <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
+                <p class="text-sm clr-accent font-bold mb-3">{{ $sendCurrent }}/{{ $sendTotal }} recipients</p>
+                <div class="w-full bg-base-200 rounded-full h-2 mb-3">
+                    <div class="clr-bg-accent h-2 rounded-full transition-all duration-300" style="width: {{ $sendTotal > 0 ? ($sendCurrent / $sendTotal) * 100 : 0 }}%"></div>
+                </div>
+                @if($sendCurrentEmail && $sendCurrentEmail !== 'done')
+                    <p class="text-xs text-gray-400 truncate max-w-xs mx-auto">{{ $sendCurrentEmail }}</p>
+                @endif
             </div>
-            <p class="text-xs text-gray-400 truncate" id="sendCurrentEmail"></p>
         </div>
-    </div>
+    @endif
 
     {{-- Toast --}}
     @if($showToast)
@@ -288,34 +301,4 @@
         </div>
     @endif
 
-    @script
-    <script>
-        document.addEventListener('livewire:initialized', () => {
-            const componentId = @this.id;
-
-            window.Echo.channel('email-progress.' + componentId)
-                .listen('.progress', (data) => {
-                    const modal = document.getElementById('sendingModal');
-                    const progressText = document.getElementById('sendProgressText');
-                    const progressBar = document.getElementById('sendProgressBar');
-                    const currentEmail = document.getElementById('sendCurrentEmail');
-
-                    if (progressText) progressText.textContent = 'Sending ' + data.current + ' / ' + data.total;
-                    if (progressBar) progressBar.style.width = ((data.current / data.total) * 100) + '%';
-                    if (currentEmail) currentEmail.textContent = data.currentEmail !== 'done' ? data.currentEmail : '';
-
-                    if (data.currentEmail === 'done') {
-                        document.getElementById('sendingModal').style.cssText = 'display:none !important';
-
-                        @this.set('showToast', true);
-                        @this.set('toastMessage', 'Sent to ' + data.total + ' recipient' + (data.total > 1 ? 's' : ''));
-
-                        setTimeout(() => {
-                            window.location.href = '{{ route("dashboard") }}';
-                        }, 2000);
-                    }
-                });
-        });
-    </script>
-    @endscript
 </div>
