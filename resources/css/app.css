@@ -16,6 +16,10 @@
     --color-base-100: oklch(95.5% 0.004 17.5);
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 * {
         font-family: 'Ubuntu';
         font-weight: 400;

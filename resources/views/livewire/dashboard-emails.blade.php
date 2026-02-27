@@ -1,11 +1,13 @@
 <div>
     <div class="flex items-center justify-between p-2">
         <div class="flex justify-center items-center py-4">
-            <div class="dropdown w-1/2 dropdown-end">
-                <button tabindex="0" class="btn w-40 border-2 border-black rounded-xl m-1 hover-clr-bg-accent"><x-icons.sort class="w-4 h-4 inline-block" /> Sort By:</button>
-                <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-1 w-full p-2 shadow-sm">
-                    <li><a>Item 1</a></li>
-                    <li><a>Item 2</a></li>
+            <div class="dropdown dropdown-end">
+                <button tabindex="0" class="btn w-48 border-2 border-black rounded-xl m-1 hover-clr-bg-accent"><x-icons.sort class="w-4 h-4 inline-block" /> Sort By:</button>
+                <ul tabindex="-1" class="dropdown-content menu bg-base-100 rounded-box z-50 w-56 p-2 shadow-lg mt-1">
+                    <li><a href="#" wire:click.prevent="$set('sortBy', 'subject_asc')" class="{{ $sortBy === 'subject_asc' ? 'active' : '' }}">Alphabetical (A → Z)</a></li>
+                    <li><a href="#" wire:click.prevent="$set('sortBy', 'subject_desc')" class="{{ $sortBy === 'subject_desc' ? 'active' : '' }}">Alphabetical (Z → A)</a></li>
+                    <li><a href="#" wire:click.prevent="$set('sortBy', 'date_desc')" class="{{ $sortBy === 'date_desc' ? 'active' : '' }}">Date (Newest first)</a></li>
+                    <li><a href="#" wire:click.prevent="$set('sortBy', 'date_asc')" class="{{ $sortBy === 'date_asc' ? 'active' : '' }}">Date (Oldest first)</a></li>
                 </ul>
             </div>
             <label class="input focus-within:outline-none bg-transparent focus-within:border-base-300 flex-1">
@@ -18,7 +20,7 @@
         </div>
     </div>
     <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <div x-data="{ selectAll: false }" class="overflow-auto" style="height: 65vh;">
+        <div x-data="{ selectAll: false }" class="overflow-auto" style="height: 63vh;">
             <table class="table">
                 <thead class="sticky top-0 bg-base-100 z-10">
                 <tr>
@@ -64,7 +66,12 @@
                 </tbody>
             </table>
         </div>
-        <div class="flex items-center justify-end p-2">
+        <div class="flex items-center justify-between p-2 flex-wrap gap-2">
+            <div class="flex-1">
+                @if($this->emails->hasPages())
+                    {{ $this->emails->links('livewire::tailwind') }}
+                @endif
+            </div>
             <button class="clr-bg-accent text-base-100 rounded-xl w-24 p-2">Export</button>
         </div>
     </div>

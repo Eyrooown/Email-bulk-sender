@@ -163,9 +163,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($recipients as $i => $recipientEmail)
+                    @forelse($recipientsPaginator as $recipient)
+                        @php
+                            $recipientEmail = is_object($recipient) ? $recipient->email : $recipient;
+                            $status = is_object($recipient) ? $recipient->status : ($email->recipients->firstWhere('email', $recipient)?->status ?? 'pending');
+                            $createdAt = is_object($recipient) ? $recipient->created_at : ($email->recipients->firstWhere('email', $recipient)?->created_at);
+                        @endphp
                         <tr>
-                            <td class="text-xs text-gray-400 font-mono">{{ $i + 1 }}</td>
+                            <td class="text-xs text-gray-400 font-mono">{{ $recipientsPaginator->firstItem() + $loop->index }}</td>
                             <td>
                                 <div class="flex items-center gap-2">
                                     <div class="w-7 h-7 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">{{ strtoupper($recipientEmail[0]) }}</div>
@@ -173,15 +178,11 @@
                                 </div>
                             </td>
                             <td>
-                                @php
-                                    $dbRecipient = $email->recipients->firstWhere('email', $recipientEmail);
-                                    $status = $dbRecipient?->status ?? 'pending';
-                                @endphp
                                 <span class="badge badge-sm {{ $status === 'sent' ? 'badge-success' : ($status === 'failed' ? 'badge-error' : 'badge-warning') }}">
                                     {{ ucfirst($status) }}
                                 </span>
                             </td>
-                            <td class="text-xs text-gray-400">{{ $dbRecipient?->created_at->format('M d, Y h:i A') ?? '—' }}</td>
+                            <td class="text-xs text-gray-400">{{ $createdAt?->format('M d, Y h:i A') ?? '—' }}</td>
                             @if($editMode)
                                 <td><button wire:click="removeRecipient('{{ $recipientEmail }}')" class="btn btn-xs btn-ghost hover:text-red-500">×</button></td>
                             @endif
@@ -193,6 +194,11 @@
                     @endforelse
                 </tbody>
             </table>
+            @if($recipientsPaginator->hasPages())
+                <div class="p-2 border-t border-base-200">
+                    {{ $recipientsPaginator->links('livewire::tailwind') }}
+                </div>
+            @endif
         </div>
     </div>
 </div>

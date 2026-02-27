@@ -37,7 +37,7 @@
                 <span class="hidden group-hover:block">Compose Email</span>
             </a>
 
-            <a href="/draft"
+            <a href="{{ route('draft') }}"
                class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('draft') ? 'focus-clr-accent' : '' }} hover-clr-accent">
                 <x-icons.icon-draft classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Draft</span>

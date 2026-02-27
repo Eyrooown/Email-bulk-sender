@@ -1,4 +1,4 @@
-<div>
+<div x-data="composePage()" @compose-dirty.window="dirty = true" @compose-saved.window="dirty = false">
     {{-- Recipients --}}
     <div class="mb-4">
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Recipients</p>
@@ -21,7 +21,7 @@
                         placeholder="Type an email and press Enter or click Add..."
                         class="input input-sm input-bordered flex-1 focus:outline-none focus:border-base-300"
                     />
-                    <button wire:click="addRecipient" class="btn btn-sm clr-bg-accent text-white rounded-lg p-4 hover-clr-bg-accent-light">Add</button>
+                    <button wire:click="addRecipient" @click="$dispatch('compose-dirty')" class="btn btn-sm clr-bg-accent text-white rounded-lg p-4 hover-clr-bg-accent-light">Add</button>
                 </div>
                 @if($manualEmailError)
                     <p class="text-xs text-red-500 mt-1">{{ $manualEmailError }}</p>
@@ -63,10 +63,10 @@
     </div>
 
     {{-- Subject --}}
-    <input type="text" wire:model="subject" placeholder="Subject..." class="input input-bordered w-full mb-4" />
+    <input type="text" wire:model="subject" @input="dirty = true" placeholder="Subject..." class="input input-bordered w-full mb-4" />
 
     {{-- Compose Editor --}}
-    <div class="mb-4" x-data="richTextEditor()">
+    <div class="mb-4" x-data="richTextEditor({{ json_encode($body ?? '') }})">
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Compose Message</p>
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden focus-within:border-red-500 focus-within:shadow-md transition-all">
 
@@ -109,6 +109,7 @@
                     x-ref="editor"
                     contenteditable="true"
                     data-placeholder="Start typing your message here..."
+                    @input="$dispatch('compose-dirty')"
                     class="prose-editor p-5 min-h-[240px] outline-none text-sm leading-relaxed text-gray-800 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5"
                 ></div>
             </div>
@@ -164,6 +165,15 @@
         <div class="mb-4">
             <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Recipient List</p>
             <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden">
+                <div class="px-4 py-3 border-b border-base-300">
+                    <input
+                        type="search"
+                        wire:model.live.debounce.300ms="recipientsSearch"
+                        placeholder="Search recipients..."
+                        class="input input-sm input-bordered w-full focus:outline-none focus:border-base-300"
+                    />
+                </div>
+                <div class="overflow-auto" style="max-height: 40vh;">
                 <table class="table w-full">
                     <thead>
                         <tr>
@@ -174,9 +184,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($recipients as $i => $email)
+                        @foreach($recipientsPaginator as $i => $email)
                             <tr>
-                                <td class="text-xs text-gray-400 font-mono">{{ $i + 1 }}</td>
+                                <td class="text-xs text-gray-400 font-mono">{{ $recipientsPaginator->firstItem() + $i }}</td>
                                 <td>
                                     <div class="flex items-center gap-2">
                                         <div class="w-7 h-7 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">{{ strtoupper($email[0]) }}</div>
@@ -196,6 +206,12 @@
                         @endforeach
                     </tbody>
                 </table>
+                </div>
+                @if($recipientsPaginator->hasPages())
+                    <div class="p-2 border-t border-base-200">
+                        {{ $recipientsPaginator->links('livewire::tailwind') }}
+                    </div>
+                @endif
             </div>
         </div>
     @endif
@@ -220,7 +236,7 @@
                     @else
                         <div class="mb-4">
                             <label class="text-xs font-semibold text-gray-400 uppercase block mb-1">Which column contains emails?</label>
-                            <select wire:model="selectedEmailColumn" class="select select-sm select-bordered w-full">
+                            <select wire:model="selectedEmailColumn" class="select h-10 select-sm select-bordered w-full">
                                 <option value="">— Select column —</option>
                                 @foreach($csvHeaders as $i => $header)
                                     <option value="{{ $i }}">{{ $header }}</option>
@@ -261,7 +277,7 @@
                         @php
                             $count = collect($csvRows)->filter(fn($row) => !empty($row[(int)$selectedEmailColumn]) && str_contains($row[(int)$selectedEmailColumn], '@'))->count();
                         @endphp
-                        <button wire:click="importFromCsv" class="btn btn-sm clr-bg-accent text-white">
+                        <button wire:click="importFromCsv" @click="$dispatch('compose-dirty')" class="btn btn-sm clr-bg-accent text-white p-4">
                             Import {{ $count }} Recipient{{ $count !== 1 ? 's' : '' }}
                         </button>
                     @endif
@@ -272,7 +288,7 @@
 
     {{-- Sending Modal --}}
     @if($showSendingModal)
-        <div wire:poll.500ms="checkSendingProgress" class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
+        <div wire:key="sending-progress-modal" wire:poll.250ms="checkSendingProgress" class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
             <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
                 <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
                 <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
@@ -280,12 +296,21 @@
                 <div class="w-full bg-base-200 rounded-full h-2 mb-3">
                     <div class="clr-bg-accent h-2 rounded-full transition-all duration-300" style="width: {{ $sendTotal > 0 ? ($sendCurrent / $sendTotal) * 100 : 0 }}%"></div>
                 </div>
-                @if($sendCurrentEmail && $sendCurrentEmail !== 'done')
-                    <p class="text-xs text-gray-400 truncate max-w-xs mx-auto">{{ $sendCurrentEmail }}</p>
-                @endif
             </div>
         </div>
     @endif
+
+    {{-- Unsaved changes modal --}}
+    <div x-show="showModal" x-cloak x-transition class="fixed inset-0 bg-black/40 z-[9998] flex items-center justify-center">
+        <div class="bg-white rounded-2xl px-6 py-5 shadow-2xl w-full max-w-sm">
+            <p class="text-gray-800 font-medium mb-4">You have unsaved changes. Save to drafts before leaving?</p>
+            <div class="flex gap-3 justify-end">
+                <button @click="cancelNavigation()" class="btn btn-ghost">Cancel</button>
+                <button @click="discardAndNavigate()" class="btn clr-bg-accent text-white p-4">Discard</button>
+                <button @click="saveAndNavigate()" class="btn clr-bg-accent text-white p-4">Save to Draft</button>
+            </div>
+        </div>
+    </div>
 
     {{-- Toast --}}
     @if($showToast)

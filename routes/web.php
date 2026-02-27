@@ -15,6 +15,9 @@ Route::middleware(['auth'])->group(function () {
     })->name('compose');
     Route::post('/compose', [EmailController::class, 'store'])->name('compose.store');
     Route::get('/recepients/{email}', [EmailController::class, 'show'])->name('recepients.show');
+    Route::get('/draft', function () {
+        return view('draft');
+    })->name('draft');
 });
 
 // ->middleware(['auth', 'verified'])
