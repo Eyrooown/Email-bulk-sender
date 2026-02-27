@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
     </x-slot>
-    <div class="w-full mx-auto sm:px-6 lg:px-8">
+    <div class="w-full mx-auto sm:px-6 lg:px-8 flex flex-col min-h-[calc(100vh-8rem)]">
         @livewire('dashboard-emails')
     </div>
 </x-app-layout>

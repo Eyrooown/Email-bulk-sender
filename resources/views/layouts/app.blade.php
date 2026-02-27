@@ -26,7 +26,7 @@
         <nav class="flex flex-col p-2 gap-1 mt-4 flex-1">
 
             <a href="/dashboard"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('dashboard') ? 'focus-clr-accent' : 'text-white' }}">
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('dashboard') ? 'focus-clr-accent' : 'text-white' }}">
                 <x-icons.home classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Home</span>
             </a>

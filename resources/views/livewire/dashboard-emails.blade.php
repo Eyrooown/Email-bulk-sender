@@ -1,5 +1,5 @@
-<div>
-    <div class="flex items-center justify-between p-2">
+<div class="flex flex-col min-h-0 flex-1">
+    <div class="flex items-center justify-between p-2 flex-shrink-0">
         <div class="flex justify-center items-center py-4">
             <div class="dropdown dropdown-end">
                 <button tabindex="0" class="btn w-48 border-2 border-black rounded-xl m-1 hover-clr-bg-accent"><x-icons.sort class="w-4 h-4 inline-block" /> Sort By:</button>
@@ -19,8 +19,8 @@
             <a href="{{ route('compose') }}" class="btn clr-bg-accent text-base-100 rounded-xl p-4 hover-clr-bg-accent-light">+ Compose Email</a>
         </div>
     </div>
-    <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg">
-        <div x-data="{ selectAll: false }" class="overflow-auto" style="height: 63vh;">
+    <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg flex-1 min-h-0 flex flex-col">
+        <div x-data="{ selectAll: false }" class="overflow-auto flex-1 min-h-0">
             <table class="table">
                 <thead class="sticky top-0 bg-base-100 z-10">
                 <tr>
@@ -66,7 +66,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="flex items-center justify-between p-2 flex-wrap gap-2">
+        <div class="flex items-center justify-between p-2 flex-wrap gap-2 flex-shrink-0">
             <div class="flex-1">
                 @if($this->emails->hasPages())
                     {{ $this->emails->links('livewire::tailwind') }}

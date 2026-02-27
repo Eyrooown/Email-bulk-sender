@@ -122,8 +122,10 @@
             @if(!empty($attachments))
                 <div class="flex flex-wrap gap-2 px-4 py-2 border-t border-base-300">
                     @foreach($attachments as $i => $attachment)
-                        <div class="badge badge-outline gap-1 text-xs">
-                            📎 {{ $attachment->getClientOriginalName() }}
+                        <div class="badge badge-outline gap-1 text-xs flex items-center">
+                            <a href="{{ $attachment->temporaryUrl() }}" target="_blank" rel="noopener" class="hover:underline flex items-center gap-1" title="View file">
+                                📎 {{ $attachment->getClientOriginalName() }}
+                            </a>
                             <button wire:click="removeAttachment({{ $i }})" class="ml-1 text-gray-400 hover:text-red-500">×</button>
                         </div>
                     @endforeach

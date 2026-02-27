@@ -5,17 +5,12 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
             Back to Dashboard
         </a>
-        <div class="flex gap-2">
-            @if($editMode)
-                <button wire:click="toggleEdit" class="btn btn-sm btn-ghost">Cancel</button>
-                <button wire:click="saveChanges" class="btn btn-sm p-2 clr-bg-accent text-white rounded-lg">Save Changes</button>
-            @else
-                <button wire:click="toggleEdit" class="btn btn-sm btn-outline hover-clr-accent rounded-lg gap-2">
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Edit
-                </button>
-            @endif
-        </div>
+        @if(!$editMode)
+            <button wire:click="toggleEdit" class="btn btn-sm btn-outline hover-clr-accent rounded-lg gap-2">
+                <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                Edit
+            </button>
+        @endif
     </div>
 
     {{-- Recipients --}}
@@ -34,7 +29,7 @@
                             placeholder="Type an email and press Enter or click Add..."
                             class="input input-sm input-bordered flex-1 focus:outline-none focus:border-base-300"
                         />
-                        <button wire:click="addRecipient" class="btn btn-sm clr-bg-accent text-white rounded-lg">Add</button>
+                        <button wire:click="addRecipient" class="btn btn-sm clr-bg-accent text-white rounded-lg p-4">Add</button>
                     </div>
                     @if($manualEmailError)
                         <p class="text-xs text-red-500 mt-1">{{ $manualEmailError }}</p>
@@ -78,9 +73,13 @@
     {{-- Subject --}}
     <div>
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Subject</p>
-        <div class="input input-bordered w-full mb-4 flex items-center text-gray-700 bg-white cursor-default">
-            {{ $email->subject ?: '(No Subject)' }}
-        </div>
+        @if($editMode)
+            <input type="text" wire:model="subject" placeholder="Subject..." class="input input-bordered w-full mb-4" />
+        @else
+            <div class="input input-bordered w-full mb-4 flex items-center text-gray-700 bg-white cursor-default">
+                {{ $email->subject ?: '(No Subject)' }}
+            </div>
+        @endif
     </div>
 
     {{-- Message Body --}}
@@ -88,48 +87,124 @@
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Message</p>
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden">
 
-            {{-- Toolbar --}}
-            <div class="flex items-center flex-wrap gap-4 px-3 py-2 bg-base-100 border-b border-base-300 opacity-40 pointer-events-none select-none">
-                <button class="btn btn-xs btn-ghost font-mono font-bold">B</button>
-                <button class="btn btn-xs btn-ghost font-mono italic">I</button>
-                <button class="btn btn-xs btn-ghost font-mono underline">U</button>
-                <button class="btn btn-xs btn-ghost font-mono line-through">S</button>
-                <div class="w-px h-5 bg-base-300 mx-1"></div>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/></svg>
-                </button>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
-                </button>
-                <div class="w-px h-5 bg-base-300 mx-1"></div>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
-                </button>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-                </button>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
-                </button>
-                <div class="w-px h-5 bg-base-300 mx-1"></div>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
-                </button>
-                <button class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
-                </button>
-            </div>
+            @if($editMode)
+                {{-- Editable: rich text editor with toolbar --}}
+                <div x-data="richTextEditor({{ json_encode($body ?? '') }})">
+                    {{-- Toolbar --}}
+                    <div class="flex items-center flex-wrap gap-4 px-3 py-2 bg-base-100 border-b border-base-300">
+                        <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold">B</button>
+                        <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic">I</button>
+                        <button type="button" @mousedown.prevent="format('underline')" class="btn btn-xs btn-ghost font-mono underline">U</button>
+                        <button type="button" @mousedown.prevent="format('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through">S</button>
+                        <div class="w-px h-5 bg-base-300 mx-1"></div>
+                        <button type="button" @mousedown.prevent="format('insertUnorderedList')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+                        </button>
+                        <button type="button" @mousedown.prevent="format('insertOrderedList')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
+                        </button>
+                        <div class="w-px h-5 bg-base-300 mx-1"></div>
+                        <button type="button" @mousedown.prevent="format('justifyLeft')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+                        </button>
+                        <button type="button" @mousedown.prevent="format('justifyCenter')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                        </button>
+                        <button type="button" @mousedown.prevent="format('justifyRight')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+                        </button>
+                        <div class="w-px h-5 bg-base-300 mx-1"></div>
+                        <button type="button" @mousedown.prevent="format('undo')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
+                        </button>
+                        <button type="button" @mousedown.prevent="format('redo')" class="btn btn-xs btn-ghost">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
+                        </button>
+                    </div>
 
-            {{-- Body --}}
-            <div class="p-5 min-h-[240px] text-sm leading-relaxed text-gray-800">
-                {!! $email->body !!}
-            </div>
+                    {{-- Editable Area --}}
+                    <div wire:ignore>
+                        <div
+                            id="email-detail-editor-body"
+                            x-ref="editor"
+                            contenteditable="true"
+                            data-placeholder="Start typing your message here..."
+                            class="prose-editor p-5 min-h-[240px] outline-none text-sm leading-relaxed text-gray-800 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5"
+                        >{!! $body ?? '' !!}</div>
+                    </div>
+                </div>
+            @else
+                {{-- Read-only --}}
+                <div class="flex items-center flex-wrap gap-4 px-3 py-2 bg-base-100 border-b border-base-300 opacity-40 pointer-events-none select-none">
+                    <button class="btn btn-xs btn-ghost font-mono font-bold">B</button>
+                    <button class="btn btn-xs btn-ghost font-mono italic">I</button>
+                    <button class="btn btn-xs btn-ghost font-mono underline">U</button>
+                    <button class="btn btn-xs btn-ghost font-mono line-through">S</button>
+                    <div class="w-px h-5 bg-base-300 mx-1"></div>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/></svg>
+                    </button>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
+                    </button>
+                    <div class="w-px h-5 bg-base-300 mx-1"></div>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+                    </button>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                    </button>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+                    </button>
+                    <div class="w-px h-5 bg-base-300 mx-1"></div>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
+                    </button>
+                    <button class="btn btn-xs btn-ghost">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
+                    </button>
+                </div>
+
+                <div class="p-5 min-h-[240px] text-sm leading-relaxed text-gray-800">
+                    {!! $email->body !!}
+                </div>
+            @endif
 
             {{-- Attachments --}}
-            @if($email->attachments->count() > 0)
+            @if($editMode)
+                <div class="flex flex-wrap gap-2 px-4 py-2 border-t border-base-300 items-center">
+                    @foreach($email->attachments as $attachment)
+                        @if(!in_array($attachment->id, $removedAttachmentIds))
+                            <div class="badge badge-outline gap-1 text-xs flex items-center">
+                                <a href="{{ asset('storage/' . $attachment->path) }}" target="_blank" rel="noopener" class="hover:underline flex items-center gap-1" title="View file">
+                                    📎 {{ $attachment->filename }}
+                                </a>
+                                <button type="button" wire:click="removeExistingAttachment({{ $attachment->id }})" class="ml-1 text-gray-400 hover:text-red-500">×</button>
+                            </div>
+                        @endif
+                    @endforeach
+                    @foreach($attachments ?? [] as $i => $attachment)
+                        <div class="badge badge-outline gap-1 text-xs flex items-center">
+                            <a href="{{ $attachment->temporaryUrl() }}" target="_blank" rel="noopener" class="hover:underline flex items-center gap-1" title="View file">
+                                📎 {{ $attachment->getClientOriginalName() }}
+                            </a>
+                            <button type="button" wire:click="removeNewAttachment({{ $i }})" class="ml-1 text-gray-400 hover:text-red-500">×</button>
+                        </div>
+                    @endforeach
+                    <label class="btn btn-xs btn-ghost gap-1 hover-clr-accent cursor-pointer">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                        Attach
+                        <input type="file" wire:model="attachments" multiple class="hidden" />
+                    </label>
+                    @if(empty($email->attachments->whereNotIn('id', $removedAttachmentIds)) && empty($attachments))
+                        <span class="text-xs text-gray-400">No attachments</span>
+                    @endif
+                </div>
+            @elseif($email->attachments->count() > 0)
                 <div class="flex flex-wrap gap-2 px-4 py-2 border-t border-base-300">
                     @foreach($email->attachments as $attachment)
-                        <div class="badge badge-outline gap-1 text-xs">📎 {{ $attachment->filename }}</div>
+                        <a href="{{ asset('storage/' . $attachment->path) }}" target="_blank" rel="noopener" class="badge badge-outline gap-1 text-xs hover:underline" title="View file">📎 {{ $attachment->filename }}</a>
                     @endforeach
                 </div>
             @endif
@@ -137,13 +212,24 @@
             {{-- Footer --}}
             <div class="flex items-center justify-between px-4 py-3 bg-base-100 border-t border-base-300">
                 <div class="flex items-center gap-3">
-                    <span class="text-xs text-gray-400 font-mono">{{ str_word_count(strip_tags($email->body)) }} words</span>
+                    <span class="text-xs text-gray-400 font-mono">{{ str_word_count(strip_tags($editMode ? ($body ?? '') : $email->body)) }} words</span>
                     <div class="w-px h-4 bg-base-300"></div>
                     <span class="text-xs text-gray-400">{{ $email->created_at->format('M d, Y h:i A') }}</span>
                 </div>
-                <span class="badge {{ $email->status === 'sent' ? 'badge-success' : 'badge-error' }} badge-lg">
-                    {{ ucfirst($email->status) }}
-                </span>
+                @if($editMode)
+                    <button x-data
+                            @click="const editor = document.getElementById('email-detail-editor-body'); const html = editor?.innerHTML ?? ''; $wire.call('sendAgain', html)"
+                            wire:loading.attr="disabled"
+                            wire:target="sendAgain"
+                            class="btn btn-sm clr-bg-accent text-white rounded-lg gap-2 p-4">
+                        <span wire:loading.remove wire:target="sendAgain">Send</span>
+                        <span wire:loading wire:target="sendAgain">Sending...</span>
+                    </button>
+                @else
+                    <span class="badge {{ $email->status === 'sent' ? 'clr-bg-accent' : 'clr-bg-accent' }} badge-lg text-white">
+                        {{ ucfirst($email->status) }}
+                    </span>
+                @endif
             </div>
         </div>
     </div>
@@ -201,4 +287,18 @@
             @endif
         </div>
     </div>
+
+    {{-- Sending Modal --}}
+    @if($showSendingModal)
+        <div wire:key="sending-progress-modal" wire:poll.500ms="checkSendingProgress" class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
+            <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
+                <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+                <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
+                <p class="text-sm clr-accent font-bold mb-3">{{ $sendCurrent }}/{{ $sendTotal }} recipients</p>
+                <div class="w-full bg-base-200 rounded-full h-2 mb-3">
+                    <div class="clr-bg-accent h-2 rounded-full transition-all duration-300" style="width: {{ $sendTotal > 0 ? ($sendCurrent / $sendTotal) * 100 : 0 }}%"></div>
+                </div>
+            </div>
+        </div>
+    @endif
 </div>
