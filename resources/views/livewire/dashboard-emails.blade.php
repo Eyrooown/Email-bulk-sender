@@ -16,7 +16,7 @@
         </div>
 
         <div>
-            <a href="{{ route('compose') }}" class="btn clr-bg-accent text-base-100 rounded-xl p-4 hover-clr-bg-accent-light">+ Compose Email</a>
+            <a href="{{ route('compose') }}" class="btn clr-bg-accent text-base-100 text-lg rounded-xl p-4 hover-clr-bg-accent-light">+ Compose Email</a>
         </div>
     </div>
     <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg flex-1 min-h-0 flex flex-col">
@@ -72,7 +72,21 @@
                     {{ $this->emails->links('livewire::tailwind') }}
                 @endif
             </div>
-            <button class="clr-bg-accent text-base-100 rounded-xl w-24 p-2">Export</button>
+            <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'export-emails' }))" class="btn clr-bg-accent text-base-100 rounded-xl p-2 min-w-24">Export</button>
         </div>
     </div>
+
+    <x-modal name="export-emails" maxWidth="sm">
+        <div class="p-6">
+            <div class="flex justify-end">
+                <button type="button" onclick="window.dispatchEvent(new CustomEvent('close-modal', { detail: 'export-emails' }))" class="btn btn-ghost btn-sm mt-4">X</button>
+            </div>
+            <h3 class="text-lg font-semibold mb-4">Export Emails</h3>
+            <p class="text-sm text-gray-600 mb-4">Choose a format to download the email list.</p>
+            <div class="flex gap-3">
+                <a href="{{ route('dashboard.export.excel', ['search' => $search, 'sortBy' => $sortBy]) }}" target="_blank" onclick="window.dispatchEvent(new CustomEvent('close-modal', { detail: 'export-emails' }))" class="btn clr-bg-accent text-base-100 flex-1">Export to Excel</a>
+                <a href="{{ route('dashboard.export.pdf', ['search' => $search, 'sortBy' => $sortBy]) }}" target="_blank" onclick="window.dispatchEvent(new CustomEvent('close-modal', { detail: 'export-emails' }))" class="btn clr-bg-accent text-base-100 btn-outline flex-1">Export to PDF</a>
+            </div>
+        </div>
+    </x-modal>
 </div>

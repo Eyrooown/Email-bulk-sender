@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardExportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailController;
 
@@ -10,6 +11,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [EmailController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/export/excel', [DashboardExportController::class, 'excel'])->name('dashboard.export.excel');
+    Route::get('/dashboard/export/pdf', [DashboardExportController::class, 'pdf'])->name('dashboard.export.pdf');
     Route::get('/compose', function () {
         return view('compose');
     })->name('compose');

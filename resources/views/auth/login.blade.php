@@ -3,7 +3,7 @@
     style="height: 600px;">
 
         <div class="w-1/2 flex flex-col items-center justify-center p-10"
-        style="background-color: #205375;">
+        style="background-color: #102B3C;">
             <img src="{{ asset('images/inverted-logo.png') }}" alt="Logo" class="w-40" />
         </div>
 
@@ -15,23 +15,24 @@
                 @csrf
 
                 <input type="email" name="email" placeholder="Username"
-                    class="input input-bordered w-full mb-3" required />
+                    class="input input-bordered w-full mb-3 rounded-lg" required />
 
 
                 <input type="password" name="password" placeholder="Password"
-                    class="input input-bordered w-full mb-2" required />
+                    class="input input-bordered w-full mb-2 rounded-lg" required />
 
 
-                <div class="text-sm mb-4">
+                <div class="text-xs mb-4">
                     <a href="{{ route('password.request') }}"
                         class="text-gray-500 hover:underline">
-                        Forgot password
+                        Forgot password?
                     </a>
                 </div>
-
+                <div class="flex justify-center items-center">
                     <button type="submit" class="btn rounded-2xl w-40 px-8" style="background: #ED1C24; color: white;">
                         Login
                     </button>
+                </div>
             </form>
         </div>
 
