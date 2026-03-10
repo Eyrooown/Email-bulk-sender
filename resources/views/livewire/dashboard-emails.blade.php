@@ -49,7 +49,6 @@
                                     <input type="date" class="input input-sm input-bordered w-full" wire:model.live="dateTo" />
                                 </label>
                             </div>
-                            <p class="text-xs text-gray-400 mt-2">Filtered using Philippines time (Asia/Manila).</p>
                         </div>
 
                         {{-- Recipients --}}
@@ -72,12 +71,12 @@
             <label class="input focus-within:outline-none bg-transparent focus-within:border-base-300 flex-1 min-w-0">
                 <input wire:model.live.debounce.300ms="search" class="bg-transparent focus:outline-none rounded-xl w-full" type="search" placeholder="Search " />
             </label>
-            <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'export-emails' }))" class="btn clr-bg-accent text-base-100 rounded-xl px-4 py-2 min-w-24 w-full sm:w-auto">Export</button>
+            <button type="button" onclick="window.dispatchEvent(new CustomEvent('open-modal', { detail: 'export-emails' }))" class="btn clr-bg-accent text-base-100 rounded-xl hover-clr-txt-primary px-4 py-2 min-w-24 w-full sm:w-auto">Export</button>
         </div>
 
         <div class="w-full sm:w-auto flex flex-wrap gap-2 justify-end">
-            <a href="{{ route('draft') }}" class="btn btn-outline border-2 border-base-300 text-base-content text-lg rounded-xl px-4 py-3 hover-clr-bg-accent hover:text-base-100 w-full sm:w-auto text-center">Draft</a>
-            <a href="{{ route('compose') }}" class="btn clr-bg-accent text-base-100 text-lg rounded-xl px-4 py-3 hover-clr-bg-accent-light w-full sm:w-auto text-center">+ Compose Email</a>
+            <a href="{{ route('draft') }}" class="btn btn-outline border-2 border-base-300 text-base-100 text-lg rounded-xl px-4 py-3 clr-bg-accent hover-clr-txt-primary w-full sm:w-auto text-center">Draft</a>
+            <a href="{{ route('compose') }}" class="btn clr-bg-accent text-base-100 text-lg rounded-xl px-4 py-3 hover-clr-txt-primary w-full sm:w-auto text-center">+ Compose Email</a>
         </div>
     </div>
 

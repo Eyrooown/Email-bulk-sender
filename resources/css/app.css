@@ -27,7 +27,7 @@
 }
 
 .primary {
-    --color-primary: 
+    --color-primary:
 ;
 }
 
@@ -67,6 +67,10 @@
 }
 
 .clr-txt-primary {
+    color: #102b3c;
+}
+
+.hover-clr-txt-primary:hover {
     color: #102b3c;
 }
 
