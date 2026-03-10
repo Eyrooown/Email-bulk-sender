@@ -10,9 +10,10 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [EmailController::class, 'index'])->name('dashboard');
-    Route::get('/dashboard/export/excel', [DashboardExportController::class, 'excel'])->name('dashboard.export.excel');
-    Route::get('/dashboard/export/pdf', [DashboardExportController::class, 'pdf'])->name('dashboard.export.pdf');
+    Route::redirect('/dashboard', '/inbox');
+    Route::get('/inbox', [EmailController::class, 'index'])->name('dashboard');
+    Route::get('/inbox/export/excel', [DashboardExportController::class, 'excel'])->name('dashboard.export.excel');
+    Route::get('/inbox/export/pdf', [DashboardExportController::class, 'pdf'])->name('dashboard.export.pdf');
     Route::get('/compose', function () {
         return view('compose');
     })->name('compose');

@@ -15,7 +15,7 @@ class EmailController extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        return view('inbox');
     }
 
     public function compose()
