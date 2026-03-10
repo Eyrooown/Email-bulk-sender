@@ -71,34 +71,34 @@
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden focus-within:border-red-500 focus-within:shadow-md transition-all">
 
             {{-- Toolbar --}}
-            <div class="flex items-center flex-wrap gap-4 px-3 py-2 bg-base-100 border-b border-base-300">
-                <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold">B</button>
-                <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic">I</button>
-                <button type="button" @mousedown.prevent="format('underline')" class="btn btn-xs btn-ghost font-mono underline">U</button>
-                <button type="button" @mousedown.prevent="format('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through">S</button>
-                <div class="w-px h-5 bg-base-300 mx-1"></div>
+            <div class="flex items-center flex-nowrap gap-1 px-2 py-1 bg-base-100 border-b border-base-300 overflow-x-auto">
+                <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold px-2 shrink-0">B</button>
+                <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic px-2 shrink-0">I</button>
+                <button type="button" @mousedown.prevent="format('underline')" class="btn btn-xs btn-ghost font-mono underline px-2 shrink-0">U</button>
+                <button type="button" @mousedown.prevent="format('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through px-2 shrink-0">S</button>
+                <div class="w-px h-5 bg-base-300 mx-1 shrink-0 hidden sm:block"></div>
                 <button type="button" @mousedown.prevent="format('insertUnorderedList')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
                 </button>
                 <button type="button" @mousedown.prevent="format('insertOrderedList')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
                 </button>
-                <div class="w-px h-5 bg-base-300 mx-1"></div>
+                <div class="w-px h-5 bg-base-300 mx-1 shrink-0 hidden sm:block"></div>
                 <button type="button" @mousedown.prevent="format('justifyLeft')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
                 </button>
                 <button type="button" @mousedown.prevent="format('justifyCenter')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
                 </button>
                 <button type="button" @mousedown.prevent="format('justifyRight')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
                 </button>
-                <div class="w-px h-5 bg-base-300 mx-1"></div>
+                <div class="w-px h-5 bg-base-300 mx-1 shrink-0 hidden sm:block"></div>
                 <button type="button" @mousedown.prevent="format('undo')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
                 </button>
                 <button type="button" @mousedown.prevent="format('redo')" class="btn btn-xs btn-ghost">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
                 </button>
             </div>
 
@@ -176,38 +176,76 @@
                     />
                 </div>
                 <div class="overflow-auto" style="max-height: 40vh;">
-                <table class="table w-full">
-                    <thead>
-                        <tr>
-                            <th class="text-xs uppercase text-gray-400">#</th>
-                            <th class="text-xs uppercase text-gray-400">Email Address</th>
-                            <th class="text-xs uppercase text-gray-400">Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    {{-- Mobile: collapsible list --}}
+                    <div class="md:hidden divide-y divide-base-200">
                         @foreach($recipientsPaginator as $i => $email)
-                            <tr>
-                                <td class="text-xs text-gray-400 font-mono">{{ $recipientsPaginator->firstItem() + $i }}</td>
-                                <td>
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-7 h-7 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">{{ strtoupper($email[0]) }}</div>
-                                        {{ $email }}
+                            @php $status = $recipientStatuses[$email] ?? 'pending'; @endphp
+                            <div x-data="{ expanded: false }" class="bg-white">
+                                <div class="flex items-center justify-between gap-3 py-3 px-4">
+                                    <div class="flex items-center gap-2 min-w-0 flex-1">
+                                        <div class="w-7 h-7 shrink-0 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">
+                                            {{ strtoupper($email[0]) }}
+                                        </div>
+                                        <div class="min-w-0 flex-1">
+                                            <div class="min-w-0">
+                                                <span class="block text-sm whitespace-nowrap truncate">
+                                                    {{ $email }}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </td>
-                                <td>
-                                    @php $status = $recipientStatuses[$email] ?? 'pending'; @endphp
-                                    <span class="badge badge-sm {{ $status === 'sent' ? 'badge-success' : ($status === 'failed' ? 'badge-error' : 'badge-warning') }}">
-                                        {{ ucfirst($status) }}
-                                    </span>
-                                </td>
-                                <td>
-                                    <button wire:click="removeRecipient('{{ $email }}')" class="btn btn-xs btn-ghost hover:text-red-500">×</button>
-                                </td>
-                            </tr>
+                                    <button type="button" @click="expanded = !expanded" class="btn btn-ghost btn-sm btn-circle shrink-0">
+                                        <svg x-show="!expanded" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 9l-7 7-7-7"/></svg>
+                                        <svg x-show="expanded" x-cloak class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
+                                    </button>
+                                </div>
+                                <div x-show="expanded" x-transition class="px-4 pb-4 pt-0">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <span class="badge badge-sm {{ $status === 'sent' ? 'badge-success' : ($status === 'failed' ? 'badge-error' : 'badge-warning') }}">
+                                            {{ ucfirst($status) }}
+                                        </span>
+                                        <button wire:click="removeRecipient('{{ $email }}')" class="btn btn-xs btn-ghost hover:text-red-500 shrink-0">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
-                    </tbody>
-                </table>
+                    </div>
+
+                    {{-- Desktop: table --}}
+                    <div class="hidden md:block">
+                        <table class="table w-full min-w-[520px]">
+                            <thead>
+                                <tr>
+                                    <th class="text-xs uppercase text-gray-400">#</th>
+                                    <th class="text-xs uppercase text-gray-400">Email Address</th>
+                                    <th class="text-xs uppercase text-gray-400">Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($recipientsPaginator as $i => $email)
+                                    <tr>
+                                        <td class="text-xs text-gray-400 font-mono">{{ $recipientsPaginator->firstItem() + $i }}</td>
+                                        <td>
+                                            <div class="flex items-center gap-2 min-w-0">
+                                                <div class="w-7 h-7 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">{{ strtoupper($email[0]) }}</div>
+                                                <span class="min-w-0 flex-1 text-sm whitespace-nowrap truncate">{{ $email }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @php $status = $recipientStatuses[$email] ?? 'pending'; @endphp
+                                            <span class="badge badge-sm {{ $status === 'sent' ? 'badge-success' : ($status === 'failed' ? 'badge-error' : 'badge-warning') }}">
+                                                {{ ucfirst($status) }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <button wire:click="removeRecipient('{{ $email }}')" class="btn btn-xs btn-ghost hover:text-red-500">×</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 @if($recipientsPaginator->hasPages())
                     <div class="p-2 border-t border-base-200">
