@@ -1,12 +1,8 @@
 <div>
-    <div class="flex items-center justify-between p-2 gap-4">
+    <div class="mb-4">
         <label class="input focus-within:outline-none bg-transparent focus-within:border-base-300 w-80 max-w-full">
             <input wire:model.live.debounce.300ms="search" class="bg-transparent focus:outline-none rounded-xl" type="search" placeholder="Search drafts..." />
         </label>
-
-        <div class="ml-auto">
-            <a href="{{ route('compose') }}" class="btn clr-bg-accent text-base-100 rounded-xl p-4 hover-clr-bg-accent-light">+ Compose Email</a>
-        </div>
     </div>
     <div class="w-full bg-white overflow-hidden shadow-sm sm:rounded-lg">
         <div class="overflow-auto" style="height: 63vh;">

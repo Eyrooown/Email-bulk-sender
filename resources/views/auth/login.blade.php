@@ -2,13 +2,13 @@
     <div class="flex w-full shadow-2xl rounded-lg overflow-hidden"
     style="height: 600px;">
 
-        <div class="w-1/2 flex flex-col items-center justify-center p-10"
+        <div class="hidden md:flex w-1/2 flex-col items-center justify-center p-10"
         style="background-color: #102B3C;">
             <img src="{{ asset('images/inverted-logo.png') }}" alt="Logo" class="w-40" />
         </div>
 
 
-        <div class="w-1/2 bg-white flex flex-col items-center justify-center p-10">
+        <div class="w-full md:w-1/2 bg-white flex flex-col items-center justify-center p-10">
             <h2 class="text-2xl font-bold mb-6">Login</h2>
 
             <form class="items-center justify-center" method="POST" action="{{ route('login') }}" class="w-full">
