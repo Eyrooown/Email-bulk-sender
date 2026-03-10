@@ -18,7 +18,7 @@ class EmailsExport implements FromCollection, WithHeadings
             $email->subject,
             $email->recipients_count,
             ucfirst($email->status),
-            $email->created_at->format('M d, Y'),
+            $email->created_at->timezone('Asia/Manila')->format('M d, Y h:i A'),
         ]);
     }
 

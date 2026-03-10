@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\EmailsExport;
 use App\Models\Email;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
@@ -16,6 +17,20 @@ class DashboardExportController extends Controller
         $query = Email::where('user_id', Auth::id())
             ->where('status', 'sent')
             ->withCount('recipients');
+
+        $from = $request->query('from');
+        $to = $request->query('to');
+
+        try {
+            if ($from) {
+                $query->where('created_at', '>=', Carbon::parse($from, 'Asia/Manila')->startOfDay()->utc());
+            }
+            if ($to) {
+                $query->where('created_at', '<=', Carbon::parse($to, 'Asia/Manila')->endOfDay()->utc());
+            }
+        } catch (\Throwable $e) {
+            // If invalid datetime is provided, ignore the filter.
+        }
 
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {
@@ -38,7 +53,7 @@ class DashboardExportController extends Controller
     public function excel(Request $request)
     {
         $emails = $this->getEmailsForExport($request);
-        $filename = 'emails-' . now()->format('Y-m-d-His') . '.xlsx';
+        $filename = 'emails-' . now()->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
         return Excel::download(new EmailsExport($emails), $filename, \Maatwebsite\Excel\Excel::XLSX);
     }
@@ -46,7 +61,7 @@ class DashboardExportController extends Controller
     public function pdf(Request $request)
     {
         $emails = $this->getEmailsForExport($request);
-        $filename = 'emails-' . now()->format('Y-m-d-His') . '.pdf';
+        $filename = 'emails-' . now()->timezone('Asia/Manila')->format('Y-m-d') . '.pdf';
 
         $pdf = Pdf::loadView('exports.emails-pdf', ['emails' => $emails])
             ->setPaper('a4', 'landscape');

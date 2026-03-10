@@ -28,7 +28,7 @@
                     <td>{{ $email->subject }}</td>
                     <td>{{ $email->recipients_count }} recipient{{ $email->recipients_count !== 1 ? 's' : '' }}</td>
                     <td>{{ ucfirst($email->status) }}</td>
-                    <td>{{ $email->created_at->format('M d, Y') }}</td>
+                    <td>{{ $email->created_at->timezone('Asia/Manila')->format('M d, Y h:i A') }}</td>
                 </tr>
             @empty
                 <tr>
