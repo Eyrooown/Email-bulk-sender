@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,400i,500,600,700,700i&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans antialiased">
@@ -25,10 +25,10 @@
 
         <nav class="flex flex-col p-2 gap-1 mt-4 flex-1">
 
-            <a href="/dashboard"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('dashboard') ? 'focus-clr-accent' : 'text-white' }}">
-                <x-icons.home classes="w-6 h-6" />
-                <span class="hidden group-hover:block">Home</span>
+            <a href="{{ route('dashboard') }}"
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('inbox') ? 'focus-clr-accent' : 'text-white' }}">
+                <x-icons.inbox classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Inbox</span>
             </a>
 
             <a href="/compose"
@@ -36,13 +36,6 @@
                 <x-icons.email classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Compose Email</span>
             </a>
-
-            <a href="/draft"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('draft') ? 'focus-clr-accent' : '' }} hover-clr-accent">
-                <x-icons.icon-draft classes="w-6 h-6" />
-                <span class="hidden group-hover:block">Draft</span>
-            </a>
-
         </nav>
 
         <div class="p-2 border-t border-white/20">
@@ -75,5 +68,6 @@
 
 </div>
 
+@livewireScripts
 </body>
 </html>

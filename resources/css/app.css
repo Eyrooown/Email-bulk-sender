@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -16,14 +16,19 @@
     --color-base-100: oklch(95.5% 0.004 17.5);
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 * {
-        font-family: 'Ubuntu';
-        font-weight: 400;
-        font-style: normal;
+    font-family: "Ubuntu";
+    font-weight: 400;
+    font-style: normal;
 }
 
 .primary {
     --color-primary:
+;
 }
 
 .btn-error {
@@ -61,16 +66,24 @@
     color: white;
 }
 
-.clr-primary{
-    background-color: #102B3C;;
+.clr-txt-primary {
+    color: #102b3c;
+}
+
+.hover-clr-txt-primary:hover {
+    color: #102b3c;
+}
+
+.clr-primary {
+    background-color: #102b3c;
 }
 
 .clr-accent {
-    color: #ED1C24;
+    color: #ed1c24;
 }
 
 .clr-bg-accent {
-    background-color: #ED1C24;
+    background-color: #ed1c24;
 }
 
 .hover-clr-bg-accent-light:hover {
@@ -78,20 +91,17 @@
 }
 
 .hover-clr-accent:hover {
-    color: #ED1C24;
+    color: #ed1c24;
 }
 
 .active-clr-accent:active {
-    color: #ED1C24;
+    color: #ed1c24;
 }
 
 .focus-clr-accent {
-    color: #ED1C24;
+    color: #ed1c24;
 }
 
 .hover-clr-bg-accent:hover {
-    background-color: #ED1C24;
+    background-color: #ed1c24;
 }
-
-
-

@@ -7,13 +7,16 @@ use App\Models\Email;
 use App\Models\EmailAttachment;
 use App\Models\EmailRecipient;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class ComposeEmail extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     public string $subject = '';
     public string $body = '';
@@ -27,6 +30,8 @@ class ComposeEmail extends Component
     public string $selectedEmailColumn = '';
     public bool $showCsvModal = false;
     public bool $showOverlay = false;
+    public bool $showSendingModal = false;
+    public ?int $sendingEmailId = null;
     public bool $showToast = false;
     public string $toastMessage = '';
     public bool $showAllRecipients = false;
@@ -34,6 +39,34 @@ class ComposeEmail extends Component
     public int $sendTotal = 0;
     public int $sendCurrent = 0;
     public string $sendCurrentEmail = '';
+    public ?int $editingDraftId = null;
+    public int $recipientsPage = 1;
+    public string $recipientsSearch = '';
+
+    public function updatedRecipientsSearch()
+    {
+        $this->resetPage('recipientsPage');
+    }
+
+    public function mount()
+    {
+        $draftId = request()->query('draft');
+        if ($draftId) {
+            $draft = Email::where('user_id', Auth::id())
+                ->where('status', 'draft')
+                ->with('recipients')
+                ->find($draftId);
+            if ($draft) {
+                $this->editingDraftId = $draft->id;
+                $this->subject = $draft->subject ?: '';
+                $this->body = $draft->body ?: '';
+                $this->recipients = $draft->recipients->pluck('email')->all();
+                foreach ($this->recipients as $email) {
+                    $this->recipientStatuses[$email] = 'pending';
+                }
+            }
+        }
+    }
 
     protected $rules = [
         'subject'      => 'nullable|string|max:255',
@@ -141,6 +174,47 @@ class ComposeEmail extends Component
         $this->closeCsvModal();
     }
 
+    public function sendWithBody($body = '')
+    {
+        $this->body = is_array($body) ? ($body['body'] ?? '') : (string) $body;
+        $this->send();
+    }
+
+    public function saveDraft($body = '', $redirectTo = '')
+    {
+        $this->body = is_array($body) ? ($body['body'] ?? '') : (string) $body;
+
+        // Only save if there's something to save (subject, body, or recipients)
+        $hasContent = !empty(trim($this->subject))
+            || !empty(strip_tags($this->body))
+            || !empty($this->recipients);
+
+        if (!$hasContent) {
+            if ($redirectTo) {
+                $this->redirect($redirectTo, navigate: true);
+            }
+            return;
+        }
+
+        $email = Email::create([
+            'user_id' => Auth::id(),
+            'subject' => $this->subject ?: '(No Subject)',
+            'body'    => $this->body,
+            'status'  => 'draft',
+        ]);
+
+        foreach ($this->recipients as $recipient) {
+            EmailRecipient::create([
+                'email_id' => $email->id,
+                'email'    => $recipient,
+                'status'   => 'pending',
+            ]);
+        }
+
+        $target = $redirectTo ?: route('draft');
+        $this->redirect($target, navigate: true);
+    }
+
     public function send()
     {
         if (empty($this->recipients)) {
@@ -156,14 +230,27 @@ class ComposeEmail extends Component
         $this->sendTotal = count($this->recipients);
         $this->sendCurrent = 0;
         $this->showOverlay = true;
+        $this->showSendingModal = true;
 
-        // Create email record
-        $email = Email::create([
-            'user_id' => Auth::id(),
-            'subject' => $this->subject ?: '(No Subject)',
-            'body'    => $this->body,
-            'status'  => 'sent',
-        ]);
+        // Update existing draft or create new email
+        if ($this->editingDraftId) {
+            $email = Email::where('user_id', Auth::id())
+                ->where('status', 'draft')
+                ->findOrFail($this->editingDraftId);
+            $email->update([
+                'subject' => $this->subject ?: '(No Subject)',
+                'body'    => $this->body,
+                'status'  => 'sent',
+            ]);
+            $email->recipients()->delete();
+        } else {
+            $email = Email::create([
+                'user_id' => Auth::id(),
+                'subject' => $this->subject ?: '(No Subject)',
+                'body'    => $this->body,
+                'status'  => 'sent',
+            ]);
+        }
 
         // Store attachments first
         $attachmentPaths = [];
@@ -182,6 +269,13 @@ class ComposeEmail extends Component
             }
         }
 
+        // Initialize progress for polling (job will update it)
+        Cache::put("sending_progress_{$email->id}", [
+            'current' => 0,
+            'total' => count($this->recipients),
+            'currentEmail' => 'Starting...',
+        ], 300);
+
         // Dispatch job
         \App\Jobs\SendBulkEmail::dispatch(
             $email->id,
@@ -192,14 +286,37 @@ class ComposeEmail extends Component
             $this->getId()
         );
 
-        // Reset form but keep overlay open
+        // Reset form, show modal, start polling (keep sendTotal for progress display)
+        $this->sendingEmailId = $email->id;
+        $this->showSendingModal = true;
+        $this->editingDraftId = null;
         $this->subject = '';
         $this->body = '';
         $this->attachments = [];
         $this->recipients = [];
         $this->recipientStatuses = [];
         $this->sendCurrent = 0;
-        // showOverlay stays true until JS listener closes it
+    }
+
+    public function checkSendingProgress()
+    {
+        if (!$this->sendingEmailId) return;
+
+        $progress = Cache::get("sending_progress_{$this->sendingEmailId}");
+        if ($progress) {
+            $this->sendCurrent = $progress['current'];
+            $this->sendTotal = $progress['total'];
+            $this->sendCurrentEmail = $progress['currentEmail'];
+
+            if ($progress['currentEmail'] === 'done') {
+                $this->showSendingModal = false;
+                $this->sendingEmailId = null;
+                $this->showToast = true;
+                $this->toastMessage = 'Sent to ' . $progress['total'] . ' recipient' . ($progress['total'] !== 1 ? 's' : '');
+                Cache::forget("sending_progress_{$this->sendingEmailId}");
+                $this->redirect(route('dashboard'), navigate: true);
+            }
+        }
     }
 
     public function dismissToast()
@@ -216,9 +333,25 @@ class ComposeEmail extends Component
 
         $previewRows = array_slice($this->csvRows, 0, 5);
 
+        $filteredRecipients = $this->recipients;
+        if (!empty(trim($this->recipientsSearch))) {
+            $term = strtolower(trim($this->recipientsSearch));
+            $filteredRecipients = array_values(array_filter($this->recipients, fn($email) => str_contains(strtolower($email), $term)));
+        }
+
+        $page = max(1, (int) request()->query('recipientsPage', $this->recipientsPage));
+        $recipientsPaginator = new LengthAwarePaginator(
+            array_slice($filteredRecipients, ($page - 1) * 25, 25),
+            count($filteredRecipients),
+            25,
+            $page,
+            ['path' => LengthAwarePaginator::resolveCurrentPath(), 'pageName' => 'recipientsPage']
+        );
+
         return view('components.livewire.compose-email', [
-            'visibleRecipients' => $visibleRecipients,
-            'previewRows'       => $previewRows,
+            'visibleRecipients'    => $visibleRecipients,
+            'previewRows'          => $previewRows,
+            'recipientsPaginator'  => $recipientsPaginator,
         ]);
     }
 }
