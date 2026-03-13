@@ -22,6 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/draft', function () {
         return view('draft');
     })->name('draft');
+    Route::get('/archive', function () {
+        return view('archive');
+    })->name('archive');
 });
 
 // ->middleware(['auth', 'verified'])
