@@ -1,15 +1,28 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardExportController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmailController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::redirect('/dashboard', '/inbox');
+    Route::get('/inbox', [EmailController::class, 'index'])->name('dashboard');
+    Route::get('/inbox/export/excel', [DashboardExportController::class, 'excel'])->name('dashboard.export.excel');
+    Route::get('/inbox/export/pdf', [DashboardExportController::class, 'pdf'])->name('dashboard.export.pdf');
+    Route::get('/compose', function () {
+        return view('compose');
+    })->name('compose');
+    Route::post('/compose', [EmailController::class, 'store'])->name('compose.store');
+    Route::get('/recepients/{email}', [EmailController::class, 'show'])->name('recepients.show');
+    Route::get('/draft', function () {
+        return view('draft');
+    })->name('draft');
+});
 
 // ->middleware(['auth', 'verified'])
 

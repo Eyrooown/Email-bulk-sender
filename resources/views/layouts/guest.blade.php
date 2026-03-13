@@ -20,7 +20,7 @@
             background-size: cover;
             background-position: center;">
 
-            <div class="w-full sm:max-w-4xl bg-white shadow-md overflow-hidden sm:rounded-lg" style="height: 600px;">
+            <div class="min-h-screen flex items-center justify-center">
                 {{ $slot }}
             </div>
         </div>
