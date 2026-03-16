@@ -25,6 +25,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/archive', function () {
         return view('archive');
     })->name('archive');
+
+    Route::get('/accounts', function () {
+        abort_unless(auth()->user()?->is_admin, 403);
+        return view('accounts');
+    })->name('accounts');
 });
 
 // ->middleware(['auth', 'verified'])
