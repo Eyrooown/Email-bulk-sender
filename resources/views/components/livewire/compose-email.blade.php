@@ -65,12 +65,58 @@
     {{-- Subject --}}
     <input type="text" wire:model="subject" @input="dirty = true" placeholder="Subject..." class="input input-bordered w-full mb-4" />
 
-    {{-- Compose Editor --}}
+    {{-- Compose Editor (simple rich text) --}}
     <div class="mb-4" x-data="richTextEditor({{ json_encode($body ?? '') }})">
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Compose Message</p>
+
+        @if(!empty($csvHeaders))
+            @php
+                $variableTokens = collect($csvHeaders)
+                    ->filter(fn($h) => trim($h) !== '')
+                    ->mapWithKeys(fn($h) => [$h => '{{'.$h.'}}']);
+            @endphp
+            <div class="px-3 py-2 mb-1 rounded-xl clr-primary text-base-100">
+                <p class="text-xs mb-1 text-base-100 font-semibold">Note:
+                    Use these variables to display the recipients' information.
+                </p>
+                <div class="flex flex-wrap items-center gap-1.5 mt-1">
+                    <span class="text-[10px] font-semibold uppercase tracking-widest shrink-0 mr-1">
+                        Variables:
+                    </span>
+                    @foreach($variableTokens as $header => $token)
+                        <button
+                            type="button"
+                            class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold clr-bg-secondary text-base-100 border transition-colors cursor-pointer"
+                            x-data
+                            x-on:click="
+                                const editor = document.getElementById('compose-editor-body');
+                                if (!editor) return;
+                                editor.focus();
+                                const selection = window.getSelection();
+                                let range = selection && selection.rangeCount ? selection.getRangeAt(0) : null;
+                                const textNode = document.createTextNode('{{ $token }}');
+                                if (range && editor.contains(range.commonAncestorContainer)) {
+                                    range.deleteContents();
+                                    range.insertNode(textNode);
+                                    range.setStartAfter(textNode);
+                                    range.setEndAfter(textNode);
+                                    selection.removeAllRanges();
+                                    selection.addRange(range);
+                                } else {
+                                    editor.appendChild(textNode);
+                                }
+                                window.dispatchEvent(new CustomEvent('compose-dirty'));
+                            "
+                        >
+                            {{ $token }}
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+        @endif
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden focus-within:border-red-500 focus-within:shadow-md transition-all">
 
-            {{-- Toolbar --}}
+            {{-- Formatting toolbar --}}
             <div class="flex items-center flex-nowrap gap-1 px-2 py-1 bg-base-100 border-b border-base-300 overflow-x-auto">
                 <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold px-2 shrink-0">B</button>
                 <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic px-2 shrink-0">I</button>
@@ -110,7 +156,7 @@
                     contenteditable="true"
                     data-placeholder="Start typing your message here..."
                     @input="$dispatch('compose-dirty')"
-                    class="prose-editor p-5 min-h-[240px] outline-none text-sm leading-relaxed text-gray-800 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5"
+                    class="prose-editor p-5 min-h-[360px] outline-none text-sm leading-relaxed text-gray-800 [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_li]:my-0.5"
                 ></div>
             </div>
 
@@ -282,6 +328,23 @@
                                     <option value="{{ $i }}">{{ $header }}</option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        {{-- Preview available variables the user can insert like {{name}} --}}
+                        <div class="mb-4 p-3 rounded-lg bg-amber-50 border border-amber-200">
+                            <p class="text-xs font-semibold text-amber-600 mb-1.5">
+                                You can use these columns as variables in your message:
+                            </p>
+                            <div class="flex flex-wrap gap-1.5">
+                                @foreach($csvHeaders as $header)
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-amber-100 text-amber-700 border border-amber-300">
+                                        &#123;&#123;{{ $header }}&#125;&#125;
+                                    </span>
+                                @endforeach
+                            </div>
+                            <p class="mt-1 text-[11px] text-amber-700">
+                                Example: type <code class="px-1 py-0.5 rounded bg-white border border-amber-200 font-mono text-[11px]">&#123;&#123;name&#125;&#125;</code> in the editor and it will be replaced per row when you send.
+                            </p>
                         </div>
 
                         <div class="overflow-x-auto">

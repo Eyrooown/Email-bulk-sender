@@ -20,6 +20,9 @@ class DashboardEmails extends Component
     public ?int $recipientsMin = null;
     public ?int $recipientsMax = null;
 
+    public array $selectedIds = [];
+    public bool $selectAll = false;
+
     protected $queryString = [
         'search' => ['except' => ''],
         'sortBy' => ['except' => 'date_desc'],
@@ -29,34 +32,20 @@ class DashboardEmails extends Component
         'recipientsMax' => ['except' => null],
     ];
 
-    public function updatedSearch()
-    {
-        $this->resetPage();
-    }
+    public function updatedSearch()    { $this->resetPage(); }
+    public function updatedSortBy()    { $this->resetPage(); }
+    public function updatedDateFrom()  { $this->resetPage(); }
+    public function updatedDateTo()    { $this->resetPage(); }
+    public function updatedRecipientsMin() { $this->resetPage(); }
+    public function updatedRecipientsMax() { $this->resetPage(); }
 
-    public function updatedSortBy()
+    public function updatedSelectAll(bool $value): void
     {
-        $this->resetPage();
-    }
-
-    public function updatedDateFrom()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedDateTo()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedRecipientsMin()
-    {
-        $this->resetPage();
-    }
-
-    public function updatedRecipientsMax()
-    {
-        $this->resetPage();
+        if ($value) {
+            $this->selectedIds = $this->emails->pluck('id')->map(fn ($id) => (string) $id)->toArray();
+        } else {
+            $this->selectedIds = [];
+        }
     }
 
     public function resetFilters()
@@ -68,6 +57,22 @@ class DashboardEmails extends Component
         $this->recipientsMin = null;
         $this->recipientsMax = null;
         $this->resetPage();
+    }
+
+    public function deleteEmail(int $id): void
+    {
+        $email = Email::where('user_id', Auth::id())->findOrFail($id);
+        $email->delete();
+        $this->selectedIds = array_filter($this->selectedIds, fn ($i) => (int) $i !== $id);
+    }
+
+    public function deleteSelected(): void
+    {
+        Email::where('user_id', Auth::id())
+            ->whereIn('id', $this->selectedIds)
+            ->delete();
+        $this->selectedIds = [];
+        $this->selectAll = false;
     }
 
     public function getEmailsProperty()
@@ -111,7 +116,7 @@ class DashboardEmails extends Component
             'subject_desc' => $query->orderBy('subject', 'desc'),
             'date_asc'     => $query->orderBy('created_at', 'asc'),
             'date_desc'    => $query->orderBy('created_at', 'desc'),
-            default       => $query->orderBy('created_at', 'desc'),
+            default        => $query->orderBy('created_at', 'desc'),
         };
 
         return $query->paginate(25)->withQueryString();

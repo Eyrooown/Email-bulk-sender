@@ -27,6 +27,7 @@ class ComposeEmail extends Component
     public $csvFile = null;
     public array $csvHeaders = [];
     public array $csvRows = [];
+    public array $csvData = []; // keyed by email => row data
     public string $selectedEmailColumn = '';
     public bool $showCsvModal = false;
     public bool $showOverlay = false;
@@ -117,6 +118,7 @@ class ComposeEmail extends Component
         $this->csvFile = null;
         $this->csvHeaders = [];
         $this->csvRows = [];
+        $this->csvData = [];
         $this->selectedEmailColumn = '';
     }
 
@@ -124,9 +126,6 @@ class ComposeEmail extends Component
     {
         $this->showCsvModal = false;
         $this->csvFile = null;
-        $this->csvHeaders = [];
-        $this->csvRows = [];
-        $this->selectedEmailColumn = '';
     }
 
     public function updatedCsvFile()
@@ -163,20 +162,44 @@ class ComposeEmail extends Component
 
         $colIndex = (int) $this->selectedEmailColumn;
 
+        $emails = [];
+        $csvData = [];
+
         foreach ($this->csvRows as $row) {
             $email = trim($row[$colIndex] ?? '');
-            if (filter_var($email, FILTER_VALIDATE_EMAIL) && !in_array($email, $this->recipients)) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                continue;
+            }
+
+            $emails[] = $email;
+
+            // Map column index → header name → value
+            $rowData = [];
+            foreach ($this->csvHeaders as $i => $header) {
+                $rowData[$header] = $row[$i] ?? '';
+            }
+            $csvData[$email] = $rowData;
+        }
+
+        // Merge into existing recipients and CSV data
+        foreach ($emails as $email) {
+            if (!in_array($email, $this->recipients)) {
                 $this->recipients[] = $email;
                 $this->recipientStatuses[$email] = 'pending';
             }
         }
 
+        $this->csvData = $csvData;
+
         $this->closeCsvModal();
     }
 
-    public function sendWithBody($body = '')
+    public function sendWithBody($body = null)
     {
-        $this->body = is_array($body) ? ($body['body'] ?? '') : (string) $body;
+        // When called with payload, update body; otherwise use current Livewire state
+        if ($body !== null) {
+            $this->body = is_array($body) ? ($body['body'] ?? '') : (string) $body;
+        }
         $this->send();
     }
 
@@ -283,7 +306,8 @@ class ComposeEmail extends Component
             $this->subject ?: '(No Subject)',
             $this->body,
             $attachmentPaths,
-            $this->getId()
+            $this->getId(),
+            $this->csvData
         );
 
         // Reset form, show modal, start polling (keep sendTotal for progress display)
@@ -352,6 +376,8 @@ class ComposeEmail extends Component
             'visibleRecipients'    => $visibleRecipients,
             'previewRows'          => $previewRows,
             'recipientsPaginator'  => $recipientsPaginator,
+            'csvHeaders'           => $this->csvHeaders,
+            'csvData'              => $this->csvData,
         ]);
     }
 }
