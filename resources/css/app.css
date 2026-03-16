@@ -27,7 +27,7 @@
 }
 
 .primary {
-    --color-primary:
+    --color-primary: 
 ;
 }
 
@@ -76,6 +76,10 @@
 
 .clr-primary {
     background-color: #102b3c;
+}
+
+.clr-bg-secondary {
+    background-color: #205375;
 }
 
 .clr-accent {
