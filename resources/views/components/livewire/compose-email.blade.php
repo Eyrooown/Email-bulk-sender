@@ -198,14 +198,6 @@
                 </button>
             </div>
         </div>
-        {{-- Immediate overlay when Send is clicked (before Livewire response) --}}
-        <div x-show="sending" x-cloak x-transition class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
-            <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
-                <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
-                <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
-                <p class="text-sm text-gray-500">Please wait.</p>
-            </div>
-        </div>
     </div>
 
     {{-- Recipients Table --}}
@@ -384,20 +376,6 @@
                             Import {{ $count }} Recipient{{ $count !== 1 ? 's' : '' }}
                         </button>
                     @endif
-                </div>
-            </div>
-        </div>
-    @endif
-
-    {{-- Sending Modal --}}
-    @if($showSendingModal)
-        <div wire:key="sending-progress-modal" wire:poll.250ms="checkSendingProgress" class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
-            <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
-                <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
-                <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
-                <p class="text-sm clr-accent font-bold mb-3">{{ $sendCurrent }}/{{ $sendTotal }} recipients</p>
-                <div class="w-full bg-base-200 rounded-full h-2 mb-3">
-                    <div class="clr-bg-accent h-2 rounded-full transition-all duration-300" style="width: {{ $sendTotal > 0 ? ($sendCurrent / $sendTotal) * 100 : 0 }}%"></div>
                 </div>
             </div>
         </div>

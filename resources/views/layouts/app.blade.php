@@ -102,6 +102,8 @@
 
 </div>
 
+<livewire:sending-progress-toast />
+
 @livewireScripts
 </body>
 </html>
