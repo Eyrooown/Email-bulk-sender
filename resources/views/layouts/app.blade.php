@@ -6,8 +6,27 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ config('app.name', 'Laravel') }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,400i,500,600,700,700i&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Scripts -->
+        @php
+            $useBuildOnNetwork = !app()->environment('production') && !in_array(request()->getHost(), ['localhost', '127.0.0.1'], true);
+            $manifestPath = public_path('build/manifest.json');
+        @endphp
+        @if($useBuildOnNetwork && file_exists($manifestPath))
+            @php
+                $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
+            @endphp
+            @if(!empty($manifest['resources/css/app.css']['file']))
+                <link rel="stylesheet" href="{{ asset('build/'.$manifest['resources/css/app.css']['file']) }}">
+            @endif
+            @if(!empty($manifest['resources/js/app.js']['file']))
+                <script type="module" src="{{ asset('build/'.$manifest['resources/js/app.js']['file']) }}"></script>
+            @endif
+        @else
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @endif
 </head>
 <body class="font-sans antialiased">
 
@@ -25,35 +44,58 @@
 
         <nav class="flex flex-col p-2 gap-1 mt-4 flex-1">
 
-            <a href="/dashboard"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                <x-icons.home classes="w-6 h-6" />
-                <span class="hidden group-hover:block">Home</span>
+            <a href="{{ route('dashboard') }}"
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('inbox') ? 'focus-clr-accent' : 'text-white' }}">
+                <x-icons.inbox classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Inbox</span>
             </a>
 
             <a href="/compose"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                <x-icons.email classes="w-6 h-6 focus-clr-accent" />
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('compose') ? 'focus-clr-accent' : '' }} hover-clr-accent">
+                <x-icons.email classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Compose Email</span>
             </a>
 
-            <a href="/draft"
-               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                <x-icons.icon-draft classes="w-6 h-6 focus-clr-accent" />
-                <span class="hidden group-hover:block">Draft</span>
+            <a href="{{ route('archive') }}"
+            class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('archive') ? 'focus-clr-accent' : 'text-white' }} hover-clr-accent">
+            <x-icons.archive classes="w-6 h-6" />
+            <span class="hidden group-hover:block">Archive</span>
             </a>
 
+            @if(Auth::user()?->is_admin)
+            <a href="{{ route('accounts') }}"
+            class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('accounts') ? 'focus-clr-accent' : '' }} hover-clr-accent">
+                <x-icons.account classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Accounts</span>
+            </a>
+            @endif
         </nav>
 
         <div class="p-2 border-t border-white/20">
-            <form method="POST" action="{{ route('logout') }}">
+            <button type="button" onclick="document.getElementById('logout-modal').showModal()"
+                class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
+                <x-icons.logout classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Log out</span>
+            </button>
+
+            <form id="logout-form" method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit"
-                    class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                    <img/> <span class="hidden group-hover:block">Logout</span>
-                </button>
             </form>
         </div>
+
+<dialog id="logout-modal" class="modal">
+    <div class="modal-box max-w-sm">
+        <h3 class="clr-text-primary font-bold text-lg mb-2">Confirm Logout</h3>
+        <p class="clr-text-primary text-sm">Are you sure you want to log out?</p>
+        <div class="modal-action gap-4">
+            <button onclick="document.getElementById('logout-modal').close()" class="btn clr-bg-accent text-white p-4">Cancel</button>
+            <button onclick="document.getElementById('logout-form').submit()" class="btn clr-bg-accent text-white p-4">Log out</button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button></button>
+    </form>
+</dialog>
 
     </div>
 
@@ -75,5 +117,8 @@
 
 </div>
 
+<livewire:sending-progress-toast />
+
+@livewireScripts
 </body>
 </html>
