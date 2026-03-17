@@ -24,16 +24,30 @@ class SendBulkEmail implements ShouldQueue
         public string $subject,
         public string $body,
         public array $attachmentPaths,
-        public string $livewireId
+        public string $livewireId,
+        public array $csvData = [], // keyed by email => row data
     ) {}
 
     public function handle(): void
     {
         $total = count($this->recipients);
 
+        $templateBody = $this->body;
+
         foreach ($this->recipients as $index => $recipient) {
             try {
-                $mailable = new BulkEmail($this->subject, $this->body);
+                // Per-recipient merge-tag resolution
+                $resolvedBody = $templateBody;
+                $row = $this->csvData[$recipient] ?? [];
+
+                foreach ($row as $column => $value) {
+                    $resolvedBody = str_replace('{{' . $column . '}}', $value, $resolvedBody);
+                }
+
+                // Strip any unresolved tags
+                $resolvedBody = preg_replace('/\{\{\w+\}\}/', '', $resolvedBody);
+
+                $mailable = new BulkEmail($this->subject, $resolvedBody);
 
                 foreach ($this->attachmentPaths as $path) {
                     $mailable->attach(storage_path('app/public/' . $path['path']), [
