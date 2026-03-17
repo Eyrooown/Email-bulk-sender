@@ -72,15 +72,30 @@
         </nav>
 
         <div class="p-2 border-t border-white/20">
-            <form method="POST" action="{{ route('logout') }}">
+            <button type="button" onclick="document.getElementById('logout-modal').showModal()"
+                class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
+                <x-icons.logout classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Log out</span>
+            </button>
+
+            <form id="logout-form" method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit"
-                    class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                    <x-icons.logout classes="w-6 h-6" />
-                    <span class="hidden group-hover:block">Log out</span>
-                </button>
             </form>
         </div>
+
+<dialog id="logout-modal" class="modal">
+    <div class="modal-box max-w-sm">
+        <h3 class="clr-text-primary font-bold text-lg mb-2">Confirm Logout</h3>
+        <p class="clr-text-primary text-sm">Are you sure you want to log out?</p>
+        <div class="modal-action gap-4">
+            <button onclick="document.getElementById('logout-modal').close()" class="btn clr-bg-accent text-white p-4">Cancel</button>
+            <button onclick="document.getElementById('logout-form').submit()" class="btn clr-bg-accent text-white p-4">Log out</button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button></button>
+    </form>
+</dialog>
 
     </div>
 
