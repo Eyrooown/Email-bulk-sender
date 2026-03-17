@@ -8,6 +8,25 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,400i,500,600,700,700i&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Scripts -->
+        @php
+            $useBuildOnNetwork = !app()->environment('production') && !in_array(request()->getHost(), ['localhost', '127.0.0.1'], true);
+            $manifestPath = public_path('build/manifest.json');
+        @endphp
+        @if($useBuildOnNetwork && file_exists($manifestPath))
+            @php
+                $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
+            @endphp
+            @if(!empty($manifest['resources/css/app.css']['file']))
+                <link rel="stylesheet" href="{{ asset('build/'.$manifest['resources/css/app.css']['file']) }}">
+            @endif
+            @if(!empty($manifest['resources/js/app.js']['file']))
+                <script type="module" src="{{ asset('build/'.$manifest['resources/js/app.js']['file']) }}"></script>
+            @endif
+        @else
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @endif
 </head>
 <body class="font-sans antialiased">
 
@@ -36,6 +55,20 @@
                 <x-icons.email classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Compose Email</span>
             </a>
+
+            <a href="{{ route('archive') }}"
+            class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('archive') ? 'focus-clr-accent' : 'text-white' }} hover-clr-accent">
+            <x-icons.archive classes="w-6 h-6" />
+            <span class="hidden group-hover:block">Archive</span>
+            </a>
+
+            @if(Auth::user()?->is_admin)
+            <a href="{{ route('accounts') }}"
+            class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('accounts') ? 'focus-clr-accent' : '' }} hover-clr-accent">
+                <x-icons.account classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Accounts</span>
+            </a>
+            @endif
         </nav>
 
         <div class="p-2 border-t border-white/20">
@@ -43,7 +76,8 @@
                 @csrf
                 <button type="submit"
                     class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                    <img/> <span class="hidden group-hover:block">Logout</span>
+                    <x-icons.logout classes="w-6 h-6" />
+                    <span class="hidden group-hover:block">Log out</span>
                 </button>
             </form>
         </div>

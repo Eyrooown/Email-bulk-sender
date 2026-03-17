@@ -14,7 +14,7 @@
             <form class="items-center justify-center" method="POST" action="{{ route('login') }}" class="w-full">
                 @csrf
 
-                <input type="email" name="email" placeholder="Username"
+                <input type="text" name="email" placeholder="Username"
                     class="input input-bordered w-full mb-3 rounded-lg" required />
 
 
