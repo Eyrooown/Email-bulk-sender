@@ -6,6 +6,7 @@ use App\Mail\BulkEmail;
 use App\Models\Email;
 use App\Models\EmailAttachment;
 use App\Models\EmailRecipient;
+use App\Livewire\SendingProgressToast;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
@@ -309,6 +310,8 @@ class ComposeEmail extends Component
             $this->getId(),
             $this->csvData
         );
+
+        $this->dispatch('startProgressToast', emailId: $email->id, total: count($this->recipients))->to(SendingProgressToast::class);
 
         // Reset form, show modal, start polling (keep sendTotal for progress display)
         $this->sendingEmailId = $email->id;
