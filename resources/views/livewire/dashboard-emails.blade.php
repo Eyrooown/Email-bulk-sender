@@ -153,7 +153,7 @@
                             <div class="flex gap-2 mt-2">
                                 <a href="{{ route('recepients.show', $email->id) }}" class="btn btn-sm clr-bg-accent text-base-100 flex-1">View</a>
                                 <button type="button" @click="confirmId = {{ $email->id }}" class="btn btn-sm btn-error text-white flex-1 gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
                                     Delete
                                 </button>
                             </div>
@@ -205,7 +205,7 @@
                                 <button type="button" @click="confirmId = {{ $email->id }}"
                                         class="btn btn-ghost btn-sm text-error hover:bg-error/10 rounded-lg"
                                         title="Move to Archive">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
                                 </button>
                             </td>
                         </tr>
