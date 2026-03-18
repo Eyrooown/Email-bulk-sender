@@ -389,7 +389,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    </div>
 
     {{-- Sending Modal --}}
     @if($showSendingModal)
