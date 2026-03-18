@@ -30,6 +30,7 @@ class ComposeEmail extends Component
     public array $csvRows = [];
     public array $csvData = []; // keyed by email => row data
     public string $selectedEmailColumn = '';
+    public string $csvParseError = '';
     public bool $showCsvModal = false;
     public bool $showOverlay = false;
     public bool $showSendingModal = false;
@@ -121,39 +122,124 @@ class ComposeEmail extends Component
         $this->csvRows = [];
         $this->csvData = [];
         $this->selectedEmailColumn = '';
+        $this->csvParseError = '';
+        $this->resetValidation('csvFile');
     }
 
     public function closeCsvModal()
     {
         $this->showCsvModal = false;
         $this->csvFile = null;
+        $this->csvParseError = '';
+        $this->resetValidation('csvFile');
     }
 
     public function updatedCsvFile()
     {
-        if (!$this->csvFile) return;
-
-        $content = file_get_contents($this->csvFile->getRealPath());
-        $lines = array_filter(explode("\n", str_replace("\r\n", "\n", $content)));
-        $lines = array_values($lines);
-
-        if (count($lines) < 2) return;
-
-        $this->csvHeaders = str_getcsv($lines[0]);
+        $this->csvParseError = '';
+        $this->csvHeaders = [];
         $this->csvRows = [];
+        $this->selectedEmailColumn = '';
 
-        foreach (array_slice($lines, 1) as $line) {
-            if (trim($line)) {
-                $this->csvRows[] = str_getcsv($line);
-            }
+        if (!$this->csvFile) {
+            return;
         }
 
-        // Auto detect email column
-        foreach ($this->csvHeaders as $index => $header) {
-            if (stripos($header, 'email') !== false) {
-                $this->selectedEmailColumn = (string) $index;
-                break;
+        $this->validateOnly('csvFile');
+
+        $path = $this->csvFile->getRealPath();
+        if (!$path || !is_file($path)) {
+            $this->csvParseError = 'Upload not ready yet. Please wait a moment and try again.';
+            return;
+        }
+
+        try {
+            // Detect delimiter from first non-empty line
+            $firstLine = '';
+            $fh = fopen($path, 'rb');
+            if ($fh) {
+                while (($line = fgets($fh)) !== false) {
+                    if (trim($line) !== '') {
+                        $firstLine = $line;
+                        break;
+                    }
+                }
+                fclose($fh);
             }
+
+            if ($firstLine === '') {
+                $this->csvParseError = 'CSV file appears to be empty.';
+                return;
+            }
+
+            $candidates = [',', ';', "\t", '|'];
+            $bestDelimiter = ',';
+            $bestCount = 0;
+            foreach ($candidates as $delim) {
+                $count = count(str_getcsv($firstLine, $delim));
+                if ($count > $bestCount) {
+                    $bestCount = $count;
+                    $bestDelimiter = $delim;
+                }
+            }
+
+            $file = new \SplFileObject($path, 'rb');
+            $file->setFlags(\SplFileObject::READ_CSV | \SplFileObject::SKIP_EMPTY | \SplFileObject::DROP_NEW_LINE);
+            $file->setCsvControl($bestDelimiter);
+
+            $headers = null;
+            foreach ($file as $row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+                // Some CSV parsers return [null] at EOF
+                if (count($row) === 1 && $row[0] === null) {
+                    continue;
+                }
+
+                // Trim all cells
+                $row = array_map(static fn($v) => is_string($v) ? trim($v) : $v, $row);
+
+                if ($headers === null) {
+                    // Remove UTF-8 BOM if present
+                    if (isset($row[0]) && is_string($row[0])) {
+                        $row[0] = preg_replace('/^\xEF\xBB\xBF/', '', $row[0]) ?? $row[0];
+                    }
+                    $headers = $row;
+                    continue;
+                }
+
+                // Ignore completely empty rows
+                $hasAny = false;
+                foreach ($row as $cell) {
+                    if (is_string($cell) && $cell !== '') {
+                        $hasAny = true;
+                        break;
+                    }
+                }
+                if (!$hasAny) {
+                    continue;
+                }
+
+                $this->csvRows[] = $row;
+            }
+
+            $this->csvHeaders = $headers ?? [];
+
+            if (count($this->csvHeaders) < 1 || count($this->csvRows) < 1) {
+                $this->csvParseError = 'Could not read rows from this CSV. Make sure it has a header row and at least 1 data row.';
+                return;
+            }
+
+            // Auto detect email column
+            foreach ($this->csvHeaders as $index => $header) {
+                if (is_string($header) && stripos($header, 'email') !== false) {
+                    $this->selectedEmailColumn = (string) $index;
+                    break;
+                }
+            }
+        } catch (\Throwable $e) {
+            $this->csvParseError = 'Failed to parse CSV: ' . $e->getMessage();
         }
     }
 
