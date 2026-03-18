@@ -349,46 +349,61 @@
                         </p>
                     </div>
 
-                    <div class="overflow-x-auto">
-                        <table class="table table-xs w-full mb-4">
-                            <thead>
-                                <tr>
-                                    @foreach($csvHeaders as $header)
-                                        <th>{{ $header }}</th>
-                                    @endforeach
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($previewRows as $row)
+                        <div class="overflow-x-auto">
+                            <table class="table table-xs w-full mb-4">
+                                <thead>
                                     <tr>
-                                        @foreach($csvHeaders as $i => $header)
-                                            <td>{{ $row[$i] ?? '' }}</td>
+                                        @foreach($csvHeaders as $header)
+                                            <th>{{ $header }}</th>
                                         @endforeach
                                     </tr>
-                                @endforeach
-                                @if(count($csvRows) > 5)
-                                    <tr>
-                                        <td colspan="{{ count($csvHeaders) }}" class="text-gray-400 italic text-xs">...and {{ count($csvRows) - 5 }} more rows</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                @endif
-            </div>
-            <div class="flex items-center justify-end gap-2 px-5 py-3 bg-base-100 border-t border-base-300">
-                <button wire:click="closeCsvModal" class="btn btn-sm btn-ghost">Cancel</button>
-                @if(!empty($csvHeaders) && $selectedEmailColumn !== '')
-                    @php
-                        $count = collect($csvRows)->filter(fn($row) => !empty($row[(int)$selectedEmailColumn]) && str_contains($row[(int)$selectedEmailColumn], '@'))->count();
-                    @endphp
-                    <button wire:click="importFromCsv" @click="$dispatch('compose-dirty')" class="btn btn-sm clr-bg-accent text-white p-4">
-                        Import {{ $count }} Recipient{{ $count !== 1 ? 's' : '' }}
-                    </button>
-                @endif
+                                </thead>
+                                <tbody>
+                                    @foreach($previewRows as $row)
+                                        <tr>
+                                            @foreach($csvHeaders as $i => $header)
+                                                <td>{{ $row[$i] ?? '' }}</td>
+                                            @endforeach
+                                        </tr>
+                                    @endforeach
+                                    @if(count($csvRows) > 5)
+                                        <tr>
+                                            <td colspan="{{ count($csvHeaders) }}" class="text-gray-400 italic text-xs">...and {{ count($csvRows) - 5 }} more rows</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </div>
+                <div class="flex items-center justify-end gap-2 px-5 py-3 bg-base-100 border-t border-base-300">
+                    <button wire:click="closeCsvModal" class="btn btn-sm btn-ghost">Cancel</button>
+                    @if(!empty($csvHeaders) && $selectedEmailColumn !== '')
+                        @php
+                            $count = collect($csvRows)->filter(fn($row) => !empty($row[(int)$selectedEmailColumn]) && str_contains($row[(int)$selectedEmailColumn], '@'))->count();
+                        @endphp
+                        <button wire:click="importFromCsv" @click="$dispatch('compose-dirty')" class="btn btn-sm clr-bg-accent text-white p-4">
+                            Import {{ $count }} Recipient{{ $count !== 1 ? 's' : '' }}
+                        </button>
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
+    @endif
+
+    {{-- Sending Modal --}}
+    @if($showSendingModal)
+        <div wire:key="sending-progress-modal" wire:poll.250ms="checkSendingProgress" class="fixed inset-0 bg-black/40 z-[9999] flex items-center justify-center">
+            <div class="bg-white rounded-2xl px-10 py-8 text-center shadow-2xl w-full max-w-sm">
+                <div class="w-10 h-10 border-4 border-base-200 border-t-red-500 rounded-full animate-spin mx-auto mb-4"></div>
+                <strong class="block text-lg text-gray-800 mb-2">Sending your email...</strong>
+                <p class="text-sm clr-accent font-bold mb-3">{{ $sendCurrent }}/{{ $sendTotal }} recipients</p>
+                <div class="w-full bg-base-200 rounded-full h-2 mb-3">
+                    <div class="clr-bg-accent h-2 rounded-full transition-all duration-300" style="width: {{ $sendTotal > 0 ? ($sendCurrent / $sendTotal) * 100 : 0 }}%"></div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     {{-- Unsaved changes modal --}}
     <div x-show="showModal" x-cloak x-transition class="fixed inset-0 bg-black/40 z-[9998] flex items-center justify-center">
