@@ -117,33 +117,33 @@
         <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden focus-within:border-red-500 focus-within:shadow-md transition-all">
 
             {{-- Formatting toolbar --}}
-            <div class="flex items-center flex-nowrap gap-1 px-2 py-1 bg-base-100 border-b border-base-300 overflow-x-auto">
-                <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold px-2 shrink-0">B</button>
-                <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic px-2 shrink-0">I</button>
-                <button type="button" @mousedown.prevent="format('underline')" class="btn btn-xs btn-ghost font-mono underline px-2 shrink-0">U</button>
-                <button type="button" @mousedown.prevent="format('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through px-2 shrink-0">S</button>
+            <div class="flex items-center flex-nowrap gap-2 px-3 py-2 bg-base-100 border-b border-base-300 overflow-x-auto">
+                <button type="button" @mousedown.prevent="format('bold')" class="btn btn-xs btn-ghost font-mono font-bold px-3 shrink-0">B</button>
+                <button type="button" @mousedown.prevent="format('italic')" class="btn btn-xs btn-ghost font-mono italic px-3 shrink-0">I</button>
+                <button type="button" @mousedown.prevent="format('underline')" class="btn btn-xs btn-ghost font-mono underline px-3 shrink-0">U</button>
+                <button type="button" @mousedown.prevent="format('strikeThrough')" class="btn btn-xs btn-ghost font-mono line-through px-3 shrink-0">S</button>
                 <div class="w-px h-5 bg-base-300 mx-1 shrink-0 hidden sm:block"></div>
-                <button type="button" @mousedown.prevent="format('insertUnorderedList')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('insertUnorderedList')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="9" y1="6" x2="20" y2="6"/><line x1="9" y1="12" x2="20" y2="12"/><line x1="9" y1="18" x2="20" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
                 </button>
-                <button type="button" @mousedown.prevent="format('insertOrderedList')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('insertOrderedList')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><line x1="10" y1="6" x2="20" y2="6"/><line x1="10" y1="12" x2="20" y2="12"/><line x1="10" y1="18" x2="20" y2="18"/></svg>
                 </button>
                 <div class="w-px h-5 bg-base-300 mx-1 shrink-0 hidden sm:block"></div>
-                <button type="button" @mousedown.prevent="format('justifyLeft')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('justifyLeft')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
                 </button>
-                <button type="button" @mousedown.prevent="format('justifyCenter')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('justifyCenter')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
                 </button>
-                <button type="button" @mousedown.prevent="format('justifyRight')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('justifyRight')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
                 </button>
                 <div class="w-px h-5 bg-base-300 mx-1 shrink-0 hidden sm:block"></div>
-                <button type="button" @mousedown.prevent="format('undo')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('undo')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.96"/></svg>
                 </button>
-                <button type="button" @mousedown.prevent="format('redo')" class="btn btn-xs btn-ghost">
+                <button type="button" @mousedown.prevent="format('redo')" class="btn btn-xs btn-ghost px-3">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-3.96"/></svg>
                 </button>
             </div>
