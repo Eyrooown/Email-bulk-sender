@@ -14,12 +14,13 @@ class ManageUsers extends Component
     public string $name = '';
     public string $email = '';
     public string $password = '';
+    public string $password_confirmation = '';
     public bool $is_admin = false;
 
     protected $rules = [
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:8',
+        'password' => 'required|string|min:8|confirmed',
         'is_admin' => 'boolean',
     ];
 
@@ -34,7 +35,7 @@ class ManageUsers extends Component
             'is_admin' => $this->is_admin,
         ]);
 
-        $this->reset(['name', 'email', 'password', 'is_admin']);
+        $this->reset(['name', 'email', 'password', 'password_confirmation', 'is_admin']);
         session()->flash('status', 'Account created.');
     }
 
