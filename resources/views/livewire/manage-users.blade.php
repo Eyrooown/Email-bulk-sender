@@ -80,10 +80,15 @@
                     </label>
                 </div>
                 <div class="grid gap-3 md:grid-cols-2">
-                    <label class="form-control md:col-span-2">
+                    <label class="form-control">
                         <span class="label-text text-xs text-gray-500">Password</span>
                         <input type="password" wire:model.defer="password" class="input input-sm input-bordered w-full" />
                         @error('password') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
+                    </label>
+                    <label class="form-control">
+                        <span class="label-text text-xs text-gray-500">Confirm Password</span>
+                        <input type="password" wire:model.defer="password_confirmation" class="input input-sm input-bordered w-full" />
+                        @error('password_confirmation') <span class="text-xs text-red-500 mt-1">{{ $message }}</span> @enderror
                     </label>
                 </div>
                 <div class="flex items-center justify-between">

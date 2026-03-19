@@ -15,6 +15,9 @@
         <thead>
             <tr>
                 <th>#</th>
+                @if(!empty($includeSender))
+                    <th>Sender</th>
+                @endif
                 <th>Subject</th>
                 <th>Recipients</th>
                 <th>Status</th>
@@ -25,6 +28,9 @@
             @forelse($emails as $index => $email)
                 <tr>
                     <td>{{ $index + 1 }}</td>
+                    @if(!empty($includeSender))
+                        <td>{{ $email->user->name ?? 'Unknown' }}</td>
+                    @endif
                     <td>{{ $email->subject }}</td>
                     <td>{{ $email->recipients_count }} recipient{{ $email->recipients_count !== 1 ? 's' : '' }}</td>
                     <td>{{ ucfirst($email->status) }}</td>
@@ -32,7 +38,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="5" style="text-align: center; color: #666;">No emails to export.</td>
+                    <td colspan="{{ !empty($includeSender) ? 6 : 5 }}" style="text-align: center; color: #666;">No emails to export.</td>
                 </tr>
             @endforelse
         </tbody>
