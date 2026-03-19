@@ -179,7 +179,10 @@ class EmailDetail extends Component
             $this->subject ?: '(No Subject)',
             $this->body,
             $attachmentPaths,
-            $this->getId()
+            $this->getId(),
+            [], // no csv data for resend from details
+            \Illuminate\Support\Facades\Auth::user()?->name,
+            \Illuminate\Support\Facades\Auth::user()?->email
         );
 
         $this->sendingEmailId = $newEmail->id;

@@ -26,6 +26,8 @@ class SendBulkEmail implements ShouldQueue
         public array $attachmentPaths,
         public string $livewireId,
         public array $csvData = [], // keyed by email => row data
+        public ?string $fromName = null,
+        public ?string $replyToEmail = null,
     ) {}
 
     public function handle(): void
@@ -47,7 +49,7 @@ class SendBulkEmail implements ShouldQueue
                 // Strip any unresolved tags
                 $resolvedBody = preg_replace('/\{\{\w+\}\}/', '', $resolvedBody);
 
-                $mailable = new BulkEmail($this->subject, $resolvedBody);
+                $mailable = new BulkEmail($this->subject, $resolvedBody, $this->fromName, $this->replyToEmail);
 
                 foreach ($this->attachmentPaths as $path) {
                     $mailable->attach(storage_path('app/public/' . $path['path']), [
