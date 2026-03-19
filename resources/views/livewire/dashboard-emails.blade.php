@@ -31,72 +31,7 @@
     <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between p-2 flex-shrink-0">
         {{-- Left group: Filter + Search + Export + Delete All --}}
         <div class="flex items-center gap-2 w-full md:w-auto">
-            <div class="dropdown dropdown-bottom shrink-0">
-                <button tabindex="0" type="button" class="btn md:w-36 border-2 border-black rounded-xl hover-clr-bg-accent">
-                    <x-icons.sort class="w-4 h-4 inline-block" /> Filter
-                </button>
-                <div tabindex="-1" class="dropdown-content z-50 mt-2 w-[22rem] max-w-[90vw] rounded-2xl bg-base-100 p-4 shadow-xl border border-base-200">
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="font-semibold">Filters</div>
-                        <button type="button" wire:click="resetFilters" class="btn btn-ghost btn-sm">Reset</button>
-                    </div>
-
-                    <div class="space-y-4">
-                        {{-- Sort --}}
-                        <div>
-                            <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Sort</div>
-                            <div class="space-y-2">
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" class="radio radio-sm" wire:model.live="sortBy" value="subject_asc" />
-                                    <span class="text-sm">Alphabetical (A → Z)</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" class="radio radio-sm" wire:model.live="sortBy" value="subject_desc" />
-                                    <span class="text-sm">Alphabetical (Z → A)</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" class="radio radio-sm" wire:model.live="sortBy" value="date_desc" />
-                                    <span class="text-sm">Date (Newest first)</span>
-                                </label>
-                                <label class="flex items-center gap-2 cursor-pointer">
-                                    <input type="radio" class="radio radio-sm" wire:model.live="sortBy" value="date_asc" />
-                                    <span class="text-sm">Date (Oldest first)</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        {{-- Date --}}
-                        <div>
-                            <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Date</div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <label class="form-control w-full">
-                                    <span class="label-text text-xs text-gray-500">From</span>
-                                    <input type="date" class="input input-sm input-bordered w-full" wire:model.live="dateFrom" />
-                                </label>
-                                <label class="form-control w-full">
-                                    <span class="label-text text-xs text-gray-500">To</span>
-                                    <input type="date" class="input input-sm input-bordered w-full" wire:model.live="dateTo" />
-                                </label>
-                            </div>
-                        </div>
-
-                        {{-- Recipients --}}
-                        <div>
-                            <div class="text-xs uppercase tracking-widest text-gray-400 mb-2">Recipients</div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <label class="form-control w-full">
-                                    <span class="label-text text-xs text-gray-500">Min</span>
-                                    <input type="number" min="0" inputmode="numeric" class="input input-sm input-bordered w-full" wire:model.live="recipientsMin" placeholder="0" />
-                                </label>
-                                <label class="form-control w-full">
-                                    <span class="label-text text-xs text-gray-500">Max</span>
-                                    <input type="number" min="0" inputmode="numeric" class="input input-sm input-bordered w-full" wire:model.live="recipientsMax" placeholder="100" />
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-email-filters />
             <label class="input focus-within:outline-none bg-transparent focus-within:border-base-300 w-full md:w-56">
                 <input wire:model.live.debounce.300ms="search" class="bg-transparent focus:outline-none rounded-xl w-full" type="search" placeholder="Search" />
             </label>
@@ -147,13 +82,19 @@
                     </div>
                     <div x-show="expanded" x-transition class="px-4 pb-4 pt-0">
                         <div class="space-y-2 text-sm">
+                            @if(Auth::user()?->is_admin)
+                                <p>
+                                    <span class="text-gray-500 font-medium">Sender:</span>
+                                    {{ $email->user->name ?? 'Unknown' }}
+                                </p>
+                            @endif
                             <p><span class="text-gray-500 font-medium">Recipients:</span> {{ $email->recipients_sent_count ?? 0 }}/{{ $email->recipients_count }} recipient{{ $email->recipients_count !== 1 ? 's' : '' }}</p>
                             <p><span class="text-gray-500 font-medium">Status:</span> <span class="badge badge-sm {{ $email->status === 'sent' ? 'badge-success' : 'badge-error' }}">{{ ucfirst($email->status) }}</span></p>
                             <p><span class="text-gray-500 font-medium">Date:</span> {{ $email->created_at->timezone('Asia/Manila')->format('M d, Y h:i A') }}</p>
                             <div class="flex gap-2 mt-2">
                                 <a href="{{ route('recepients.show', $email->id) }}" class="btn btn-sm clr-bg-accent text-base-100 flex-1">View</a>
                                 <button type="button" @click="confirmId = {{ $email->id }}" class="btn btn-sm btn-error text-white flex-1 gap-1">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
                                     Delete
                                 </button>
                             </div>
@@ -173,6 +114,9 @@
                     <th>
                         <input type="checkbox" class="checkbox checkbox-sm focus:ring-0" wire:model.live="selectAll" />
                     </th>
+                    @if(Auth::user()?->is_admin)
+                        <th class="font-bold">Sender</th>
+                    @endif
                     <th class="font-bold">Subject</th>
                     <th class="font-bold">Recipients</th>
                     <th class="font-bold">Status</th>
@@ -187,6 +131,11 @@
                                 <input type="checkbox" class="checkbox checkbox-sm focus:ring-0"
                                        wire:model.live="selectedIds" value="{{ $email->id }}" onclick="event.stopPropagation()" />
                             </th>
+                            @if(Auth::user()?->is_admin)
+                                <td class="cursor-pointer" onclick="window.location='{{ route('recepients.show', $email->id) }}'">
+                                    <span class="text-sm text-gray-600">{{ $email->user->name ?? 'Unknown' }}</span>
+                                </td>
+                            @endif
                             <td class="cursor-pointer" onclick="window.location='{{ route('recepients.show', $email->id) }}'">
                                 <span>{{ $email->subject }}</span>
                             </td>
@@ -205,13 +154,13 @@
                                 <button type="button" @click="confirmId = {{ $email->id }}"
                                         class="btn btn-ghost btn-sm text-error hover:bg-error/10 rounded-lg"
                                         title="Move to Archive">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg>
                                 </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-gray-400 italic py-6">{{ $search ? 'No emails found.' : 'No emails sent yet.' }}</td>
+                            <td colspan="{{ Auth::user()?->is_admin ? 7 : 6 }}" class="text-center text-gray-400 italic py-6">{{ $search ? 'No emails found.' : 'No emails sent yet.' }}</td>
                         </tr>
                     @endforelse
                 </tbody>

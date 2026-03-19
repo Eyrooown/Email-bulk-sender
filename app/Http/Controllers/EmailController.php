@@ -53,7 +53,9 @@ class EmailController extends Controller
             try {
                 $mailable = new BulkEmail(
                     $request->subject ?? '(No Subject)',
-                    $request->body
+                    $request->body,
+                    Auth::user()?->name,
+                    Auth::user()?->email
                 );
 
                 // Attach files if any

@@ -30,6 +30,7 @@
     {{-- Top bar --}}
     <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between p-2 flex-shrink-0">
         <div class="flex items-center gap-2 w-full md:w-auto">
+            <x-email-filters buttonLabel="Filter" title="Archive Filters" />
             <label class="input focus-within:outline-none bg-transparent focus-within:border-base-300 w-full md:w-56">
                 <input wire:model.live.debounce.300ms="search" class="bg-transparent focus:outline-none rounded-xl w-full" type="search" placeholder="Search archive..." />
             </label>
