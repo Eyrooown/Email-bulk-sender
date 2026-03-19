@@ -82,6 +82,12 @@
                     </div>
                     <div x-show="expanded" x-transition class="px-4 pb-4 pt-0">
                         <div class="space-y-2 text-sm">
+                            @if(Auth::user()?->is_admin)
+                                <p>
+                                    <span class="text-gray-500 font-medium">Sender:</span>
+                                    {{ $email->user->name ?? 'Unknown' }}
+                                </p>
+                            @endif
                             <p><span class="text-gray-500 font-medium">Recipients:</span> {{ $email->recipients_sent_count ?? 0 }}/{{ $email->recipients_count }} recipient{{ $email->recipients_count !== 1 ? 's' : '' }}</p>
                             <p><span class="text-gray-500 font-medium">Status:</span> <span class="badge badge-sm {{ $email->status === 'sent' ? 'badge-success' : 'badge-error' }}">{{ ucfirst($email->status) }}</span></p>
                             <p><span class="text-gray-500 font-medium">Date:</span> {{ $email->created_at->timezone('Asia/Manila')->format('M d, Y h:i A') }}</p>
@@ -108,6 +114,9 @@
                     <th>
                         <input type="checkbox" class="checkbox checkbox-sm focus:ring-0" wire:model.live="selectAll" />
                     </th>
+                    @if(Auth::user()?->is_admin)
+                        <th class="font-bold">Sender</th>
+                    @endif
                     <th class="font-bold">Subject</th>
                     <th class="font-bold">Recipients</th>
                     <th class="font-bold">Status</th>
@@ -122,6 +131,11 @@
                                 <input type="checkbox" class="checkbox checkbox-sm focus:ring-0"
                                        wire:model.live="selectedIds" value="{{ $email->id }}" onclick="event.stopPropagation()" />
                             </th>
+                            @if(Auth::user()?->is_admin)
+                                <td class="cursor-pointer" onclick="window.location='{{ route('recepients.show', $email->id) }}'">
+                                    <span class="text-sm text-gray-600">{{ $email->user->name ?? 'Unknown' }}</span>
+                                </td>
+                            @endif
                             <td class="cursor-pointer" onclick="window.location='{{ route('recepients.show', $email->id) }}'">
                                 <span>{{ $email->subject }}</span>
                             </td>
@@ -146,7 +160,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-gray-400 italic py-6">{{ $search ? 'No emails found.' : 'No emails sent yet.' }}</td>
+                            <td colspan="{{ Auth::user()?->is_admin ? 7 : 6 }}" class="text-center text-gray-400 italic py-6">{{ $search ? 'No emails found.' : 'No emails sent yet.' }}</td>
                         </tr>
                     @endforelse
                 </tbody>

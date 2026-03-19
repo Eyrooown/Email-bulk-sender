@@ -61,28 +61,43 @@ class DashboardEmails extends Component
 
     public function deleteEmail(int $id): void
     {
-        $email = Email::where('user_id', Auth::id())->findOrFail($id);
+        $query = Email::query();
+
+        if (!Auth::user()?->is_admin) {
+            $query->where('user_id', Auth::id());
+        }
+
+        $email = $query->findOrFail($id);
         $email->delete();
         $this->selectedIds = array_filter($this->selectedIds, fn ($i) => (int) $i !== $id);
     }
 
     public function deleteSelected(): void
     {
-        Email::where('user_id', Auth::id())
-            ->whereIn('id', $this->selectedIds)
-            ->delete();
+        $query = Email::query();
+
+        if (!Auth::user()?->is_admin) {
+            $query->where('user_id', Auth::id());
+        }
+
+        $query->whereIn('id', $this->selectedIds)->delete();
         $this->selectedIds = [];
         $this->selectAll = false;
     }
 
     public function getEmailsProperty()
     {
-        $query = Email::where('user_id', Auth::id())
+        $query = Email::query()
             ->where('status', 'sent')
+            ->with('user:id,name,email')
             ->withCount([
                 'recipients',
                 'recipients as recipients_sent_count' => fn ($q) => $q->where('status', 'sent'),
             ]);
+
+        if (!Auth::user()?->is_admin) {
+            $query->where('user_id', Auth::id());
+        }
 
         if ($this->search) {
             $query->where(function ($q) {

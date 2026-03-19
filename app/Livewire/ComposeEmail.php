@@ -394,7 +394,9 @@ class ComposeEmail extends Component
             $this->body,
             $attachmentPaths,
             $this->getId(),
-            $this->csvData
+            $this->csvData,
+            Auth::user()?->name,
+            Auth::user()?->email
         );
 
         $this->dispatch('startProgressToast', emailId: $email->id, total: count($this->recipients))->to(SendingProgressToast::class);

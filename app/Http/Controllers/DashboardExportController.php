@@ -14,9 +14,14 @@ class DashboardExportController extends Controller
 {
     protected function getEmailsForExport(Request $request)
     {
-        $query = Email::where('user_id', Auth::id())
+        $query = Email::query()
             ->where('status', 'sent')
+            ->with('user:id,name,email')
             ->withCount('recipients');
+
+        if (!Auth::user()?->is_admin) {
+            $query->where('user_id', Auth::id());
+        }
 
         $from = $request->query('from');
         $to = $request->query('to');
@@ -55,7 +60,11 @@ class DashboardExportController extends Controller
         $emails = $this->getEmailsForExport($request);
         $filename = 'emails-' . now()->timezone('Asia/Manila')->format('Y-m-d') . '.xlsx';
 
-        return Excel::download(new EmailsExport($emails), $filename, \Maatwebsite\Excel\Excel::XLSX);
+        return Excel::download(
+            new EmailsExport($emails, Auth::user()?->is_admin === true),
+            $filename,
+            \Maatwebsite\Excel\Excel::XLSX
+        );
     }
 
     public function pdf(Request $request)
@@ -63,7 +72,10 @@ class DashboardExportController extends Controller
         $emails = $this->getEmailsForExport($request);
         $filename = 'emails-' . now()->timezone('Asia/Manila')->format('Y-m-d') . '.pdf';
 
-        $pdf = Pdf::loadView('exports.emails-pdf', ['emails' => $emails])
+        $pdf = Pdf::loadView('exports.emails-pdf', [
+            'emails' => $emails,
+            'includeSender' => Auth::user()?->is_admin === true,
+        ])
             ->setPaper('a4', 'landscape');
 
         return response()->streamDownload(
