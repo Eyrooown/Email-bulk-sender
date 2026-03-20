@@ -60,6 +60,12 @@
             <span class="hidden group-hover:block">Archive</span>
             </a>
 
+            <a href="{{ route('proposal') }}"
+            class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('proposal') ? 'focus-clr-accent' : 'text-white' }} hover-clr-accent">
+            <x-icons.proposal classes="w-6 h-6" />
+            <span class="hidden group-hover:block">Proposal</span>
+            </a>
+
             @if(Auth::user()?->is_admin)
             <a href="{{ route('accounts') }}"
             class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('accounts') ? 'focus-clr-accent' : '' }} hover-clr-accent">

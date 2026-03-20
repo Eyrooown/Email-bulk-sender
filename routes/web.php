@@ -25,6 +25,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/archive', function () {
         return view('archive');
     })->name('archive');
+    Route::get('/proposal', function () {
+        return view('proposal');
+    })->name('proposal');
 
     Route::get('/accounts', function () {
         abort_unless(auth()->user()?->is_admin, 403);
