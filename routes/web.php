@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardExportController;
+use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\ProposalExportController;
+use App\Livewire\ProposalEditor;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmailController;
 
@@ -25,9 +28,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/archive', function () {
         return view('archive');
     })->name('archive');
-    Route::get('/proposal', function () {
-        return view('proposal');
-    })->name('proposal');
+    Route::get('/proposal', [ProposalController::class, 'index'])->name('proposal');
+    Route::post('/proposal', [ProposalController::class, 'store'])->name('proposal.store');
+    Route::get('/proposal/{proposal}/edit', ProposalEditor::class)->name('proposal.edit');
+    Route::delete('/proposal/{proposal}', [ProposalController::class, 'destroy'])->name('proposal.destroy');
+    Route::get('/proposal/{proposal}/export/pdf', [ProposalExportController::class, 'pdf'])->name('proposal.export.pdf');
 
     Route::get('/accounts', function () {
         abort_unless(auth()->user()?->is_admin, 403);
