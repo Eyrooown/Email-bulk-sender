@@ -34,6 +34,11 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/proposal/{proposal}', [ProposalController::class, 'destroy'])->name('proposal.destroy');
     Route::get('/proposal/{proposal}/export/pdf', [ProposalExportController::class, 'pdf'])->name('proposal.export.pdf');
 
+    /** Isolated test page for ProposalSlide Livewire (not wired to proposal editor). */
+    Route::get('/proposal-slide-test', function () {
+        return view('proposal-slide-test');
+    })->name('proposal-slide.test');
+
     Route::get('/accounts', function () {
         abort_unless(auth()->user()?->is_admin, 403);
         return view('accounts');

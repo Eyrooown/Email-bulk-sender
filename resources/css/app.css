@@ -62,7 +62,7 @@ input[type="checkbox"].checkbox:indeterminate,
 }
 
 .primary {
-    --color-primary: 
+    --color-primary:
 ;
 }
 
@@ -147,4 +147,12 @@ input[type="checkbox"].checkbox:indeterminate,
 
 .hover-clr-bg-accent:hover {
     background-color: #ed1c24;
+}
+
+.clr-txt-secondary {
+    color: #205375;
+}
+
+.clr-bg-light {
+    background-color: #d5d5d5;
 }
