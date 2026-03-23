@@ -114,3 +114,60 @@
             </div>
         </div>
     </div>
+
+    {{-- First Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm">
+
+        {{-- Left dark bar --}}
+        <div class="w-32 clr-primary shrink-0"></div>
+
+        {{-- Content --}}
+        <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
+
+            {{-- Header --}}
+            <div class="flex justify-between items-center">
+                <div class="flex flex-row items-center gap-4">
+                    <x-logo />
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex flex-row justify-center items-center">
+                        <h1 class="text-6xl clr-txt-secondary mt-6">OUR STRATEGY</h1>
+                        <x-circles />
+                    </div>
+                    <div class="">
+                        <hr class="w-3/4 border-2 border-clr-primary mt-10">
+                    </div>
+                </div>
+            </div>
+
+            {{-- Body --}}
+            <div class="flex flex-row gap-8 justify-between">
+                <div class="flex flex-col flex-1">
+                    <h1 class="font-bold text-7xl clr-txt-primary">Who is <br>Odecci?</h1>
+                    <br>
+                    <p class="clr-txt-primary mt-10">
+                        Odecci Solutions Inc. is a software <br>
+                        development company that provides <br>
+                        comprehensive software development <br>
+                        services and focuses on end-to-end digital <br>
+                        solutions that empower businesses to <br>
+                        streamline and enhance their operations.
+                    </p>
+                    <br>
+                    <p class="clr-txt-primary">
+                        The company’s goal is to help businesses by <br>
+                        providing quality and efficient digital solutions <br>
+                        that enable them to excel in their industry.
+                    </p>
+                    <br>
+                    <p>
+                        Visit our website: <a href="https://odecci.com/" class="underline decoration-solid">www.odecci.com</a> to learn <br>more
+                    </p>
+                </div>
+                <div class="flex flex-1 flex-row justify-center items-center">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
