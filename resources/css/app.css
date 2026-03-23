@@ -156,3 +156,11 @@ input[type="checkbox"].checkbox:indeterminate,
 .clr-bg-light {
     background-color: #d5d5d5;
 }
+
+.clr-txt-light {
+    color: #f0efef;
+}
+
+.border-clr-primary {
+    border-color: #102b3c;
+}

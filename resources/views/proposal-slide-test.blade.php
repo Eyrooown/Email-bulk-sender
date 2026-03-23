@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="w-full">
+    <div class="w-full overflow-y-auto">
         <livewire:proposal-slide/>
     </div>
 </x-app-layout>

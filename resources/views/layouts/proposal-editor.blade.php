@@ -6,12 +6,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>{{ $proposal->title ?? 'Proposal Editor' }}</title>
 
-    @php
-        $manifestPath = public_path('build/manifest.json');
-    @endphp
-    @if(file_exists($manifestPath))
+    @if(app()->environment('production'))
         @php
-            $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
+            $manifestPath = public_path('build/manifest.json');
+            $manifest = file_exists($manifestPath) ? (json_decode(file_get_contents($manifestPath), true) ?? []) : [];
         @endphp
         @if(!empty($manifest['resources/css/app.css']['file']))
             <link rel="stylesheet" href="{{ asset('build/'.$manifest['resources/css/app.css']['file']) }}">

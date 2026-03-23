@@ -8,23 +8,20 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    @if(app()->environment('production'))
         @php
-            $useBuildOnNetwork = !app()->environment('production') && !in_array(request()->getHost(), ['localhost', '127.0.0.1'], true);
             $manifestPath = public_path('build/manifest.json');
+            $manifest = file_exists($manifestPath) ? (json_decode(file_get_contents($manifestPath), true) ?? []) : [];
         @endphp
-        @if($useBuildOnNetwork && file_exists($manifestPath))
-            @php
-                $manifest = json_decode(file_get_contents($manifestPath), true) ?? [];
-            @endphp
-            @if(!empty($manifest['resources/css/app.css']['file']))
-                <link rel="stylesheet" href="{{ asset('build/'.$manifest['resources/css/app.css']['file']) }}">
-            @endif
-            @if(!empty($manifest['resources/js/app.js']['file']))
-                <script type="module" src="{{ asset('build/'.$manifest['resources/js/app.js']['file']) }}"></script>
-            @endif
-        @else
-            @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @if(!empty($manifest['resources/css/app.css']['file']))
+            <link rel="stylesheet" href="{{ asset('build/'.$manifest['resources/css/app.css']['file']) }}">
         @endif
+        @if(!empty($manifest['resources/js/app.js']['file']))
+            <script type="module" src="{{ asset('build/'.$manifest['resources/js/app.js']['file']) }}"></script>
+        @endif
+    @else
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
 </head>
 <body class="font-sans antialiased">
 
