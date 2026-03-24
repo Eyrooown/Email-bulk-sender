@@ -511,6 +511,8 @@
 {{-- Toast --}}
 @if ($showToast)
     <div
+        x-data
+        x-init="setTimeout(() => $wire.dismissToast(), 4000)"
         class="fixed bottom-8 right-8 z-50 bg-gray-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
         <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
             <svg class="w-3 h-3" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"

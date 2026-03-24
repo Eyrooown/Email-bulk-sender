@@ -12,20 +12,28 @@ class BulkEmail extends Mailable
 
     public string $emailBody;
     public string $emailSubject;
+    public ?string $fromAddress;
     public ?string $fromName;
     public ?string $replyToEmail;
 
-    public function __construct(string $subject, string $body, ?string $fromName = null, ?string $replyToEmail = null)
+    public function __construct(
+        string $subject,
+        string $body,
+        ?string $fromAddress = null,
+        ?string $fromName = null,
+        ?string $replyToEmail = null
+    )
     {
         $this->emailSubject = $subject;
         $this->emailBody = $body;
+        $this->fromAddress = $fromAddress;
         $this->fromName = $fromName;
         $this->replyToEmail = $replyToEmail;
     }
 
     public function build()
     {
-        $fromAddress = config('mail.from.address');
+        $fromAddress = $this->fromAddress ?: config('mail.from.address');
         $effectiveFromName = $this->fromName ?: config('mail.from.name');
 
         $mail = $this->from($fromAddress, $effectiveFromName)
