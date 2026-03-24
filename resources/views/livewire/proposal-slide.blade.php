@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    {{-- First Page --}}
+    {{-- Third Page --}}
     <div class="flex w-full aspect-video bg-white shadow-sm">
 
         {{-- Left dark bar --}}
@@ -141,9 +141,9 @@
             </div>
 
             {{-- Body --}}
-            <div class="flex flex-row gap-8 justify-between">
+            <div class="flex flex-row justify-between">
                 <div class="flex flex-col flex-1">
-                    <h1 class="font-bold text-7xl clr-txt-primary">Who is <br>Odecci?</h1>
+                    <h1 class="font-medium text-7xl clr-txt-primary">Who is <br>Odecci?</h1>
                     <br>
                     <p class="clr-txt-primary mt-10">
                         Odecci Solutions Inc. is a software <br>
@@ -165,8 +165,80 @@
                     </p>
                 </div>
                 <div class="flex flex-1 flex-row justify-center items-center">
-
+                    <div class="grid grid-cols-2 grid-rows-3 gap-20">
+                        <div class="flex flex-row justify-center items-center gap-4">
+                            <div class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                <x-icons.diamond class="w-6 h-6"/>
+                            </div>
+                            <p class="clr-txt-secondary font-bold text-xl">Client-Centric Solutions</p>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-4">
+                            <div class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                <x-icons.paperplane class="w-6 h-6"/>
+                            </div>
+                            <p class="clr-txt-secondary font-bold text-xl">Data-Driven Decision Making</p>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-4">
+                            <div class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                <x-icons.chart class="w-6 h-6"/>
+                            </div>
+                            <p class="clr-txt-secondary font-bold text-xl">Agile Development</p>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-4">
+                            <div class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                <x-icons.calendar-check class="w-6 h-6"/>
+                            </div>
+                            <p class="clr-txt-secondary font-bold text-xl">Sustainable Growth</p>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-4">
+                            <div class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                <x-icons.bulb class="w-10 h-10"/>
+                            </div>
+                            <p class="clr-txt-secondary font-bold text-xl">Collaborative Partnership</p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Fourth Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm">
+
+        {{-- Left dark bar --}}
+        <div class="w-32 clr-primary shrink-0"></div>
+
+        {{-- Content --}}
+        <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
+
+            {{-- Header --}}
+            <div class="flex justify-between items-center">
+                <div class="flex flex-row items-center gap-4">
+                    <x-logo />
+                    <div class="w-px h-12 clr-primary shrink-0"></div>
+                    <p class="text-lg clr-txt-secondary">Your Partner Towards Digital Innovation</p>
+                </div>
+                <x-circles />
+            </div>
+
+            {{-- Body --}}
+            <div class="flex flex-row flex-1 gap-8">
+
+                {{-- Thin vertical line --}}
+                <div class="w-px clr-primary shrink-0"></div>
+
+                {{-- Title text --}}
+                <div class="flex flex-col justify-center gap-2">
+                    <p class="text-7xl font-bold clr-txt-primary">WEBSITE</p>
+                    <p class="text-7xl font-normal clr-txt-primary">DEVELOPMENT</p>
+                    <p class="text-7xl font-extralight clr-txt-secondary">PROPOSAL</p>
+                </div>
+
+                {{-- Icon --}}
+                <div class="flex flex-1 justify-center items-center">
+                    <img src="{{ asset('images/icon-dark.png') }}" alt="Icon" class="h-3/4 w-auto" />
+                </div>
+
             </div>
         </div>
     </div>
