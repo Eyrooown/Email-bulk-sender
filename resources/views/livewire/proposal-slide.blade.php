@@ -242,8 +242,8 @@
             </div>
 
             {{-- Body --}}
-            <div class="flex flex-row flex-1 gap-8">
-                <div class="flex flex-col flex-1 clr-primary rounded-lg text-base-100 p-8 min-h-96">
+            <div class="grid grid-cols-5 gap-8 w-full flex-1 min-w-0">
+                <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
                         <x-icons.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-white">
@@ -254,7 +254,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col flex-1 bg-white rounded-lg clr-txt-primary p-8 min-h-96">
+                <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
                         <x-icons.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-clr-primary">
@@ -265,7 +265,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col flex-1 clr-primary rounded-lg text-base-100 p-8 min-h-96">
+                <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
                         <x-icons.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-white">
@@ -275,7 +275,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col flex-1 bg-white rounded-lg clr-txt-primary p-8 min-h-96">
+                <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
                         <x-icons.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-clr-primary">
@@ -286,7 +286,7 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col flex-1 clr-primary rounded-lg text-base-100 p-8 min-h-96">
+                <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
                         <x-icons.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-white">
