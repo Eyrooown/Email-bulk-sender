@@ -336,7 +336,6 @@ class ComposeEmail extends Component
             $this->addError('body', 'Please write something before sending.');
             return;
         }
-
         $this->sendTotal = count($this->recipients);
         $this->sendCurrent = 0;
         $this->showOverlay = true;
@@ -395,6 +394,9 @@ class ComposeEmail extends Component
             $attachmentPaths,
             $this->getId(),
             $this->csvData,
+            null,
+            null,
+            null,
             Auth::user()?->name,
             Auth::user()?->email
         );

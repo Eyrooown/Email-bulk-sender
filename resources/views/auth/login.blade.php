@@ -14,7 +14,16 @@
             <form class="items-center justify-center" method="POST" action="{{ route('login') }}" class="w-full">
                 @csrf
 
+                @error('email')
+                    <div x-data="{ show: true }" x-show="show" x-transition
+                        x-init="setTimeout(() => show = false, 4000)"
+                        class="w-full mb-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                        {{ $message }}
+                    </div>
+                @enderror
+
                 <input type="text" name="email" placeholder="Username"
+                    value="{{ old('email') }}"
                     class="input input-bordered w-full mb-3 rounded-lg" required />
 
 

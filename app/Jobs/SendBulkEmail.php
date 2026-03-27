@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 
 class SendBulkEmail implements ShouldQueue
@@ -26,6 +27,9 @@ class SendBulkEmail implements ShouldQueue
         public array $attachmentPaths,
         public string $livewireId,
         public array $csvData = [], // keyed by email => row data
+        public ?string $smtpUsername = null,
+        public ?string $smtpPassword = null,
+        public ?string $fromAddress = null,
         public ?string $fromName = null,
         public ?string $replyToEmail = null,
     ) {}
@@ -35,21 +39,36 @@ class SendBulkEmail implements ShouldQueue
         $total = count($this->recipients);
 
         $templateBody = $this->body;
+        $effectiveSmtpUsername = $this->smtpUsername ?: config('mail.mailers.smtp.username');
+        if (!empty($effectiveSmtpUsername)) {
+            Config::set('mail.mailers.smtp.username', $effectiveSmtpUsername);
+        }
+        Mail::purge('smtp');
 
         foreach ($this->recipients as $index => $recipient) {
             try {
                 // Per-recipient merge-tag resolution
                 $resolvedBody = $templateBody;
-                $row = $this->csvData[$recipient] ?? [];
-
+                $row = $this->findRowDataForRecipient($recipient);
+                $normalizedRow = [];
                 foreach ($row as $column => $value) {
-                    $resolvedBody = str_replace('{{' . $column . '}}', $value, $resolvedBody);
+                    $normalizedRow[$this->normalizeMergeKey((string) $column)] = (string) $value;
                 }
 
-                // Strip any unresolved tags
-                $resolvedBody = preg_replace('/\{\{\w+\}\}/', '', $resolvedBody);
+                $resolvedBody = preg_replace_callback('/\{\{\s*(.*?)\s*\}\}/u', function ($matches) use ($normalizedRow) {
+                    $rawKey = (string) ($matches[1] ?? '');
+                    $normalizedKey = $this->normalizeMergeKey($rawKey);
 
-                $mailable = new BulkEmail($this->subject, $resolvedBody, $this->fromName, $this->replyToEmail);
+                    return $normalizedRow[$normalizedKey] ?? '';
+                }, $resolvedBody);
+
+                $mailable = new BulkEmail(
+                    $this->subject,
+                    $resolvedBody,
+                    $this->fromAddress,
+                    $this->fromName,
+                    $this->replyToEmail
+                );
 
                 foreach ($this->attachmentPaths as $path) {
                     $mailable->attach(storage_path('app/public/' . $path['path']), [
@@ -89,5 +108,28 @@ class SendBulkEmail implements ShouldQueue
             'total' => $total,
             'currentEmail' => 'done',
         ], 300);
+    }
+
+    private function findRowDataForRecipient(string $recipient): array
+    {
+        if (isset($this->csvData[$recipient]) && is_array($this->csvData[$recipient])) {
+            return $this->csvData[$recipient];
+        }
+
+        $recipientLower = strtolower(trim($recipient));
+        foreach ($this->csvData as $email => $row) {
+            if (strtolower(trim((string) $email)) === $recipientLower && is_array($row)) {
+                return $row;
+            }
+        }
+
+        return [];
+    }
+
+    private function normalizeMergeKey(string $key): string
+    {
+        $key = preg_replace('/\s+/u', ' ', trim($key)) ?? trim($key);
+
+        return strtolower($key);
     }
 }

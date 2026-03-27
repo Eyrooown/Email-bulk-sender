@@ -54,6 +54,7 @@ class EmailController extends Controller
                 $mailable = new BulkEmail(
                     $request->subject ?? '(No Subject)',
                     $request->body,
+                    null,
                     Auth::user()?->name,
                     Auth::user()?->email
                 );
