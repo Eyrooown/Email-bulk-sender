@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\BulkEmail;
 use App\Models\Email;
-use App\Models\EmailRecipient;
 use App\Models\EmailAttachment;
+use App\Models\EmailRecipient;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\BulkEmail;
 
 class EmailController extends Controller
 {
@@ -26,17 +25,18 @@ class EmailController extends Controller
     public function show(Email $email)
     {
         $email->load('recipients', 'attachments');
+
         return view('recepients', compact('email'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'subject'       => 'required|string|max:255',
-            'body'          => 'required|string',
-            'recipients'    => 'required|array|min:1',
-            'recipients.*'  => 'email',
-            'attachments'   => 'nullable|array',
+            'subject' => 'required|string|max:255',
+            'body' => 'required|string',
+            'recipients' => 'required|array|min:1',
+            'recipients.*' => 'email',
+            'attachments' => 'nullable|array',
             'attachments.*' => 'file|max:10240',
         ]);
 
@@ -44,26 +44,26 @@ class EmailController extends Controller
         $email = Email::create([
             'user_id' => Auth::id(),
             'subject' => $request->subject ?? '(No Subject)',
-            'body'    => $request->body,
-            'status'  => 'sent',
+            'body' => $request->body,
+            'status' => 'sent',
         ]);
 
         // Save recipients and send
         foreach ($request->recipients as $recipient) {
             try {
                 $mailable = new BulkEmail(
-                    $request->subject ?? '(No Subject)',
-                    $request->body,
-                    null,
-                    Auth::user()?->name,
-                    Auth::user()?->email
+                    subject: $request->subject ?? '(No Subject)',
+                    body: $request->body,
+                    fromAddress: Auth::user()?->email,   // ← was null before
+                    fromName: Auth::user()?->name,
+                    replyToEmail: Auth::user()?->email    // ← optional, keep if you want reply-to
                 );
 
                 // Attach files if any
                 if ($request->hasFile('attachments')) {
                     foreach ($request->file('attachments') as $file) {
                         $mailable->attach($file->getRealPath(), [
-                            'as'   => $file->getClientOriginalName(),
+                            'as' => $file->getClientOriginalName(),
                             'mime' => $file->getMimeType(),
                         ]);
                     }
@@ -73,15 +73,15 @@ class EmailController extends Controller
 
                 EmailRecipient::create([
                     'email_id' => $email->id,
-                    'email'    => $recipient,
-                    'status'   => 'sent',
+                    'email' => $recipient,
+                    'status' => 'sent',
                 ]);
 
             } catch (\Exception $e) {
                 EmailRecipient::create([
                     'email_id' => $email->id,
-                    'email'    => $recipient,
-                    'status'   => 'failed',
+                    'email' => $recipient,
+                    'status' => 'failed',
                 ]);
             }
         }
@@ -93,7 +93,7 @@ class EmailController extends Controller
                 EmailAttachment::create([
                     'email_id' => $email->id,
                     'filename' => $file->getClientOriginalName(),
-                    'path'     => $path,
+                    'path' => $path,
                 ]);
             }
         }

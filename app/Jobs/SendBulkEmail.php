@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendBulkEmail implements ShouldQueue
@@ -40,9 +41,15 @@ class SendBulkEmail implements ShouldQueue
 
         $templateBody = $this->body;
         $effectiveSmtpUsername = $this->smtpUsername ?: config('mail.mailers.smtp.username');
+        $effectiveSmtpPassword = $this->smtpPassword ?: config('mail.mailers.smtp.password');
+
         if (!empty($effectiveSmtpUsername)) {
             Config::set('mail.mailers.smtp.username', $effectiveSmtpUsername);
         }
+        if (!empty($effectiveSmtpPassword)) {
+            Config::set('mail.mailers.smtp.password', $effectiveSmtpPassword);
+        }
+
         Mail::purge('smtp');
 
         foreach ($this->recipients as $index => $recipient) {
@@ -85,7 +92,14 @@ class SendBulkEmail implements ShouldQueue
                 ]);
 
             } catch (\Exception $e) {
-                \Log::error('Failed: ' . $recipient . ' - ' . $e->getMessage());
+                Log::error('Bulk email send failed.', [
+                    'email_id' => $this->emailId,
+                    'recipient' => $recipient,
+                    'smtp_username' => $effectiveSmtpUsername,
+                    'from_address' => $this->fromAddress ?: config('mail.from.address'),
+                    'error' => $e->getMessage(),
+                    'hint' => 'SMTP authentication may fail if username does not match the configured MAIL_PASSWORD account or allowed alias policy.',
+                ]);
 
                 EmailRecipient::create([
                     'email_id' => $this->emailId,
