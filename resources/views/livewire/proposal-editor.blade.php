@@ -72,7 +72,17 @@
             @if ($addSlideMenuOpen)
                 <div wire:click.outside="$set('addSlideMenuOpen', false)"
                     class="absolute bottom-full left-0 right-0 mb-1 bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-xl z-50">
-                    @foreach (['title' => 'Title Slide', 'content' => 'Text & Content', 'two-col' => 'Two Columns', 'quote' => 'Quote', 'blank' => 'Blank'] as $layout => $label)
+                    @foreach ([
+                        'title' => 'Title Slide',
+                        'content' => 'Text & Content',
+                        'two-col' => 'Two Columns',
+                        'quote' => 'Quote',
+                        'blank' => 'Blank',
+                        'fixed-cover' => 'Fixed Cover (template)',
+                        'fixed-executive' => 'Fixed Executive (template)',
+                        'fixed-whois' => 'Fixed Who-is (template)',
+                        'fixed-strategy-cards' => 'Fixed Strategy Cards (template)',
+                    ] as $layout => $label)
                         <button type="button" wire:click="addSlide('{{ $layout }}')"
                             class="w-full text-left px-3 py-2 text-xs text-gray-300 hover:bg-gray-700 hover:text-white transition">
                             {{ $label }}
@@ -94,6 +104,23 @@
                     'author' => $author,
                     'col1' => $col1,
                     'col2' => $col2,
+                    'card1_title' => $cardTitles[1] ?? '',
+                    'card2_title' => $cardTitles[2] ?? '',
+                    'card3_title' => $cardTitles[3] ?? '',
+                    'card4_title' => $cardTitles[4] ?? '',
+                    'card5_title' => $cardTitles[5] ?? '',
+                    'card1_body' => $cardBodies[1] ?? '',
+                    'card2_body' => $cardBodies[2] ?? '',
+                    'card3_body' => $cardBodies[3] ?? '',
+                    'card4_body' => $cardBodies[4] ?? '',
+                    'card5_body' => $cardBodies[5] ?? '',
+                'tagline' => $tagline,
+                'line1' => $line1,
+                'line2' => $line2,
+                'line3' => $line3,
+                'top_heading' => $top_heading,
+                'website' => $website,
+                'bullets' => $bullets,
                 ]);
             @endphp
             <div class="w-full max-w-4xl">
@@ -178,6 +205,133 @@
                             class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                     </div>
                 @endif
+            @endif
+
+            @if ($layout === 'fixed-cover')
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Tagline</label>
+                        <input wire:model.live.debounce.400ms="tagline"
+                            type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Line 1</label>
+                        <input wire:model.live.debounce.400ms="line1"
+                            type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Line 2</label>
+                        <input wire:model.live.debounce.400ms="line2"
+                            type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                    </div>
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Line 3</label>
+                        <input wire:model.live.debounce.400ms="line3"
+                            type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                    </div>
+                </div>
+            @endif
+
+            @if ($layout === 'fixed-executive')
+                <div>
+                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Heading</label>
+                    <textarea wire:model.live.debounce.400ms="heading"
+                        rows="2"
+                        class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                </div>
+                <div class="mt-4">
+                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Body Text</label>
+                    <textarea wire:model.live.debounce.400ms="body"
+                        rows="7"
+                        class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                </div>
+            @endif
+
+            @if ($layout === 'fixed-whois')
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Top heading</label>
+                        <input wire:model.live.debounce.400ms="top_heading"
+                            type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Main heading</label>
+                        <textarea wire:model.live.debounce.400ms="heading"
+                            rows="2"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Body</label>
+                        <textarea wire:model.live.debounce.400ms="body"
+                            rows="7"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Website</label>
+                        <input wire:model.live.debounce.400ms="website"
+                            type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                    </div>
+
+                    <div class="pt-2 border-t border-gray-700">
+                        <div class="text-xs text-gray-400 font-semibold mb-2">Bullets (6 items)</div>
+                        @foreach (range(0, 5) as $idx)
+                            <div class="mt-2">
+                                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Bullet {{ $idx + 1 }}</label>
+                                <input wire:model.live.debounce.400ms="bullets.{{ $idx }}"
+                                    type="text"
+                                    class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
+            @if ($layout === 'fixed-strategy-cards')
+                <div class="space-y-3">
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Heading</label>
+                        <textarea wire:model.live.debounce.400ms="heading"
+                            rows="2"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-gray-400 font-medium mb-1.5 block">Subheading</label>
+                        <textarea wire:model.live.debounce.400ms="subheading"
+                            rows="3"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                    </div>
+
+                    @foreach (range(1, 5) as $i)
+                        @php
+                            $titleKey = "card{$i}_title";
+                            $bodyKey = "card{$i}_body";
+                        @endphp
+
+                        <div class="pt-2 border-t border-gray-700">
+                            <label class="text-xs text-gray-400 font-medium mb-1.5 block">Card {{ $i }} Title</label>
+                            <textarea
+                                wire:model.live.debounce.400ms="cardTitles.{{ $i }}"
+                                rows="2"
+                                class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+
+                            <label class="text-xs text-gray-400 font-medium mb-1.5 block mt-3">Card {{ $i }} Description</label>
+                            <textarea
+                                wire:model.live.debounce.400ms="cardBodies.{{ $i }}"
+                                rows="3"
+                                class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                        </div>
+                    @endforeach
+                </div>
             @endif
         </div>
     </aside>
