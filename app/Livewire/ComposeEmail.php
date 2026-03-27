@@ -396,7 +396,7 @@ class ComposeEmail extends Component
             $this->csvData,
             null,
             null,
-            null,
+            Auth::user()?->email,
             Auth::user()?->name,
             Auth::user()?->email
         );

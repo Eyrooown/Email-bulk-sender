@@ -3,6 +3,9 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailables\Address;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -31,19 +34,30 @@ class BulkEmail extends Mailable
         $this->replyToEmail = $replyToEmail;
     }
 
-    public function build()
+    public function envelope(): Envelope
     {
         $fromAddress = $this->fromAddress ?: config('mail.from.address');
         $effectiveFromName = $this->fromName ?: config('mail.from.name');
 
-        $mail = $this->from($fromAddress, $effectiveFromName)
-            ->subject($this->emailSubject)
-            ->view('emails.bulk');
-
+        $replyTo = [];
         if (!empty($this->replyToEmail)) {
-            $mail->replyTo($this->replyToEmail, $effectiveFromName);
+            $replyTo[] = new Address($this->replyToEmail, $effectiveFromName);
         }
 
-        return $mail;
+        return new Envelope(
+            from: new Address($fromAddress, $effectiveFromName),
+            replyTo: $replyTo,
+            subject: $this->emailSubject,
+        );
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.bulk',
+            with: [
+                'emailBody' => $this->emailBody,
+            ],
+        );
     }
 }
