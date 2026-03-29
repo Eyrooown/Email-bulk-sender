@@ -378,7 +378,8 @@
         </div>
     </div>
 
-    {{-- Sixth Page — Our Custom Solution --}}<div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    {{-- Sixth Page — Our Custom Solution --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
         <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
             {{-- Header --}}
@@ -467,4 +468,210 @@
 
         </div>
     </div>
-</div>
+
+    {{-- Seventh Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <x-scope-card
+            packageName="Basic Website Package"
+            idealFor="Small to Medium Businesses looking for a professional online presence without complexity."
+            revision="1 Design Revision"
+            :tags="['Tailored Design', '2 Weeks Delivery']"
+            benefit="What You'll Get"
+            :whatYouGet="[
+        ['title' => '1-3', 'desc' => 'Mobile Friendly Design'],
+        ['title' => 'Content Management System (CMS)', 'desc' => 'Effortless content updates and scalability.'],
+        ['title' => 'Basic SEO Setup', 'desc' => 'Improve search visibility and attract organic traffic.'],
+        ['title' => 'Google Analytics Integration', 'desc' => 'Track performance and user behavior for data-driven decisions.'],
+        ]"
+            :inclusions="[
+        ['title' => '1 Month Free Support', 'desc' => 'Post-launch assistance for smooth operations.'],
+        ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
+        ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
+        ['title' => '3 Personalized Business Email Addresses', 'desc' => 'Professional communication for your team.'],
+        ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
+        ['title' => 'Free Domain (.com) with SSL for 1 Year', 'desc' => 'Secure and professional online identity.'],
+        ['title' => 'Free CMS Training', 'desc' => '1-day, 2-hour live session to empower your team.'],
+        ]" />
+    </div>
+
+    {{-- Eighth Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <x-scope-card
+            packageName="Business Website Package"
+            idealFor="Scaling businesses that want their brand to stand out, increase traffic, 
+            and showcase products and services with a professional, feature-rich website."
+            revision="2 Design Revision"
+            :tags="['Tailored Design', '4 Weeks Delivery', 'CRM Integration']"
+            benefit="You'll Get All form basic plus:"
+            :whatYouGet="[
+        ['title' => '3-6', 'desc' => 'Mobile-Friendly Pages'],
+        ['title' => 'Products/Services Page', 'desc' => 'Highlight your offerings with engaging layouts.'],
+        ['title' => 'Blog & News Page', 'desc' => 'Share updates, insights, and boost SEO.'],
+        ['title' => 'Content Management System (CMS)', 'desc' => 'Easy content updates and scalability.'],
+        ['title' => 'CRM Integration (HubSpot)', 'desc' => 'Streamline customer relationship management.'],
+        ['title' => 'Advanced SEO Setup', 'desc' => 'Drive organic traffic and improve search rankings.'],
+        ]"
+            :inclusions="[
+        ['title' => '2 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
+        ['title' => 'Google Analytics Setup', 'desc' => 'Monitor performance and user behavior.'],
+        ['title' => 'Google Business Profile Setup', 'desc' => 'Strengthen your local presence.'],
+        ['title' => '5 Personalized Business Email Addresses', 'desc' => 'Professional communication 
+        for your team.'],
+        ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
+        ['title' => 'Free Domain (.com) with SSL for 1 Year', 'desc' => 'Secure and professional online identity.'],
+        ['title' => 'Free CMS Training', 'desc' => '2-days with 2-hour live session to empower your team.'],
+        ]" />
+    </div>
+
+    {{-- Ninth Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <x-scope-card
+            packageName="Online Store Website Package"
+            idealFor="Retailers, wholesalers, and brands that want to sell online with ease. This end- 
+            to-end eCommerce solution handles everything, from product display and 
+            secure payment processing to shipping and customer management, all in one 
+            powerful platform."
+            revision="3 Design Revision"
+            benefit="You'll Get All from basic and business plus:"
+            :tags="['Tailored Design', '8 Weeks Delivery', 'CRM Integration', 'Payment Integration']"
+            :whatYouGet="[
+        ['title' => 'Unlimited Mobile-Friendly Design', 'desc' => 'Fully responsive layouts for an 
+        exceptional user experience across all devices.'],  
+        ['title' => 'Full Inventory & Order Management', 'desc' => 'Manage stock, orders, and fulfillment 
+        seamlessly.'],
+        ['title' => 'Discounts, Coupons & Promotions', 'desc' => 'Engage customers with attractive offers.'],
+        ['title' => 'Cart + Checkout Page', 'desc' => 'Smooth and secure shopping experience.'],
+        ['title' => 'Maintainable Shipping Rates', 'desc' => 'Flexible shipping options for your customers.'],
+        ['title' => 'Online Payment Integration', 'desc' => 'Accept payments securely and conveniently.'],
+        ['title' => 'Customer Dashboard', 'desc' => 'Empower customers with account management tools.'],
+        ]"
+            :inclusions="[
+        ['title' => '3 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
+        ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
+        ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
+        ['title' => '10 Personalized Business Email Addresses', 'desc' => 'Professional communication for your team.'],
+        ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
+        ['title' => 'Free Domain (.com) with SSL for 1 Year', 'desc' => 'Secure and professional online identity.'],
+        ['title' => 'Free CMS Training', 'desc' => '3-days, 2-hour live session to empower your team.'],
+        ]" />
+    </div>
+
+    {{-- Tenth Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
+
+            {{-- Header --}}
+            <div class="flex justify-between items-start shrink-0 gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Terms And Condition</h1>
+                    <hr class="w-2/5 border-t border-clr-primary">
+                </div>
+                <x-circles />
+            </div>
+
+            {{-- Content --}}
+            <div class="flex flex-col gap-4 mt-1">
+
+                {{-- Payment Terms --}}
+                <div class="flex flex-col gap-2">
+                    <p class="text-sm font-bold clr-txt-primary">Payment Terms</p>
+
+                    {{-- Table --}}
+                    <table class="w-full text-sm border-collapse">
+                        <thead>
+                            <tr class="clr-primary text-white">
+                                <th class="text-left px-6 py-3 w-1/4 font-bold italic rounded-tl-md">Percentage</th>
+                                <th class="text-left px-6 py-3 font-bold italic rounded-tr-md">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-gray-100">
+                                <td class="px-6 py-3 italic clr-txt-primary text-sm">50% Downpayment</td>
+                                <td class="px-6 py-3 italic clr-txt-secondary text-sm">Upon contract signing</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-3 italic clr-txt-primary text-sm">50% Deployment</td>
+                                <td class="px-6 py-3 italic clr-txt-secondary text-sm">Upon turnover and project acceptance.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Terms and Condition --}}
+                <div class="flex flex-col gap-1.5">
+                    <p class="text-sm font-bold clr-txt-primary">Terms and Condition</p>
+                    <ul class="flex flex-col gap-1">
+                        <li class="text-sm clr-txt-secondary">• Any out-of-scope work will be billed separately.</li>
+                        <li class="text-sm clr-txt-secondary">• The billing invoice will be issued based on the accomplished milestone.</li>
+                    </ul>
+                </div>
+
+                {{-- Client Responsibilities --}}
+                <div class="flex flex-col gap-1.5">
+                    <p class="text-sm font-bold clr-txt-primary">Client Responsibilities:</p>
+                    <ul class="flex flex-col gap-1">
+                        <li class="text-sm clr-txt-secondary">• Client shall provide a person to be the main contact for the project</li>
+                        <li class="text-sm clr-txt-secondary">• The Client must supply content for updates (e.g., text, images, announcements).</li>
+                    </ul>
+                </div>
+
+                {{-- Limitation of Liability --}}
+                <div class="flex flex-col gap-1.5">
+                    <p class="text-sm font-bold clr-txt-primary">Limitation of Liability:</p>
+                    <ul class="flex flex-col gap-1">
+                        <li class="text-sm clr-txt-secondary">• The service provider should provide a progress report of the project every week.</li>
+                        <li class="text-sm clr-txt-secondary">• Liability is limited to the total contract value of the project.</li>
+                    </ul>
+                </div>
+
+                {{-- Execution of Service Level Agreement --}}
+                <div class="flex flex-col gap-1">
+                    <p class="text-sm font-bold clr-txt-primary">Execution of Service Level Agreement:</p>
+                    <p class="text-sm clr-txt-secondary leading-relaxed">
+                        Upon approval of this proposal, a detailed Service Level Agreement (SLA) will be executed to formalize the terms of service, ensuring clarity on the delivery, management, and support of the website throughout the contract period.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Eleventh Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
+
+            {{-- Header --}}
+            <div class="flex justify-between items-start shrink-0 gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Some of our Website Projects</h1>
+                    <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
+                </div>
+                <x-circles />
+            </div>
+            {{-- Content --}}
+            <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-1">
+                <a href="https://htms.com.ph/" target="_blank" class="w-full h-full">
+                    <img src="{{ asset('images/htms.png') }}" href="https://htms.com.ph/" alt="HTMS Website" class="w-full h-auto rounded-lg shadow-md">
+                </a>
+                <a href="https://yskprojdev.ph/" target="_blank" class="w-full h-full">
+                    <img src="{{ asset('images/ysk.png') }}" href="https://yskprojdev.ph/" alt="Project 2" class="w-full h-auto rounded-lg shadow-md">
+                </a>
+                <a href="https://srresidencesalmouj.com/" target="_blank" class="w-full h-full">
+                    <img src="{{ asset('images/st-regis.png') }}" href="https://srresidencesalmouj.com/" alt="Project 3" class="w-full h-auto rounded-lg shadow-md">
+                </a>
+                <a href="https://odecci.com/odecci-portfolio/" target="_blank" class="flex items-center justify-center w-full h-full bg-clr-primary text-primary underline font-bold rounded-lg shadow-md hover:bg-clr-primary-hover transition-colors duration-300">
+                    View Our Portfolio >>
+                </a>
+            </div>
+        </div>
+
+
+        {{-- Twelve Page --}}
+
+        {{-- Thirteen Page --}}
+
+        {{-- Fourteenth Page --}}
+
+        {{-- Fifteenth Page --}}
+
+        {{-- Sixteenth Page --}}
+    </div>
