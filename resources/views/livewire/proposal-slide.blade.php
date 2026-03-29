@@ -663,15 +663,158 @@
                 </a>
             </div>
         </div>
-
-
-        {{-- Twelve Page --}}
-
-        {{-- Thirteen Page --}}
-
-        {{-- Fourteenth Page --}}
-
-        {{-- Fifteenth Page --}}
-
-        {{-- Sixteenth Page --}}
     </div>
+
+
+    {{-- Twelve Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
+
+            {{-- Header --}}
+            <div class="flex justify-between items-start shrink-0 gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Organizations we work with</h1>
+                    <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
+                </div>
+                <x-circles />
+            </div>
+            {{-- Content --}}
+            <div class="grid grid-cols-3 grid-rows-4 gap-4 mt-4">
+                @for ($i = 1; $i <= 11; $i++)
+                    <h1 class="text-xl font-bold clr-txt-primary">Organization {{ $i }}</h1>
+                    @endfor
+            </div>
+        </div>
+    </div>
+
+    {{-- Thirteen Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
+
+            {{-- Header --}}
+            <div class="flex justify-between items-start shrink-0 gap-4">
+                <div class="flex flex-col gap-1.5">
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Testimonial</h1>
+                    <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
+                </div>
+                <x-circles />
+            </div>
+            {{-- Content --}}
+            <div class="flex flex-row h-3/5 justify-center items-center">
+                <div class="-space-x-12 flex flex-row justify-center items-center h-full w-3/5 mt-4">
+                    <div class="clr-primary border-1 rounded-3xl w-full h-full flex items-center justify-center">
+                        <p class="text-gray-500">Testimonial 1</p>
+                    </div>
+                    <div class="clr-bg-light border-1 rounded-3xl w-full h-full flex items-center justify-center">
+                        <p class="text-gray-500">Testimonial 2</p>
+                    </div>
+                    <div class="clr-primary border-1 rounded-3xl w-full h-full flex items-center justify-center">
+                        <p class="text-gray-500">Testimonial 3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Fourteenth Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="flex w-full h-3/5 min-h-0">
+
+            {{-- Left Column --}}
+            <div class="flex flex-col w-1/2 px-10 sm:px-14 py-5 justify-between">
+                {{-- Title --}}
+                <div class="flex flex-col gap-4">
+                    <x-circles />
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight leading-tight">
+                        Why Your Business Needs a Customized Application
+                    </h1>
+
+                    <p class="text-lg clr-txt-secondary leading-relaxed">
+                        Every business is unique, even if daily operations seem similar across industries. A custom application empowers businesses to stand out by addressing specific needs, such as attracting clients, streamlining internal management, enhancing marketing strategies, optimizing processes, or automating targeted sectors. Tailored solutions ensure your business operates efficiently and aligns with your distinct vision and goals.
+                    </p>
+                </div>
+
+                {{-- Divider + bottom text --}}
+                <div class="flex flex-col gap-3">
+                    <hr class="w-10 border-t-2 border-clr-primary">
+                    <p class="text-lg clr-txt-secondary leading-relaxed">
+                        At Odecci, we don't just build systems, we create platforms that work as smart, strategic tools for your business. Because in these fast-moving and competitive industries, you need to think ahead.
+                    </p>
+                </div>
+
+            </div>
+
+            {{-- Right Column --}}
+            <div class="flex flex-col w-1/2 clr-primary min-h-0 px-8 py-6 gap-6">
+
+                @php
+                $items = [
+                [
+                'title' => 'Secure & High-Performance Infrastructure',
+                'desc' => 'Speed, reliability, and security are non-negotiable. Odecci builds applications on optimized, secure infrastructure to ensure fast load times, seamless accessibility, and robust protection against threats, giving your users a dependable experience.',
+                'titleBg' => 'clr-bg-secondary',
+                'titleText' => 'text-white',
+                ],
+                [
+                'title' => 'Goal-Oriented Solutions',
+                'desc' => 'We don\'t just build applications—we create tools that align seamlessly with your business objectives. Our focus on usability, accessibility, and functionality ensures your application delivers measurable value and supports your long-term vision.',
+                'titleBg' => 'bg-white',
+                'titleText' => 'clr-txt-primary',
+                ],
+                [
+                'title' => 'Client-Centric Approach',
+                'desc' => 'At Odecci, your success is our priority. We collaborate closely with you, offering expert guidance on decision-making, risk management, and ideation. From concept to execution, we provide tailored suggestions to bring your vision to life while mitigating challenges.',
+                'titleBg' => 'bg-white',
+                'titleText' => 'clr-txt-primary',
+                ],
+                [
+                'title' => 'Purposeful, Modern Design',
+                'desc' => 'Our designs go beyond aesthetics. Every element of your application is strategically crafted to enhance user experience and align with the system\'s overall functionality. The result is an intuitive, visually appealing application that resonates with your audience.',
+                'titleBg' => 'clr-bg-secondary',
+                'titleText' => 'text-white',
+                ],
+                [
+                'title' => 'Cutting-Edge Technologies',
+                'desc' => 'Odecci leverages the latest, industry-leading technologies to build robust, scalable, and future-proof applications. Our solutions are designed to remain relevant and adaptable as your business evolves.',
+                'titleBg' => 'bg-white',
+                'titleText' => 'clr-txt-primary',
+                ],
+                ];
+                @endphp
+
+                {{-- Grid: 2 cols, last item centered --}}
+                <div class="grid grid-cols-2 gap-x-6 gap-y-5 w-full">
+                    @foreach ($items as $index => $item)
+                    {{-- Last item spans 2 cols but is centered --}}
+                    <div class="flex flex-col gap-2 {{ $index === 4 ? 'col-span-2 w-1/2' : '' }}">
+
+                        {{-- Speech bubble title --}}
+                        <div class="relative inline-block">
+                            <div class="{{ $item['titleBg'] }} {{ $item['titleText'] }} px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold leading-snug">
+                                {{ $item['title'] }}
+                            </div>
+                            {{-- Bubble tail --}}
+                            <div class="absolute left-5 -bottom-2 w-0 h-0
+                                border-l-[8px] border-l-transparent
+                                border-r-[8px] border-r-transparent
+                                border-t-[10px]
+                                {{ $index === 0 || $index === 3 ? 'border-t-[#2d4a6b]' : 'border-t-white' }}">
+                            </div>
+                        </div>
+
+                        {{-- Description --}}
+                        <p class="text-[10px] sm:text-xs text-gray-300 leading-relaxed mt-2">
+                            {{ $item['desc'] }}
+                        </p>
+                    </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {{-- Fifteenth Page --}}
+
+    {{-- Sixteenth Page --}}
+</div>
