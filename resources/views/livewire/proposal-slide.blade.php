@@ -299,4 +299,82 @@
             </div>
         </div>
     </div>
-</div>
+            {{-- Fifth Page — Problem Statement --}}
+            <div class="flex w-full aspect-video shadow-sm min-h-0">
+
+                <div class="flex flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
+
+                    {{-- Header --}}
+                    <div class="flex justify-between items-start shrink-0 gap-4">
+                        <div class="flex flex-col gap-1.5">
+                            <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Problem Statement</h1>
+                            <hr class="w-2/5 border-t border-clr-primary">
+                        </div>
+                        <x-circles />
+                    </div>
+
+                    {{-- Intro --}}
+                    <p class="text-sm leading-relaxed clr-txt-primary max-w-5xl shrink-0">
+                        In today's digital-first environment, businesses face numerous obstacles that hinder their ability to
+                        maintain a strong online presence. From outdated designs and poor user experience to security risks
+                        and low search visibility, these issues can significantly impact brand credibility and growth. Odecci's
+                        website development services are designed to address these challenges head-on, providing innovative,
+                        scalable, and secure solutions that align with your business objectives.
+                    </p>
+
+                    @php
+                    $problemItems = [
+                    'Lack of Professional Online Presence',
+                    'Poor User Experience and Navigation',
+                    'Limited Scalability and Content Management',
+                    'Low Search Engine Visibility',
+                    'Security Vulnerabilities and Compliance Risks',
+                    ];
+                    @endphp
+
+                    {{-- Main block --}}
+                    <div class="flex flex-col w-full max-w-6xl mx-auto mt-2">
+
+                        {{-- Pill + dashed rails --}}
+                        <div class="flex items-center gap-3 w-full mb-3">
+                            <div class="flex-1 border-t border-dashed border-gray-400/70"></div>
+                            <div class="clr-primary text-white px-7 py-2.5 rounded-full font-bold text-[10px] sm:text-[11px] tracking-widest uppercase whitespace-nowrap shadow-sm">
+                                Top 5 most common problems encountered
+                            </div>
+                            <div class="flex-1 border-t border-dashed border-gray-400/70"></div>
+                        </div>
+
+                        {{-- Cards --}}
+                        <div class="grid grid-cols-5 gap-2 w-full">
+                            @foreach ($problemItems as $label)
+                            <div class="bg-white rounded-xl px-3 py-5 flex items-start justify-center text-center shadow-md shadow-gray-300/40 h-40">
+                                <p class="text-xs sm:text-sm font-bold clr-txt-primary leading-tight">{{ $label }}</p>
+                            </div>
+                            @endforeach
+                        </div>
+
+                        {{-- Bottom bar + number circles --}}
+                        <div class="relative w-full h-14 mt-0">
+                            {{-- Colored bar --}}
+                            <div class="grid grid-cols-5 gap-2 h-5 w-full mt-3">
+                                @foreach (range(1, 5) as $i)
+                                <div class="{{ $i % 2 === 1 ? 'clr-primary' : 'clr-bg-secondary' }}
+                                    {{ $i === 1 ? 'rounded-bl-lg' : '' }}
+                                    {{ $i === 5 ? 'rounded-br-lg' : '' }}">
+                                </div>
+                                @endforeach
+                            </div>
+                            {{-- Number circles overlapping --}}
+                            <div class="absolute inset-0 grid grid-cols-5 gap-2 items-center justify-items-center">
+                                @foreach (range(1, 5) as $n)
+                                <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-md border border-gray-100 text-sm font-bold clr-txt-primary">
+                                    {{ $n }}
+                                </span>
+                                @endforeach
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
