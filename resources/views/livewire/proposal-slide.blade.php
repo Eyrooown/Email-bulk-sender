@@ -323,13 +323,13 @@
             </p>
 
             @php
-            $problemItems = [
-            'Lack of Professional Online Presence',
-            'Poor User Experience and Navigation',
-            'Limited Scalability and Content Management',
-            'Low Search Engine Visibility',
-            'Security Vulnerabilities and Compliance Risks',
-            ];
+                $problemItems = [
+                    'Lack of Professional Online Presence',
+                    'Poor User Experience and Navigation',
+                    'Limited Scalability and Content Management',
+                    'Low Search Engine Visibility',
+                    'Security Vulnerabilities and Compliance Risks',
+                ];
             @endphp
 
             {{-- Main block --}}
@@ -338,7 +338,8 @@
                 {{-- Pill + dashed rails --}}
                 <div class="flex items-center gap-3 w-full mb-3">
                     <div class="flex-1 border-t border-dashed border-gray-400/70"></div>
-                    <div class="clr-primary text-white px-7 py-2.5 rounded-full font-bold text-[10px] sm:text-[11px] tracking-widest uppercase whitespace-nowrap shadow-sm">
+                    <div
+                        class="clr-primary text-white px-7 py-2.5 rounded-full font-bold text-[10px] sm:text-[11px] tracking-widest uppercase whitespace-nowrap shadow-sm">
                         Top 5 most common problems encountered
                     </div>
                     <div class="flex-1 border-t border-dashed border-gray-400/70"></div>
@@ -347,9 +348,11 @@
                 {{-- Cards --}}
                 <div class="grid grid-cols-5 gap-2 w-full">
                     @foreach ($problemItems as $label)
-                    <div class="bg-white rounded-xl px-3 py-5 flex items-start justify-center text-center shadow-md shadow-gray-300/40 h-40">
-                        <p class="text-xs sm:text-sm font-bold clr-txt-primary leading-tight">{{ $label }}</p>
-                    </div>
+                        <div
+                            class="bg-white rounded-xl px-3 py-5 flex items-start justify-center text-center shadow-md shadow-gray-300/40 h-40">
+                            <p class="text-xs sm:text-sm font-bold clr-txt-primary leading-tight">{{ $label }}
+                            </p>
+                        </div>
                     @endforeach
                 </div>
 
@@ -358,18 +361,20 @@
                     {{-- Colored bar --}}
                     <div class="grid grid-cols-5 gap-2 h-5 w-full mt-3">
                         @foreach (range(1, 5) as $i)
-                        <div class="{{ $i % 2 === 1 ? 'clr-primary' : 'clr-bg-secondary' }}
+                            <div
+                                class="{{ $i % 2 === 1 ? 'clr-primary' : 'clr-bg-secondary' }}
                                     {{ $i === 1 ? 'rounded-bl-lg' : '' }}
                                     {{ $i === 5 ? 'rounded-br-lg' : '' }}">
-                        </div>
+                            </div>
                         @endforeach
                     </div>
                     {{-- Number circles overlapping --}}
                     <div class="absolute inset-0 grid grid-cols-5 gap-2 items-center justify-items-center">
                         @foreach (range(1, 5) as $n)
-                        <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-md border border-gray-100 text-sm font-bold clr-txt-primary">
-                            {{ $n }}
-                        </span>
+                            <span
+                                class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-md border border-gray-100 text-sm font-bold clr-txt-primary">
+                                {{ $n }}
+                            </span>
                         @endforeach
                     </div>
                 </div>
@@ -401,68 +406,70 @@
                 <span class="font-bold clr-txt-primary">advanced technology</span>
                 and
                 <span class="font-bold clr-txt-primary">strategic functionality</span>
-                — giving you a fast, secure, and scalable site that supports your brand and your customers at every touchpoint.
+                — giving you a fast, secure, and scalable site that supports your brand and your customers at every
+                touchpoint.
             </p>
 
             @php
-            $customSolutionItems = [
-            [
-            'boxClass' => 'clr-primary',
-            'iconClass' => 'text-white',
-            'title' => 'Seamless User Experience',
-            'desc' => 'Intuitive navigation and mobile-first design for maximum engagement.',
-            ],
-            [
-            'boxClass' => 'clr-bg-secondary',
-            'iconClass' => 'text-white',
-            'title' => 'Scalable Architecture',
-            'desc' => 'Built on a robust CMS for easy updates and future growth.',
-            ],
-            [
-            'boxClass' => 'clr-bg-light',
-            'iconClass' => 'clr-txt-primary',
-            'title' => 'Enhanced Visibility',
-            'desc' => 'Integrated SEO strategies to boost search rankings and attract organic traffic.',
-            ],
-            [
-            'boxClass' => 'clr-bg-secondary',
-            'iconClass' => 'text-white',
-            'title' => 'Enterprise-Level Security',
-            'desc' => 'Strong protection against cyber threats and compliance with data standards.',
-            ],
-            [
-            'boxClass' => 'clr-primary',
-            'iconClass' => 'text-white',
-            'title' => 'Actionable Insights',
-            'desc' => 'Analytics integration for informed decision-making and continuous improvement.',
-            ],
-            ];
+                $customSolutionItems = [
+                    [
+                        'boxClass' => 'clr-primary',
+                        'iconClass' => 'text-white',
+                        'title' => 'Seamless User Experience',
+                        'desc' => 'Intuitive navigation and mobile-first design for maximum engagement.',
+                    ],
+                    [
+                        'boxClass' => 'clr-bg-secondary',
+                        'iconClass' => 'text-white',
+                        'title' => 'Scalable Architecture',
+                        'desc' => 'Built on a robust CMS for easy updates and future growth.',
+                    ],
+                    [
+                        'boxClass' => 'clr-bg-light',
+                        'iconClass' => 'clr-txt-primary',
+                        'title' => 'Enhanced Visibility',
+                        'desc' => 'Integrated SEO strategies to boost search rankings and attract organic traffic.',
+                    ],
+                    [
+                        'boxClass' => 'clr-bg-secondary',
+                        'iconClass' => 'text-white',
+                        'title' => 'Enterprise-Level Security',
+                        'desc' => 'Strong protection against cyber threats and compliance with data standards.',
+                    ],
+                    [
+                        'boxClass' => 'clr-primary',
+                        'iconClass' => 'text-white',
+                        'title' => 'Actionable Insights',
+                        'desc' => 'Analytics integration for informed decision-making and continuous improvement.',
+                    ],
+                ];
             @endphp
 
             {{-- Cards --}}
             <div class="grid grid-cols-5 gap-3 sm:gap-4 w-full mt-2">
                 @foreach ($customSolutionItems as $item)
-                <div class="flex flex-col items-center gap-0">
+                    <div class="flex flex-col items-center gap-0">
 
-                    {{-- Icon box --}}
-                    <div class="{{ $item['boxClass'] }} rounded-xl flex items-center justify-center shadow-md shadow-gray-400/15 px-4 py-6 w-full">
-                        <x-icons.bulb class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 {{ $item['iconClass'] }}" />
+                        {{-- Icon box --}}
+                        <div
+                            class="{{ $item['boxClass'] }} rounded-xl flex items-center justify-center shadow-md shadow-gray-400/15 px-4 py-6 w-full">
+                            <x-icons.bulb class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 {{ $item['iconClass'] }}" />
+                        </div>
+
+                        {{-- Dashed connector line --}}
+                        <div class="w-px h-6 border-l border-dashed border-gray-400/70"></div>
+
+                        {{-- Title --}}
+                        <h2 class="text-xs sm:text-sm font-bold clr-txt-primary text-center leading-tight px-0.5">
+                            {{ $item['title'] }}
+                        </h2>
+
+                        {{-- Desc --}}
+                        <p class="text-[11px] sm:text-xs clr-txt-secondary text-center leading-snug px-0.5 mt-1">
+                            {{ $item['desc'] }}
+                        </p>
+
                     </div>
-
-                    {{-- Dashed connector line --}}
-                    <div class="w-px h-6 border-l border-dashed border-gray-400/70"></div>
-
-                    {{-- Title --}}
-                    <h2 class="text-xs sm:text-sm font-bold clr-txt-primary text-center leading-tight px-0.5">
-                        {{ $item['title'] }}
-                    </h2>
-
-                    {{-- Desc --}}
-                    <p class="text-[11px] sm:text-xs clr-txt-secondary text-center leading-snug px-0.5 mt-1">
-                        {{ $item['desc'] }}
-                    </p>
-
-                </div>
                 @endforeach
             </div>
 
@@ -471,89 +478,104 @@
 
     {{-- Seventh Page --}}
     <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
-        <x-scope-card
-            packageName="Basic Website Package"
+        <x-scope-card packageName="Basic Website Package"
             idealFor="Small to Medium Businesses looking for a professional online presence without complexity."
-            revision="1 Design Revision"
-            :tags="['Tailored Design', '2 Weeks Delivery']"
-            benefit="What You'll Get"
-            :whatYouGet="[
-        ['title' => '1-3', 'desc' => 'Mobile Friendly Design'],
-        ['title' => 'Content Management System (CMS)', 'desc' => 'Effortless content updates and scalability.'],
-        ['title' => 'Basic SEO Setup', 'desc' => 'Improve search visibility and attract organic traffic.'],
-        ['title' => 'Google Analytics Integration', 'desc' => 'Track performance and user behavior for data-driven decisions.'],
-        ]"
+            revision="1 Design Revision" :tags="['Tailored Design', '2 Weeks Delivery']" benefit="What You'll Get" :whatYouGet="[
+                ['title' => '1-3', 'desc' => 'Mobile Friendly Design'],
+                ['title' => 'Content Management System (CMS)', 'desc' => 'Effortless content updates and scalability.'],
+                ['title' => 'Basic SEO Setup', 'desc' => 'Improve search visibility and attract organic traffic.'],
+                [
+                    'title' => 'Google Analytics Integration',
+                    'desc' => 'Track performance and user behavior for data-driven decisions.',
+                ],
+            ]"
             :inclusions="[
-        ['title' => '1 Month Free Support', 'desc' => 'Post-launch assistance for smooth operations.'],
-        ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
-        ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
-        ['title' => '3 Personalized Business Email Addresses', 'desc' => 'Professional communication for your team.'],
-        ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
-        ['title' => 'Free Domain (.com) with SSL for 1 Year', 'desc' => 'Secure and professional online identity.'],
-        ['title' => 'Free CMS Training', 'desc' => '1-day, 2-hour live session to empower your team.'],
-        ]" />
+                ['title' => '1 Month Free Support', 'desc' => 'Post-launch assistance for smooth operations.'],
+                ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
+                ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
+                [
+                    'title' => '3 Personalized Business Email Addresses',
+                    'desc' => 'Professional communication for your team.',
+                ],
+                ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
+                [
+                    'title' => 'Free Domain (.com) with SSL for 1 Year',
+                    'desc' => 'Secure and professional online identity.',
+                ],
+                ['title' => 'Free CMS Training', 'desc' => '1-day, 2-hour live session to empower your team.'],
+            ]" />
     </div>
 
     {{-- Eighth Page --}}
     <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
-        <x-scope-card
-            packageName="Business Website Package"
-            idealFor="Scaling businesses that want their brand to stand out, increase traffic, 
+        <x-scope-card packageName="Business Website Package"
+            idealFor="Scaling businesses that want their brand to stand out, increase traffic,
             and showcase products and services with a professional, feature-rich website."
-            revision="2 Design Revision"
-            :tags="['Tailored Design', '4 Weeks Delivery', 'CRM Integration']"
-            benefit="You'll Get All form basic plus:"
-            :whatYouGet="[
-        ['title' => '3-6', 'desc' => 'Mobile-Friendly Pages'],
-        ['title' => 'Products/Services Page', 'desc' => 'Highlight your offerings with engaging layouts.'],
-        ['title' => 'Blog & News Page', 'desc' => 'Share updates, insights, and boost SEO.'],
-        ['title' => 'Content Management System (CMS)', 'desc' => 'Easy content updates and scalability.'],
-        ['title' => 'CRM Integration (HubSpot)', 'desc' => 'Streamline customer relationship management.'],
-        ['title' => 'Advanced SEO Setup', 'desc' => 'Drive organic traffic and improve search rankings.'],
-        ]"
+            revision="2 Design Revision" :tags="['Tailored Design', '4 Weeks Delivery', 'CRM Integration']" benefit="You'll Get All form basic plus:" :whatYouGet="[
+                ['title' => '3-6', 'desc' => 'Mobile-Friendly Pages'],
+                ['title' => 'Products/Services Page', 'desc' => 'Highlight your offerings with engaging layouts.'],
+                ['title' => 'Blog & News Page', 'desc' => 'Share updates, insights, and boost SEO.'],
+                ['title' => 'Content Management System (CMS)', 'desc' => 'Easy content updates and scalability.'],
+                ['title' => 'CRM Integration (HubSpot)', 'desc' => 'Streamline customer relationship management.'],
+                ['title' => 'Advanced SEO Setup', 'desc' => 'Drive organic traffic and improve search rankings.'],
+            ]"
             :inclusions="[
-        ['title' => '2 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
-        ['title' => 'Google Analytics Setup', 'desc' => 'Monitor performance and user behavior.'],
-        ['title' => 'Google Business Profile Setup', 'desc' => 'Strengthen your local presence.'],
-        ['title' => '5 Personalized Business Email Addresses', 'desc' => 'Professional communication 
-        for your team.'],
-        ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
-        ['title' => 'Free Domain (.com) with SSL for 1 Year', 'desc' => 'Secure and professional online identity.'],
-        ['title' => 'Free CMS Training', 'desc' => '2-days with 2-hour live session to empower your team.'],
-        ]" />
+                ['title' => '2 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
+                ['title' => 'Google Analytics Setup', 'desc' => 'Monitor performance and user behavior.'],
+                ['title' => 'Google Business Profile Setup', 'desc' => 'Strengthen your local presence.'],
+                [
+                    'title' => '5 Personalized Business Email Addresses',
+                    'desc' => 'Professional communication
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    for your team.',
+                ],
+                ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
+                [
+                    'title' => 'Free Domain (.com) with SSL for 1 Year',
+                    'desc' => 'Secure and professional online identity.',
+                ],
+                ['title' => 'Free CMS Training', 'desc' => '2-days with 2-hour live session to empower your team.'],
+            ]" />
     </div>
 
     {{-- Ninth Page --}}
     <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
-        <x-scope-card
-            packageName="Online Store Website Package"
-            idealFor="Retailers, wholesalers, and brands that want to sell online with ease. This end- 
-            to-end eCommerce solution handles everything, from product display and 
-            secure payment processing to shipping and customer management, all in one 
+        <x-scope-card packageName="Online Store Website Package"
+            idealFor="Retailers, wholesalers, and brands that want to sell online with ease. This end-
+            to-end eCommerce solution handles everything, from product display and
+            secure payment processing to shipping and customer management, all in one
             powerful platform."
-            revision="3 Design Revision"
-            benefit="You'll Get All from basic and business plus:"
-            :tags="['Tailored Design', '8 Weeks Delivery', 'CRM Integration', 'Payment Integration']"
+            revision="3 Design Revision" benefit="You'll Get All from basic and business plus:" :tags="['Tailored Design', '8 Weeks Delivery', 'CRM Integration', 'Payment Integration']"
             :whatYouGet="[
-        ['title' => 'Unlimited Mobile-Friendly Design', 'desc' => 'Fully responsive layouts for an 
-        exceptional user experience across all devices.'],  
-        ['title' => 'Full Inventory & Order Management', 'desc' => 'Manage stock, orders, and fulfillment 
-        seamlessly.'],
-        ['title' => 'Discounts, Coupons & Promotions', 'desc' => 'Engage customers with attractive offers.'],
-        ['title' => 'Cart + Checkout Page', 'desc' => 'Smooth and secure shopping experience.'],
-        ['title' => 'Maintainable Shipping Rates', 'desc' => 'Flexible shipping options for your customers.'],
-        ['title' => 'Online Payment Integration', 'desc' => 'Accept payments securely and conveniently.'],
-        ['title' => 'Customer Dashboard', 'desc' => 'Empower customers with account management tools.'],
-        ]"
-            :inclusions="[
-        ['title' => '3 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
-        ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
-        ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
-        ['title' => '10 Personalized Business Email Addresses', 'desc' => 'Professional communication for your team.'],
-        ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
-        ['title' => 'Free Domain (.com) with SSL for 1 Year', 'desc' => 'Secure and professional online identity.'],
-        ['title' => 'Free CMS Training', 'desc' => '3-days, 2-hour live session to empower your team.'],
-        ]" />
+                [
+                    'title' => 'Unlimited Mobile-Friendly Design',
+                    'desc' => 'Fully responsive layouts for an
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    exceptional user experience across all devices.',
+                ],
+                [
+                    'title' => 'Full Inventory & Order Management',
+                    'desc' => 'Manage stock, orders, and fulfillment
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    seamlessly.',
+                ],
+                ['title' => 'Discounts, Coupons & Promotions', 'desc' => 'Engage customers with attractive offers.'],
+                ['title' => 'Cart + Checkout Page', 'desc' => 'Smooth and secure shopping experience.'],
+                ['title' => 'Maintainable Shipping Rates', 'desc' => 'Flexible shipping options for your customers.'],
+                ['title' => 'Online Payment Integration', 'desc' => 'Accept payments securely and conveniently.'],
+                ['title' => 'Customer Dashboard', 'desc' => 'Empower customers with account management tools.'],
+            ]" :inclusions="[
+                ['title' => '3 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
+                ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
+                ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
+                [
+                    'title' => '10 Personalized Business Email Addresses',
+                    'desc' => 'Professional communication for your team.',
+                ],
+                ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
+                [
+                    'title' => 'Free Domain (.com) with SSL for 1 Year',
+                    'desc' => 'Secure and professional online identity.',
+                ],
+                ['title' => 'Free CMS Training', 'desc' => '3-days, 2-hour live session to empower your team.'],
+            ]" />
     </div>
 
     {{-- Tenth Page --}}
@@ -591,7 +613,8 @@
                             </tr>
                             <tr>
                                 <td class="px-6 py-3 italic clr-txt-primary text-sm">50% Deployment</td>
-                                <td class="px-6 py-3 italic clr-txt-secondary text-sm">Upon turnover and project acceptance.</td>
+                                <td class="px-6 py-3 italic clr-txt-secondary text-sm">Upon turnover and project
+                                    acceptance.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -602,7 +625,8 @@
                     <p class="text-sm font-bold clr-txt-primary">Terms and Condition</p>
                     <ul class="flex flex-col gap-1">
                         <li class="text-sm clr-txt-secondary">• Any out-of-scope work will be billed separately.</li>
-                        <li class="text-sm clr-txt-secondary">• The billing invoice will be issued based on the accomplished milestone.</li>
+                        <li class="text-sm clr-txt-secondary">• The billing invoice will be issued based on the
+                            accomplished milestone.</li>
                     </ul>
                 </div>
 
@@ -610,8 +634,10 @@
                 <div class="flex flex-col gap-1.5">
                     <p class="text-sm font-bold clr-txt-primary">Client Responsibilities:</p>
                     <ul class="flex flex-col gap-1">
-                        <li class="text-sm clr-txt-secondary">• Client shall provide a person to be the main contact for the project</li>
-                        <li class="text-sm clr-txt-secondary">• The Client must supply content for updates (e.g., text, images, announcements).</li>
+                        <li class="text-sm clr-txt-secondary">• Client shall provide a person to be the main contact
+                            for the project</li>
+                        <li class="text-sm clr-txt-secondary">• The Client must supply content for updates (e.g., text,
+                            images, announcements).</li>
                     </ul>
                 </div>
 
@@ -619,8 +645,10 @@
                 <div class="flex flex-col gap-1.5">
                     <p class="text-sm font-bold clr-txt-primary">Limitation of Liability:</p>
                     <ul class="flex flex-col gap-1">
-                        <li class="text-sm clr-txt-secondary">• The service provider should provide a progress report of the project every week.</li>
-                        <li class="text-sm clr-txt-secondary">• Liability is limited to the total contract value of the project.</li>
+                        <li class="text-sm clr-txt-secondary">• The service provider should provide a progress report
+                            of the project every week.</li>
+                        <li class="text-sm clr-txt-secondary">• Liability is limited to the total contract value of the
+                            project.</li>
                     </ul>
                 </div>
 
@@ -628,7 +656,9 @@
                 <div class="flex flex-col gap-1">
                     <p class="text-sm font-bold clr-txt-primary">Execution of Service Level Agreement:</p>
                     <p class="text-sm clr-txt-secondary leading-relaxed">
-                        Upon approval of this proposal, a detailed Service Level Agreement (SLA) will be executed to formalize the terms of service, ensuring clarity on the delivery, management, and support of the website throughout the contract period.
+                        Upon approval of this proposal, a detailed Service Level Agreement (SLA) will be executed to
+                        formalize the terms of service, ensuring clarity on the delivery, management, and support of the
+                        website throughout the contract period.
                     </p>
                 </div>
             </div>
@@ -642,7 +672,8 @@
             {{-- Header --}}
             <div class="flex justify-between items-start shrink-0 gap-4">
                 <div class="flex flex-col gap-1.5">
-                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Some of our Website Projects</h1>
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Some of our Website
+                        Projects</h1>
                     <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
                 </div>
                 <x-circles />
@@ -650,15 +681,19 @@
             {{-- Content --}}
             <div class="grid grid-cols-2 grid-rows-2 gap-4 mt-1">
                 <a href="https://htms.com.ph/" target="_blank" class="w-full h-full">
-                    <img src="{{ asset('images/htms.png') }}" href="https://htms.com.ph/" alt="HTMS Website" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="{{ asset('images/htms.png') }}" href="https://htms.com.ph/" alt="HTMS Website"
+                        class="w-full h-auto rounded-lg shadow-md">
                 </a>
                 <a href="https://yskprojdev.ph/" target="_blank" class="w-full h-full">
-                    <img src="{{ asset('images/ysk.png') }}" href="https://yskprojdev.ph/" alt="Project 2" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="{{ asset('images/ysk.png') }}" href="https://yskprojdev.ph/" alt="Project 2"
+                        class="w-full h-auto rounded-lg shadow-md">
                 </a>
                 <a href="https://srresidencesalmouj.com/" target="_blank" class="w-full h-full">
-                    <img src="{{ asset('images/st-regis.png') }}" href="https://srresidencesalmouj.com/" alt="Project 3" class="w-full h-auto rounded-lg shadow-md">
+                    <img src="{{ asset('images/st-regis.png') }}" href="https://srresidencesalmouj.com/"
+                        alt="Project 3" class="w-full h-auto rounded-lg shadow-md">
                 </a>
-                <a href="https://odecci.com/odecci-portfolio/" target="_blank" class="flex items-center justify-center w-full h-full bg-clr-primary text-primary underline font-bold rounded-lg shadow-md hover:bg-clr-primary-hover transition-colors duration-300">
+                <a href="https://odecci.com/odecci-portfolio/" target="_blank"
+                    class="flex items-center justify-center w-full h-full bg-clr-primary text-primary underline font-bold rounded-lg shadow-md hover:bg-clr-primary-hover transition-colors duration-300">
                     View Our Portfolio >>
                 </a>
             </div>
@@ -673,7 +708,8 @@
             {{-- Header --}}
             <div class="flex justify-between items-start shrink-0 gap-4">
                 <div class="flex flex-col gap-1.5">
-                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Organizations we work with</h1>
+                    <h1 class="text-4xl sm:text-5xl font-bold clr-txt-primary tracking-tight">Organizations we work
+                        with</h1>
                     <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
                 </div>
                 <x-circles />
@@ -682,7 +718,7 @@
             <div class="grid grid-cols-3 grid-rows-4 gap-4 mt-4">
                 @for ($i = 1; $i <= 11; $i++)
                     <h1 class="text-xl font-bold clr-txt-primary">Organization {{ $i }}</h1>
-                    @endfor
+                @endfor
             </div>
         </div>
     </div>
@@ -718,7 +754,7 @@
 
     {{-- Fourteenth Page --}}
     <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
-        <div class="flex w-full h-3/5 min-h-0">
+        <div class="flex w-full h-4/5 min-h-0">
 
             {{-- Left Column --}}
             <div class="flex flex-col w-1/2 px-10 sm:px-14 py-5 justify-between">
@@ -730,7 +766,11 @@
                     </h1>
 
                     <p class="text-lg clr-txt-secondary leading-relaxed">
-                        Every business is unique, even if daily operations seem similar across industries. A custom application empowers businesses to stand out by addressing specific needs, such as attracting clients, streamlining internal management, enhancing marketing strategies, optimizing processes, or automating targeted sectors. Tailored solutions ensure your business operates efficiently and aligns with your distinct vision and goals.
+                        Every business is unique, even if daily operations seem similar across industries. A custom
+                        application empowers businesses to stand out by addressing specific needs, such as attracting
+                        clients, streamlining internal management, enhancing marketing strategies, optimizing processes,
+                        or automating targeted sectors. Tailored solutions ensure your business operates efficiently and
+                        aligns with your distinct vision and goals.
                     </p>
                 </div>
 
@@ -738,75 +778,84 @@
                 <div class="flex flex-col gap-3">
                     <hr class="w-10 border-t-2 border-clr-primary">
                     <p class="text-lg clr-txt-secondary leading-relaxed">
-                        At Odecci, we don't just build systems, we create platforms that work as smart, strategic tools for your business. Because in these fast-moving and competitive industries, you need to think ahead.
+                        At Odecci, we don't just build systems, we create platforms that work as smart, strategic tools
+                        for your business. Because in these fast-moving and competitive industries, you need to think
+                        ahead.
                     </p>
                 </div>
 
             </div>
 
             {{-- Right Column --}}
-            <div class="flex flex-col w-1/2 clr-primary min-h-0 px-8 py-6 gap-6">
+            <div class="flex flex-col justify-center items-center w-1/2 clr-primary h-full px-8 py-6 gap-6">
 
                 @php
-                $items = [
-                [
-                'title' => 'Secure & High-Performance Infrastructure',
-                'desc' => 'Speed, reliability, and security are non-negotiable. Odecci builds applications on optimized, secure infrastructure to ensure fast load times, seamless accessibility, and robust protection against threats, giving your users a dependable experience.',
-                'titleBg' => 'clr-bg-secondary',
-                'titleText' => 'text-white',
-                ],
-                [
-                'title' => 'Goal-Oriented Solutions',
-                'desc' => 'We don\'t just build applications—we create tools that align seamlessly with your business objectives. Our focus on usability, accessibility, and functionality ensures your application delivers measurable value and supports your long-term vision.',
-                'titleBg' => 'bg-white',
-                'titleText' => 'clr-txt-primary',
-                ],
-                [
-                'title' => 'Client-Centric Approach',
-                'desc' => 'At Odecci, your success is our priority. We collaborate closely with you, offering expert guidance on decision-making, risk management, and ideation. From concept to execution, we provide tailored suggestions to bring your vision to life while mitigating challenges.',
-                'titleBg' => 'bg-white',
-                'titleText' => 'clr-txt-primary',
-                ],
-                [
-                'title' => 'Purposeful, Modern Design',
-                'desc' => 'Our designs go beyond aesthetics. Every element of your application is strategically crafted to enhance user experience and align with the system\'s overall functionality. The result is an intuitive, visually appealing application that resonates with your audience.',
-                'titleBg' => 'clr-bg-secondary',
-                'titleText' => 'text-white',
-                ],
-                [
-                'title' => 'Cutting-Edge Technologies',
-                'desc' => 'Odecci leverages the latest, industry-leading technologies to build robust, scalable, and future-proof applications. Our solutions are designed to remain relevant and adaptable as your business evolves.',
-                'titleBg' => 'bg-white',
-                'titleText' => 'clr-txt-primary',
-                ],
-                ];
+                    $items = [
+                        [
+                            'title' => 'Secure & High-Performance Infrastructure',
+                            'desc' =>
+                                'Speed, reliability, and security are non-negotiable. Odecci builds applications on optimized, secure infrastructure to ensure fast load times, seamless accessibility, and robust protection against threats, giving your users a dependable experience.',
+                            'titleBg' => 'clr-bg-secondary',
+                            'titleText' => 'text-white',
+                        ],
+                        [
+                            'title' => 'Goal-Oriented Solutions',
+                            'desc' =>
+                                'We don\'t just build applications—we create tools that align seamlessly with your business objectives. Our focus on usability, accessibility, and functionality ensures your application delivers measurable value and supports your long-term vision.',
+                            'titleBg' => 'bg-white',
+                            'titleText' => 'clr-txt-primary',
+                        ],
+                        [
+                            'title' => 'Client-Centric Approach',
+                            'desc' =>
+                                'At Odecci, your success is our priority. We collaborate closely with you, offering expert guidance on decision-making, risk management, and ideation. From concept to execution, we provide tailored suggestions to bring your vision to life while mitigating challenges.',
+                            'titleBg' => 'bg-white',
+                            'titleText' => 'clr-txt-primary',
+                        ],
+                        [
+                            'title' => 'Purposeful, Modern Design',
+                            'desc' =>
+                                'Our designs go beyond aesthetics. Every element of your application is strategically crafted to enhance user experience and align with the system\'s overall functionality. The result is an intuitive, visually appealing application that resonates with your audience.',
+                            'titleBg' => 'clr-bg-secondary',
+                            'titleText' => 'text-white',
+                        ],
+                        [
+                            'title' => 'Cutting-Edge Technologies',
+                            'desc' =>
+                                'Odecci leverages the latest, industry-leading technologies to build robust, scalable, and future-proof applications. Our solutions are designed to remain relevant and adaptable as your business evolves.',
+                            'titleBg' => 'bg-white',
+                            'titleText' => 'clr-txt-primary',
+                        ],
+                    ];
                 @endphp
 
                 {{-- Grid: 2 cols, last item centered --}}
-                <div class="grid grid-cols-2 gap-x-6 gap-y-5 w-full">
+                <div class="grid grid-cols-2 justify-center items-center gap-x-6 gap-y-5 w-full">
                     @foreach ($items as $index => $item)
-                    {{-- Last item spans 2 cols but is centered --}}
-                    <div class="flex flex-col gap-2 {{ $index === 4 ? 'col-span-2 w-1/2' : '' }}">
+                        {{-- Last item spans 2 cols but is centered --}}
+                        <div class="flex flex-col gap-2 {{ $index === 4 ? 'col-span-2 w-1/2' : '' }}">
 
-                        {{-- Speech bubble title --}}
-                        <div class="relative inline-block">
-                            <div class="{{ $item['titleBg'] }} {{ $item['titleText'] }} px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold leading-snug">
-                                {{ $item['title'] }}
-                            </div>
-                            {{-- Bubble tail --}}
-                            <div class="absolute left-5 -bottom-2 w-0 h-0
+                            {{-- Speech bubble title --}}
+                            <div class="relative inline-block">
+                                <div
+                                    class="{{ $item['titleBg'] }} {{ $item['titleText'] }} px-4 py-2.5 rounded-lg text-xs sm:text-sm font-bold leading-snug">
+                                    {{ $item['title'] }}
+                                </div>
+                                {{-- Bubble tail --}}
+                                <div
+                                    class="absolute left-5 -bottom-2 w-0 h-0
                                 border-l-[8px] border-l-transparent
                                 border-r-[8px] border-r-transparent
                                 border-t-[10px]
                                 {{ $index === 0 || $index === 3 ? 'border-t-[#2d4a6b]' : 'border-t-white' }}">
+                                </div>
                             </div>
-                        </div>
 
-                        {{-- Description --}}
-                        <p class="text-[10px] sm:text-xs text-gray-300 leading-relaxed mt-2">
-                            {{ $item['desc'] }}
-                        </p>
-                    </div>
+                            {{-- Description --}}
+                            <p class="text-[10px] sm:text-xs text-gray-300 leading-relaxed mt-2">
+                                {{ $item['desc'] }}
+                            </p>
+                        </div>
                     @endforeach
                 </div>
 
@@ -815,6 +864,112 @@
     </div>
 
     {{-- Fifteenth Page --}}
+    <div class="flex flex-col items-center w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="w-full h-full px-10 sm:px-14 -space-x-10 flex flex-row overflow-visible items-start">
+
+            {{-- Image --}}
+            <div class="w-1/2 h-4/5 rounded-2xl overflow-hidden shrink-0">
+                <img src="{{ asset('images/guidance.png') }}" alt="Guidance" class="w-full h-full object-cover">
+            </div>
+
+            {{-- Card --}}
+            <div
+                class="clr-primary rounded-3xl px-10 py-10 flex flex-col items-center justify-center text-center gap-4 h-2/5 w-5/12 selft-start -mt-20">
+                <h1 class="text-4xl sm:text-5xl font-light text-white tracking-tight">
+                    Need guidance?
+                </h1>
+                <div class="flex flex-col gap-1">
+                    <p class="text-sm text-gray-300">
+                        We're here to help. Contact us for a free consultation.
+                    </p>
+                    <p class="text-sm text-gray-300">
+                        Or click this link and book now:
+                    </p>
+                </div>
+                <a href="https://odecci.com/contact-us/" target="_blank"
+                    class="text-sm text-blue-400 underline hover:text-blue-300 transition-colors">
+                    https://odecci.com/consultation/
+                </a>
+            </div>
+
+        </div>
+
+        {{-- Circles bottom right --}}
+        <div class="mt-auto flex flex-row justify-end w-full bottom-4 right-6">
+            <div class="flex flex-row justify-end">
+                <x-circles />
+            </div>
+        </div>
+    </div>
 
     {{-- Sixteenth Page --}}
+    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+        <div class="flex w-full h-full min-h-0">
+
+            {{-- Left Dark Bar --}}
+            <div class="clr-primary w-48 shrink-0 h-full"></div>
+
+            {{-- Main Content --}}
+            <div class="flex flex-col w-full h-full px-10 sm:px-14 py-6 justify-between">
+
+                {{-- Top: Logo + O graphic --}}
+                <div class="flex justify-between items-start w-full">
+                    <x-logo />
+                </div>
+
+                {{-- Middle: CONTACT US NOW --}}
+                <div class="flex row justify-between items-center w-full gap-4">
+                    <div class="flex flex-col leading-none">
+                        <span class="text-6xl sm:text-7xl font-bold clr-txt-primary tracking-tight">CONTACT</span>
+                        <span class="text-6xl sm:text-7xl font-light text-gray-300 tracking-tight">US NOW</span>
+                    </div>
+                    <img src="{{ asset('images/icon-dark.png') }}" alt="Logo"
+                        class="w-1/3 h-auto object-contain">
+                </div>
+
+                {{-- Bottom: Contact Info --}}
+                <div class="flex flex-row items-start gap-16 pb-2">
+
+                    {{-- Email + Website --}}
+                    <div class="flex flex-col gap-3">
+                        {{-- Email --}}
+                        <div class="flex items-center gap-3">
+                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                            <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[180px]">
+                                <a href="mailto:info@odecci.com" class="text-xs clr-txt-primary">info@odecci.com</a>
+                                <a href="mailto:sales@odecci.com" class="text-xs clr-txt-primary">sales@odecci.com</a>
+                            </div>
+                        </div>
+                        {{-- Website --}}
+                        <div class="flex items-center gap-3">
+                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                            <div class="border-b border-gray-400 pb-1 min-w-[180px]">
+                                <a href="https://www.odecci.com" target="_blank"
+                                    class="text-xs clr-txt-primary">www.odecci.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Phone --}}
+                    <div class="flex items-center gap-3">
+                        <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                        <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[200px]">
+                            <span class="text-xs clr-txt-primary">+044 760 5422 – Sales Office</span>
+                            <span class="text-xs clr-txt-primary">0961 645 8938 – Sales Office</span>
+                        </div>
+                    </div>
+
+                    {{-- Social Media --}}
+                    <div class="flex flex-col gap-2">
+                        <p class="text-xs clr-txt-secondary">Visit and follow us on:</p>
+                        <div class="flex gap-3">
+                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
+                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
