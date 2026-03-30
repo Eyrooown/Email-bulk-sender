@@ -26,9 +26,11 @@
         .page {
             width: 1122px;
             aspect-ratio: 1.414 / 1;
-            overflow: hidden;
+            overflow: visible;
+            /* ✅ Allow circle to overflow */
             page-break-after: always;
             page-break-inside: avoid;
+            position: relative;
         }
 
         .clr-primary {
@@ -171,7 +173,8 @@
                             </div>
                             <div class="flex flex-col relative -ml-44 justify-end">
                                 <img src="{{ asset('images/executive-bg.png') }}" alt="Icon" class="h-3/4 w-auto" />
-                                <div class="absolute rounded-full h-96 w-96 clr-primary z-10 -bottom-40 -right-40">
+                                <div
+                                    class="absolute rounded-full h-96 w-96 clr-primary z-10 bottom-0 right-0 translate-x-1/2 translate-y-1/2">
                                 </div>
                             </div>
                         </div>
@@ -182,7 +185,9 @@
             {{-- Third Page --}}
             <div class="page flex w-full bg-white">
                 <div class="w-32 clr-primary shrink-0"></div>
-                <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
+                <div class="flex flex-col w-full h-full px-12 py-6 gap-4">
+
+                    {{-- Header --}}
                     <div class="flex justify-between items-center">
                         <div class="flex flex-row items-center gap-4"><x-logo /></div>
                         <div class="flex flex-col">
@@ -190,75 +195,84 @@
                                 <h1 class="text-6xl clr-txt-secondary mt-6">OUR STRATEGY</h1>
                                 <x-circles />
                             </div>
-                            <div>
-                                <hr class="w-3/4 border-2 border-clr-primary mt-10">
-                            </div>
+                            <hr class="w-3/4 border-2 border-clr-primary mt-4">
                         </div>
                     </div>
-                    <div class="flex flex-row justify-between">
-                        <div class="flex flex-col flex-1">
-                            <h1 class="font-medium text-7xl clr-txt-primary">Who is <br>Odecci?</h1>
-                            <br>
-                            <p class="clr-txt-primary mt-10">Odecci Solutions Inc. is a software <br>development company
-                                that provides <br>comprehensive software development <br>services and focuses on
-                                end-to-end digital <br>solutions that empower businesses to <br>streamline and enhance
-                                their operations.</p>
-                            <br>
-                            <p class="clr-txt-primary">The company's goal is to help businesses by <br>providing quality
-                                and efficient digital solutions <br>that enable them to excel in their industry.</p>
-                            <br>
-                            <p>Visit our website: <a href="https://odecci.com/"
-                                    class="underline decoration-solid">www.odecci.com</a> to learn <br>more</p>
+
+                    {{-- Body --}}
+                    <div class="flex flex-row justify-between h-3/5 gap-2">
+
+                        {{-- Left --}}
+                        <div class="flex flex-col flex-1 justify-center gap-4">
+                            <h1 class="font-medium text-6xl clr-txt-primary">Who is <br>Odecci?</h1>
+                            <p class="clr-txt-primary text-sm leading-relaxed">
+                                Odecci Solutions Inc. is a software development company that provides comprehensive
+                                software development services and focuses on end-to-end digital solutions that empower
+                                businesses to streamline and enhance their operations.
+                            </p>
+                            <p class="clr-txt-primary text-sm leading-relaxed">
+                                The company's goal is to help businesses by providing quality and efficient digital
+                                solutions that enable them to excel in their industry.
+                            </p>
+                            <p class="text-sm">
+                                Visit our website: <a href="https://odecci.com/"
+                                    class="underline decoration-solid">www.odecci.com</a> to learn more
+                            </p>
                         </div>
+
+                        {{-- Right --}}
                         <div class="flex flex-1 flex-row justify-center items-center">
-                            <div class="grid grid-cols-2 grid-rows-3 gap-20">
-                                <div class="flex flex-row justify-center items-center gap-4">
+                            <div class="grid grid-cols-2 gap-8 w-full">
+                                <div class="flex flex-row items-center gap-4">
                                     <div
-                                        class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                        class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
                                         <x-icons.diamond class="w-6 h-6" />
                                     </div>
-                                    <p class="clr-txt-secondary font-bold text-xl">Client-Centric Solutions</p>
+                                    <p class="clr-txt-secondary font-bold text-base">Client-Centric Solutions</p>
                                 </div>
-                                <div class="flex flex-row justify-center items-center gap-4">
+                                <div class="flex flex-row items-center gap-4">
                                     <div
-                                        class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                        class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
                                         <x-icons.paperplane class="w-6 h-6" />
                                     </div>
-                                    <p class="clr-txt-secondary font-bold text-xl">Data-Driven Decision Making</p>
+                                    <p class="clr-txt-secondary font-bold text-base">Data-Driven Decision Making</p>
                                 </div>
-                                <div class="flex flex-row justify-center items-center gap-4">
+                                <div class="flex flex-row items-center gap-4">
                                     <div
-                                        class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                        class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
                                         <x-icons.chart class="w-6 h-6" />
                                     </div>
-                                    <p class="clr-txt-secondary font-bold text-xl">Agile Development</p>
+                                    <p class="clr-txt-secondary font-bold text-base">Agile Development</p>
                                 </div>
-                                <div class="flex flex-row justify-center items-center gap-4">
+                                <div class="flex flex-row items-center gap-4">
                                     <div
-                                        class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
+                                        class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
                                         <x-icons.calendar-check class="w-6 h-6" />
                                     </div>
-                                    <p class="clr-txt-secondary font-bold text-xl">Sustainable Growth</p>
+                                    <p class="clr-txt-secondary font-bold text-base">Sustainable Growth</p>
                                 </div>
-                                <div class="flex flex-row justify-center items-center gap-4">
+                                <div class="flex flex-row items-center gap-4">
                                     <div
-                                        class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                        <x-icons.bulb class="w-10 h-10" />
+                                        class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
+                                        <x-icons.bulb class="w-8 h-8" />
                                     </div>
-                                    <p class="clr-txt-secondary font-bold text-xl">Collaborative Partnership</p>
+                                    <p class="clr-txt-secondary font-bold text-base">Collaborative Partnership</p>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
 
             {{-- Fourth Page --}}
             <div class="page flex w-full bg-white">
-                <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
-                    <div class="flex justify-between items-center">
+                <div class="flex flex-col w-full h-full px-12 py-6 gap-6">
+
+                    {{-- Header --}}
+                    <div class="flex justify-between items-center shrink-0">
                         <div class="flex flex-row items-center justify-between gap-20">
-                            <div class="flex flex-col gap-10">
+                            <div class="flex flex-col gap-4">
                                 <h1 class="text-6xl font-bold clr-txt-primary">Our Strategy</h1>
                                 <hr class="w-3/4 border border-clr-primary">
                             </div>
@@ -267,58 +281,70 @@
                         </div>
                         <x-circles />
                     </div>
-                    <div class="grid grid-cols-5 gap-8 w-full flex-1 min-w-0">
-                        <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
-                            <div class="flex flex-col items-center gap-4 my-auto">
-                                <x-icons.bulb class="w-16 h-16 mb-2" />
-                                <hr class="w-full border-2 border-white">
-                                <h1 class="text-xl font-bold text-center w-full">Hand Tailored Solutions</h1>
-                                <p class="text-center text-sm">Design websites that are uniquely customized to align
-                                    with each client's specific business needs, from branded interfaces to intricate
-                                    technical functionalities, ensuring a perfect fit for their operations.</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
-                            <div class="flex flex-col items-center gap-4 my-auto">
-                                <x-icons.bulb class="w-16 h-16 mb-2" />
-                                <hr class="w-full border-2 border-clr-primary">
-                                <h1 class="text-xl font-bold text-center w-full">Enhance Client Collaboration</h1>
-                                <p class="text-center text-sm">Integrate closely with clients throughout the support
-                                    process, fostering a partnership that incorporates their vision and feedback to
-                                    create solutions that reflect their goals.</p>
-                            </div>
-                        </div>
-                        <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
-                            <div class="flex flex-col items-center gap-4 my-auto">
-                                <x-icons.bulb class="w-16 h-16 mb-2" />
-                                <hr class="w-full border-2 border-white">
-                                <h1 class="text-xl font-bold text-center w-full">Boost Business Performance</h1>
-                                <p class="text-center text-sm">Develop a maintenance and support process that drives
-                                    measurable outcomes, such as increased website performance and improved visibility.
+
+                    {{-- Cards --}}
+                    <div class="grid grid-cols-5 gap-4 w-full items-stretch h-3/5 mt-5">
+
+                        <div class="flex flex-col min-w-0 clr-primary rounded-2xl text-white p-6 w-full h-full">
+                            <div class="flex flex-col items-center gap-3">
+                                <x-icons.bulb class="w-12 h-12 mb-1" />
+                                <hr class="w-full border border-white">
+                                <h1 class="text-base font-bold text-center w-full">Hand Tailored Solutions</h1>
+                                <p class="text-center text-xs leading-snug">Design websites that are uniquely customized
+                                    to align with each client's specific business needs, from branded interfaces to
+                                    intricate technical functionalities, ensuring a perfect fit for their operations.
                                 </p>
                             </div>
                         </div>
-                        <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
-                            <div class="flex flex-col items-center gap-4 my-auto">
-                                <x-icons.bulb class="w-16 h-16 mb-2" />
-                                <hr class="w-full border-2 border-clr-primary">
-                                <h1 class="text-xl font-bold text-center w-full">Ensure Exceptional User Experience
+
+                        <div
+                            class="flex flex-col min-w-0 bg-white rounded-2xl clr-txt-primary p-6 w-full h-full shadow-md">
+                            <div class="flex flex-col items-center gap-3">
+                                <x-icons.bulb class="w-12 h-12 mb-1" />
+                                <hr class="w-full border border-clr-primary">
+                                <h1 class="text-base font-bold text-center w-full">Enhance Client Collaboration</h1>
+                                <p class="text-center text-xs leading-snug">Integrate closely with clients throughout
+                                    the support process, fostering a partnership that incorporates their vision and
+                                    feedback to create solutions that reflect their goals.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col min-w-0 clr-primary rounded-2xl text-white p-6 w-full h-full">
+                            <div class="flex flex-col items-center gap-3">
+                                <x-icons.bulb class="w-12 h-12 mb-1" />
+                                <hr class="w-full border border-white">
+                                <h1 class="text-base font-bold text-center w-full">Boost Business Performance</h1>
+                                <p class="text-center text-xs leading-snug">Develop a maintenance and support process
+                                    that drives measurable outcomes, such as increased website performance and improved
+                                    visibility.</p>
+                            </div>
+                        </div>
+
+                        <div
+                            class="flex flex-col min-w-0 bg-white rounded-2xl clr-txt-primary p-6 w-full h-full shadow-md">
+                            <div class="flex flex-col items-center gap-3">
+                                <x-icons.bulb class="w-12 h-12 mb-1" />
+                                <hr class="w-full border border-clr-primary">
+                                <h1 class="text-base font-bold text-center w-full">Ensure Exceptional User Experience
                                 </h1>
-                                <p class="text-center text-sm">Create intuitive, visually appealing interfaces that
-                                    enhance user engagement and satisfaction, making the application both functional and
-                                    accessible for end-users.</p>
+                                <p class="text-center text-xs leading-snug">Create intuitive, visually appealing
+                                    interfaces that enhance user engagement and satisfaction, making the application
+                                    both functional and accessible for end-users.</p>
                             </div>
                         </div>
-                        <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
-                            <div class="flex flex-col items-center gap-4 my-auto">
-                                <x-icons.bulb class="w-16 h-16 mb-2" />
-                                <hr class="w-full border-2 border-white">
-                                <h1 class="text-xl font-bold text-center w-full">Provide Strategic Implementation</h1>
-                                <p class="text-center text-sm">Support clients with comprehensive strategies, including
-                                    case studies and development roadmaps, to ensure seamless deployment and long-term
-                                    success of the website.</p>
+
+                        <div class="flex flex-col min-w-0 clr-primary rounded-2xl text-white p-6 w-full h-full">
+                            <div class="flex flex-col items-center gap-3">
+                                <x-icons.bulb class="w-12 h-12 mb-1" />
+                                <hr class="w-full border border-white">
+                                <h1 class="text-base font-bold text-center w-full">Provide Strategic Implementation
+                                </h1>
+                                <p class="text-center text-xs leading-snug">Support clients with comprehensive
+                                    strategies, including case studies and development roadmaps, to ensure seamless
+                                    deployment and long-term success of the website.</p>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -326,19 +352,24 @@
             {{-- Fifth Page --}}
             <div class="page flex w-full bg-white">
                 <div class="flex flex-col w-full h-full px-10 py-5 gap-3">
+
+                    {{-- Header --}}
                     <div class="flex justify-between items-start shrink-0 gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <h1 class="text-5xl font-bold clr-txt-primary tracking-tight">Problem Statement</h1>
+                            <h1 class="text-7xl font-bold clr-txt-primary tracking-tight">Problem Statement</h1>
                             <hr class="w-2/5 border-t border-clr-primary">
                         </div>
                         <x-circles />
                     </div>
-                    <p class="text-sm leading-relaxed clr-txt-primary max-w-5xl shrink-0">In today's digital-first
+
+                    {{-- Intro --}}
+                    <p class="text-lg leading-relaxed clr-txt-primary max-w-5xl mt-4 shrink-0">In today's digital-first
                         environment, businesses face numerous obstacles that hinder their ability to maintain a strong
                         online presence. From outdated designs and poor user experience to security risks and low search
                         visibility, these issues can significantly impact brand credibility and growth. Odecci's website
                         development services are designed to address these challenges head-on, providing innovative,
                         scalable, and secure solutions that align with your business objectives.</p>
+
                     @php
                         $problemItems = [
                             'Lack of Professional Online Presence',
@@ -348,57 +379,70 @@
                             'Security Vulnerabilities and Compliance Risks',
                         ];
                     @endphp
-                    <div class="flex flex-col w-full max-w-6xl mx-auto mt-2">
+
+                    <div class="flex flex-col w-full max-w-6xl mx-auto gap-10 mt-4 flex-1">
+
+                        {{-- Pill --}}
                         <div class="flex items-center gap-3 w-full mb-3">
                             <div class="flex-1 border-t border-dashed border-gray-400"></div>
                             <div
-                                class="clr-primary text-white px-7 py-2.5 rounded-full font-bold text-xs tracking-widest uppercase whitespace-nowrap">
-                                Top 5 most common problems encountered</div>
+                                class="clr-primary text-white p-4 rounded-full font-bold text-xl tracking-widest uppercase whitespace-nowrap">
+                                Top 5 most common problems encountered
+                            </div>
                             <div class="flex-1 border-t border-dashed border-gray-400"></div>
                         </div>
+
                         <div class="grid grid-cols-5 gap-2 w-full">
                             @foreach ($problemItems as $label)
+                                @php $n = $loop->iteration; @endphp
                                 <div
-                                    class="bg-white rounded-xl px-3 py-5 flex items-start justify-center text-center shadow-md h-40">
-                                    <p class="text-sm font-bold clr-txt-primary leading-tight">{{ $label }}</p>
+                                    class="bg-white rounded-xl flex flex-col justify-between text-center shadow-md h-40 overflow-visible">
+
+                                    {{-- Label gets the padding instead --}}
+                                    <p class="text-sm font-bold clr-txt-primary leading-tight px-3 pt-4">
+                                        {{ $label }}</p>
+
+                                    {{-- Bottom bar with circle — no padding needed, full width naturally --}}
+                                    <div class="relative w-full h-8 mt-2">
+                                        <div
+                                            class="absolute w-full inset-x-0 bottom-0 h-4 {{ $n % 2 === 1 ? 'clr-primary' : 'clr-bg-secondary' }}
+            {{ $n === 1 ? 'rounded-bl-xl' : '' }}
+            {{ $n === 5 ? 'rounded-br-xl' : '' }}">
+                                        </div>
+                                        <div class="absolute inset-x-0 top-0 flex justify-center">
+                                            <span
+                                                class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-md border border-gray-200 text-sm font-bold clr-txt-primary">
+                                                {{ $n }}
+                                            </span>
+                                        </div>
+                                    </div>
+
                                 </div>
                             @endforeach
                         </div>
-                        <div class="relative w-full h-14 mt-0">
-                            <div class="grid grid-cols-5 gap-2 h-5 w-full mt-3">
-                                @foreach (range(1, 5) as $i)
-                                    <div
-                                        class="{{ $i % 2 === 1 ? 'clr-primary' : 'clr-bg-secondary' }} {{ $i === 1 ? 'rounded-bl-lg' : '' }} {{ $i === 5 ? 'rounded-br-lg' : '' }}">
-                                    </div>
-                                @endforeach
-                            </div>
-                            <div class="absolute inset-0 grid grid-cols-5 gap-2 items-center justify-items-center">
-                                @foreach (range(1, 5) as $n)
-                                    <span
-                                        class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-white shadow-md border border-gray-100 text-sm font-bold clr-txt-primary">{{ $n }}</span>
-                                @endforeach
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
 
             {{-- Sixth Page --}}
             <div class="page flex w-full bg-white">
-                <div class="flex flex-1 flex-col w-full h-full px-10 py-5 gap-3">
+                <div class="flex flex-1 flex-col justify-between w-full h-full px-10 py-5 gap-3">
                     <div class="flex justify-between items-start shrink-0 gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <h1 class="text-5xl font-bold clr-txt-primary tracking-tight">Our Custom Solution</h1>
+                            <h1 class="text-7xl font-bold clr-txt-primary tracking-tight">Our Custom Solution</h1>
                             <hr class="w-2/5 border-t border-clr-primary">
                         </div>
                         <x-circles />
                     </div>
-                    <p class="text-sm leading-relaxed clr-txt-secondary max-w-5xl shrink-0">Odecci delivers a <span
-                            class="font-bold clr-txt-primary">next-generation website development service</span> that
+                    <p class="text-lg leading-relaxed clr-txt-secondary max-w-5xl shrink-0">Odecci delivers a <span
+                            class="font-bold clr-txt-primary">next-generation website development service</span>
+                        that
                         pairs <span class="font-bold clr-txt-primary">custom design</span> with <span
                             class="font-bold clr-txt-primary">advanced technology</span> and <span
                             class="font-bold clr-txt-primary">strategic functionality</span> — giving you a fast,
-                        secure, and scalable site that supports your brand and your customers at every touchpoint.</p>
+                        secure, and scalable site that supports your brand and your customers at every touchpoint.
+                    </p>
                     @php
                         $customSolutionItems = [
                             [
@@ -435,18 +479,31 @@
                             ],
                         ];
                     @endphp
-                    <div class="grid grid-cols-5 gap-4 w-full mt-2">
+                    <div class="grid grid-cols-5 gap-4 w-full mt-2 h-3/5 items-start">
                         @foreach ($customSolutionItems as $item)
-                            <div class="flex flex-col items-center gap-0">
+                            <div class="flex flex-col items-center gap-0 h-full">
+                                {{-- Icon box --}}
                                 <div
-                                    class="{{ $item['boxClass'] }} rounded-xl flex items-center justify-center px-4 py-6 w-full">
+                                    class="{{ $item['boxClass'] }} text-white rounded-xl flex items-center justify-center px-4 py-6 w-full">
                                     <x-icons.bulb class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
                                 </div>
+
+                                {{-- Dashed line --}}
                                 <div class="w-px h-6 border-l border-dashed border-gray-400"></div>
-                                <h2 class="text-sm font-bold clr-txt-primary text-center leading-tight px-0.5">
-                                    {{ $item['title'] }}</h2>
-                                <p class="text-xs clr-txt-secondary text-center leading-snug px-0.5 mt-1">
-                                    {{ $item['desc'] }}</p>
+
+                                {{-- Title + Desc --}}
+                                <div class="flex flex-col gap-1 h-2/5">
+                                    <div class="flex h-1/5 justify-center items-center">
+                                        <h2 class="text-lg font-bold clr-txt-primary text-center">
+                                            {{ $item['title'] }}
+                                        </h2>
+                                    </div>
+                                    <div class="flex flex-1 justify-center items-center">
+                                        <p class="text-sm clr-txt-secondary text-center leading-snug px-0.5">
+                                            {{ $item['desc'] }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -473,9 +530,15 @@
                         ],
                     ]"
                     :inclusions="[
-                        ['title' => '1 Month Free Support', 'desc' => 'Post-launch assistance for smooth operations.'],
+                        [
+                            'title' => '1 Month Free Support',
+                            'desc' => 'Post-launch assistance for smooth operations.',
+                        ],
                         ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
-                        ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
+                        [
+                            'title' => 'Google Business Profile Setup',
+                            'desc' => 'Enhance your local search presence.',
+                        ],
                         [
                             'title' => '3 Personalized Business Email Addresses',
                             'desc' => 'Professional communication for your team.',
@@ -485,7 +548,10 @@
                             'title' => 'Free Domain (.com) with SSL for 1 Year',
                             'desc' => 'Secure and professional online identity.',
                         ],
-                        ['title' => 'Free CMS Training', 'desc' => '1-day, 2-hour live session to empower your team.'],
+                        [
+                            'title' => 'Free CMS Training',
+                            'desc' => '1-day, 2-hour live session to empower your team.',
+                        ],
                     ]" />
             </div>
 
@@ -560,11 +626,17 @@
                             'title' => 'Online Payment Integration',
                             'desc' => 'Accept payments securely and conveniently.',
                         ],
-                        ['title' => 'Customer Dashboard', 'desc' => 'Empower customers with account management tools.'],
+                        [
+                            'title' => 'Customer Dashboard',
+                            'desc' => 'Empower customers with account management tools.',
+                        ],
                     ]" :inclusions="[
                         ['title' => '3 Month Free Support', 'desc' => 'Extended assistance for smooth operations.'],
                         ['title' => 'Google Analytics Setup', 'desc' => 'Track visitor behavior and performance.'],
-                        ['title' => 'Google Business Profile Setup', 'desc' => 'Enhance your local search presence.'],
+                        [
+                            'title' => 'Google Business Profile Setup',
+                            'desc' => 'Enhance your local search presence.',
+                        ],
                         [
                             'title' => '10 Personalized Business Email Addresses',
                             'desc' => 'Professional communication for your team.',
@@ -574,7 +646,10 @@
                             'title' => 'Free Domain (.com) with SSL for 1 Year',
                             'desc' => 'Secure and professional online identity.',
                         ],
-                        ['title' => 'Free CMS Training', 'desc' => '3-days, 2-hour live session to empower your team.'],
+                        [
+                            'title' => 'Free CMS Training',
+                            'desc' => '3-days, 2-hour live session to empower your team.',
+                        ],
                     ]" />
             </div>
 
@@ -601,7 +676,8 @@
                                 <tbody>
                                     <tr class="border-b border-gray-100">
                                         <td class="px-6 py-3 italic clr-txt-primary text-sm">50% Downpayment</td>
-                                        <td class="px-6 py-3 italic clr-txt-secondary text-sm">Upon contract signing
+                                        <td class="px-6 py-3 italic clr-txt-secondary text-sm">Upon contract
+                                            signing
                                         </td>
                                     </tr>
                                     <tr>
@@ -617,14 +693,16 @@
                             <ul class="flex flex-col gap-1">
                                 <li class="text-sm clr-txt-secondary">• Any out-of-scope work will be billed
                                     separately.</li>
-                                <li class="text-sm clr-txt-secondary">• The billing invoice will be issued based on the
+                                <li class="text-sm clr-txt-secondary">• The billing invoice will be issued based on
+                                    the
                                     accomplished milestone.</li>
                             </ul>
                         </div>
                         <div class="flex flex-col gap-1.5">
                             <p class="text-sm font-bold clr-txt-primary">Client Responsibilities:</p>
                             <ul class="flex flex-col gap-1">
-                                <li class="text-sm clr-txt-secondary">• Client shall provide a person to be the main
+                                <li class="text-sm clr-txt-secondary">• Client shall provide a person to be the
+                                    main
                                     contact for the project</li>
                                 <li class="text-sm clr-txt-secondary">• The Client must supply content for updates
                                     (e.g., text, images, announcements).</li>
@@ -633,7 +711,8 @@
                         <div class="flex flex-col gap-1.5">
                             <p class="text-sm font-bold clr-txt-primary">Limitation of Liability:</p>
                             <ul class="flex flex-col gap-1">
-                                <li class="text-sm clr-txt-secondary">• The service provider should provide a progress
+                                <li class="text-sm clr-txt-secondary">• The service provider should provide a
+                                    progress
                                     report of the project every week.</li>
                                 <li class="text-sm clr-txt-secondary">• Liability is limited to the total contract
                                     value of the project.</li>
@@ -655,7 +734,8 @@
                 <div class="flex flex-1 flex-col w-full h-full px-10 py-5 gap-3">
                     <div class="flex justify-between items-start shrink-0 gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <h1 class="text-5xl font-bold clr-txt-primary tracking-tight">Some of our Website Projects
+                            <h1 class="text-5xl font-bold clr-txt-primary tracking-tight">Some of our Website
+                                Projects
                             </h1>
                             <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
                         </div>
@@ -687,7 +767,8 @@
                 <div class="flex flex-1 flex-col w-full h-full px-10 py-5 gap-3">
                     <div class="flex justify-between items-start shrink-0 gap-4">
                         <div class="flex flex-col gap-1.5">
-                            <h1 class="text-5xl font-bold clr-txt-primary tracking-tight">Organizations we work with
+                            <h1 class="text-5xl font-bold clr-txt-primary tracking-tight">Organizations we work
+                                with
                             </h1>
                             <hr class="w-3/5 border-2 border-t mt-4 border-clr-primary">
                         </div>
@@ -738,7 +819,8 @@
                             <p class="text-lg clr-txt-secondary leading-relaxed">Every business is unique, even if
                                 daily operations seem similar across industries. A custom application empowers
                                 businesses to stand out by addressing specific needs, such as attracting clients,
-                                streamlining internal management, enhancing marketing strategies, optimizing processes,
+                                streamlining internal management, enhancing marketing strategies, optimizing
+                                processes,
                                 or automating targeted sectors. Tailored solutions ensure your business operates
                                 efficiently and aligns with your distinct vision and goals.</p>
                         </div>
@@ -746,7 +828,8 @@
                             <hr class="w-10 border-t-2 border-clr-primary">
                             <p class="text-lg clr-txt-secondary leading-relaxed">At Odecci, we don't just build
                                 systems, we create platforms that work as smart, strategic tools for your business.
-                                Because in these fast-moving and competitive industries, you need to think ahead.</p>
+                                Because in these fast-moving and competitive industries, you need to think ahead.
+                            </p>
                         </div>
                     </div>
                     <div class="flex flex-col justify-center items-center w-1/2 clr-primary h-full px-8 py-6 gap-6">
@@ -810,13 +893,17 @@
 
             {{-- Fifteenth Page --}}
             <div class="page flex flex-col items-center w-full bg-white">
-                <div class="w-full h-full px-10 -space-x-10 flex flex-row overflow-visible items-start">
+                <div class="w-full h-full px-10 flex flex-row items-start pt-8">
+
+                    {{-- Image --}}
                     <div class="w-1/2 h-4/5 rounded-2xl overflow-hidden shrink-0">
                         <img src="{{ asset('images/guidance.png') }}" alt="Guidance"
                             class="w-full h-full object-cover">
                     </div>
+
+                    {{-- Card — pulled left using positive margin instead of negative space-x --}}
                     <div
-                        class="clr-primary rounded-3xl px-10 py-10 flex flex-col items-center justify-center text-center gap-4 h-2/5 w-5/12 self-start -mt-20">
+                        class="clr-primary rounded-3xl px-10 py-10 flex flex-col items-center justify-center text-center gap-4 h-2/5 w-5/12 self-start -ml-16 mt-8">
                         <h1 class="text-5xl font-light text-white tracking-tight">Need guidance?</h1>
                         <div class="flex flex-col gap-1">
                             <p class="text-sm text-gray-300">We're here to help. Contact us for a free consultation.
@@ -826,8 +913,11 @@
                         <a href="https://odecci.com/contact-us/" target="_blank"
                             class="text-sm text-blue-400 underline">https://odecci.com/consultation/</a>
                     </div>
+
                 </div>
-                <div class="mt-auto flex flex-row justify-end w-full">
+
+                {{-- Circles bottom right --}}
+                <div class="mt-auto flex justify-end w-full pb-4 pr-6">
                     <x-circles />
                 </div>
             </div>
