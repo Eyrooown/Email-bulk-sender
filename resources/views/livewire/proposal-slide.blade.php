@@ -1,6 +1,6 @@
 <div class="flex flex-col w-full bg-gray-100 shadow-sm">
     {{-- First Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm">
 
         {{-- Left dark bar --}}
         <div class="w-32 clr-primary shrink-0"></div>
@@ -41,7 +41,7 @@
     </div>
 
     {{-- Second Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm">
 
         {{-- Content --}}
         <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
@@ -130,7 +130,7 @@
     </div>
 
     {{-- Third Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm">
 
         {{-- Left dark bar --}}
         <div class="w-32 clr-primary shrink-0"></div>
@@ -223,7 +223,7 @@
     </div>
 
     {{-- Fourth Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm">
 
         {{-- Content --}}
         <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
@@ -300,7 +300,7 @@
         </div>
     </div>
     {{-- Fifth Page — Problem Statement --}}
-    <div class="flex w-full aspect-video shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
 
         <div class="flex flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
@@ -384,7 +384,7 @@
     </div>
 
     {{-- Sixth Page — Our Custom Solution --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
             {{-- Header --}}
@@ -477,7 +477,7 @@
     </div>
 
     {{-- Seventh Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <x-scope-card packageName="Basic Website Package"
             idealFor="Small to Medium Businesses looking for a professional online presence without complexity."
             revision="1 Design Revision" :tags="['Tailored Design', '2 Weeks Delivery']" benefit="What You'll Get" :whatYouGet="[
@@ -507,7 +507,7 @@
     </div>
 
     {{-- Eighth Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <x-scope-card packageName="Business Website Package"
             idealFor="Scaling businesses that want their brand to stand out, increase traffic,
             and showcase products and services with a professional, feature-rich website."
@@ -526,7 +526,7 @@
                 [
                     'title' => '5 Personalized Business Email Addresses',
                     'desc' => 'Professional communication
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    for your team.',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    for your team.',
                 ],
                 ['title' => 'Free Web Hosting for 1 Year', 'desc' => 'Reliable and secure hosting.'],
                 [
@@ -538,7 +538,7 @@
     </div>
 
     {{-- Ninth Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <x-scope-card packageName="Online Store Website Package"
             idealFor="Retailers, wholesalers, and brands that want to sell online with ease. This end-
             to-end eCommerce solution handles everything, from product display and
@@ -549,12 +549,12 @@
                 [
                     'title' => 'Unlimited Mobile-Friendly Design',
                     'desc' => 'Fully responsive layouts for an
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    exceptional user experience across all devices.',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    exceptional user experience across all devices.',
                 ],
                 [
                     'title' => 'Full Inventory & Order Management',
                     'desc' => 'Manage stock, orders, and fulfillment
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    seamlessly.',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    seamlessly.',
                 ],
                 ['title' => 'Discounts, Coupons & Promotions', 'desc' => 'Engage customers with attractive offers.'],
                 ['title' => 'Cart + Checkout Page', 'desc' => 'Smooth and secure shopping experience.'],
@@ -579,7 +579,7 @@
     </div>
 
     {{-- Tenth Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
             {{-- Header --}}
@@ -666,7 +666,7 @@
     </div>
 
     {{-- Eleventh Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
             {{-- Header --}}
@@ -702,7 +702,7 @@
 
 
     {{-- Twelve Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
             {{-- Header --}}
@@ -724,7 +724,7 @@
     </div>
 
     {{-- Thirteen Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="flex flex-1 flex-col w-full h-full min-h-0 px-10 sm:px-14 py-5 gap-3">
 
             {{-- Header --}}
@@ -753,8 +753,8 @@
     </div>
 
     {{-- Fourteenth Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
-        <div class="flex w-full h-4/5 min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
+        <div class="flex w-full h-full min-h-0">
 
             {{-- Left Column --}}
             <div class="flex flex-col w-1/2 px-10 sm:px-14 py-5 justify-between">
@@ -864,7 +864,7 @@
     </div>
 
     {{-- Fifteenth Page --}}
-    <div class="flex flex-col items-center w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex flex-col items-center w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="w-full h-full px-10 sm:px-14 -space-x-10 flex flex-row overflow-visible items-start">
 
             {{-- Image --}}
@@ -874,7 +874,7 @@
 
             {{-- Card --}}
             <div
-                class="clr-primary rounded-3xl px-10 py-10 flex flex-col items-center justify-center text-center gap-4 h-2/5 w-5/12 selft-start -mt-20">
+                class="clr-primary rounded-3xl px-10 py-10 flex flex-col items-center justify-center text-center gap-4 h-2/5 w-5/12 self-start -mt-20">
                 <h1 class="text-4xl sm:text-5xl font-light text-white tracking-tight">
                     Need guidance?
                 </h1>
@@ -903,11 +903,11 @@
     </div>
 
     {{-- Sixteenth Page --}}
-    <div class="flex w-full aspect-video bg-white shadow-sm min-h-0">
+    <div class="flex w-full aspect-[1.414/1] bg-white shadow-sm min-h-0">
         <div class="flex w-full h-full min-h-0">
 
             {{-- Left Dark Bar --}}
-            <div class="clr-primary w-48 shrink-0 h-full"></div>
+            <div class="clr-primary w-32 shrink-0 h-full"></div>
 
             {{-- Main Content --}}
             <div class="flex flex-col w-full h-full px-10 sm:px-14 py-6 justify-between">
