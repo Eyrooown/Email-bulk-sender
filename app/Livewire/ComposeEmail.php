@@ -11,7 +11,6 @@ use Dompdf\Dompdf;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -387,8 +386,6 @@ class ComposeEmail extends Component
 
     public function send()
     {
-        Log::info('Send called. selectedProposalId: '.($this->selectedProposalId ?? 'null'));
-
         if (empty($this->recipients)) {
             $this->addError('recipients', 'Please add at least one recipient.');
 
@@ -443,14 +440,10 @@ class ComposeEmail extends Component
         }
 
         // Generate and attach proposal PDF
-        Log::info('Checking selectedProposalId: '.$this->selectedProposalId);
-
         if (! empty($this->selectedProposalId)) {
             $proposal = Proposal::where('user_id', Auth::id())
                 ->with('slides')
                 ->find($this->selectedProposalId);
-
-            Log::info('Found proposal: '.($proposal ? $proposal->title : 'null'));
 
             if ($proposal) {
                 try {
@@ -515,10 +508,8 @@ class ComposeEmail extends Component
                         'path' => $pdfPath,
                         'filename' => $pdfFilename,
                     ];
-
-                    Log::info('Proposal PDF attached: '.$pdfFilename);
                 } catch (\Exception $e) {
-                    Log::error('Failed to generate proposal PDF: '.$e->getMessage());
+                    // Silent fail - attachment is optional
                 }
             }
         }
