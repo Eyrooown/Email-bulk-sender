@@ -3,11 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Proposal;
+use Dompdf\Dompdf;
 use Illuminate\Http\Response;
 use Spatie\Browsershot\Browsershot;
 
 class ProposalExportController extends Controller
 {
+    public function preview(Proposal $proposal)
+    {
+        abort_unless($proposal->user_id === auth()->id(), 403);
+
+        $slides = $proposal->slides()->orderBy('order')->get();
+        $theme = $proposal->theme;
+
+        return view('exports.proposal-pdf', compact('proposal', 'slides', 'theme'));
+    }
+
     public function pdf(Proposal $proposal): Response
     {
         abort_unless($proposal->user_id === auth()->id(), 403);
@@ -50,18 +61,18 @@ class ProposalExportController extends Controller
 
             return response($browsershot->pdf(), 200, [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="' . str($proposal->title)->slug() . '.pdf"',
+                'Content-Disposition' => 'attachment; filename="'.str($proposal->title)->slug().'.pdf"',
             ]);
         }
 
-        $dompdf = new \Dompdf\Dompdf();
+        $dompdf = new Dompdf;
         $dompdf->setPaper('A4', 'landscape');
         $dompdf->loadHtml($html);
         $dompdf->render();
 
         return response($dompdf->output(), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . str($proposal->title)->slug() . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="'.str($proposal->title)->slug().'.pdf"',
         ]);
     }
 }

@@ -2,48 +2,77 @@
 
 namespace App\Livewire;
 
-use App\Mail\BulkEmail;
+use App\Jobs\SendBulkEmail;
 use App\Models\Email;
 use App\Models\EmailAttachment;
 use App\Models\EmailRecipient;
-use App\Livewire\SendingProgressToast;
+use App\Models\Proposal;
+use Dompdf\Dompdf;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Livewire\WithPagination;
+use Spatie\Browsershot\Browsershot;
 
 class ComposeEmail extends Component
 {
     use WithFileUploads, WithPagination;
 
     public string $subject = '';
+
     public string $body = '';
+
     public string $manualEmail = '';
+
     public array $recipients = [];
+
     public array $recipientStatuses = [];
+
     public $attachments = [];
+
+    public ?int $selectedProposalId = null;
+
     public $csvFile = null;
+
     public array $csvHeaders = [];
+
     public array $csvRows = [];
+
     public array $csvData = []; // keyed by email => row data
+
     public string $selectedEmailColumn = '';
+
     public string $csvParseError = '';
+
     public bool $showCsvModal = false;
+
     public bool $showOverlay = false;
+
     public bool $showSendingModal = false;
+
     public ?int $sendingEmailId = null;
+
     public bool $showToast = false;
+
     public string $toastMessage = '';
+
     public bool $showAllRecipients = false;
+
     public string $manualEmailError = '';
+
     public int $sendTotal = 0;
+
     public int $sendCurrent = 0;
+
     public string $sendCurrentEmail = '';
+
     public ?int $editingDraftId = null;
+
     public int $recipientsPage = 1;
+
     public string $recipientsSearch = '';
 
     public function updatedRecipientsSearch()
@@ -71,12 +100,32 @@ class ComposeEmail extends Component
         }
     }
 
+    public function getProposalsProperty()
+    {
+        return Proposal::where('user_id', Auth::id())
+            ->orderBy('updated_at', 'desc')
+            ->get();
+    }
+
+    public function getSelectedProposalProperty()
+    {
+        if (! $this->selectedProposalId) {
+            return null;
+        }
+        $proposal = Proposal::where('user_id', Auth::id())->find($this->selectedProposalId);
+        if ($proposal) {
+            $proposal->load('slides');
+        }
+
+        return $proposal;
+    }
+
     protected $rules = [
-        'subject'      => 'nullable|string|max:255',
-        'body'         => 'required|string',
-        'manualEmail'  => 'nullable|email',
-        'attachments.*'=> 'file|max:10240',
-        'csvFile'      => 'nullable|file|mimes:csv,txt',
+        'subject' => 'nullable|string|max:255',
+        'body' => 'required|string',
+        'manualEmail' => 'nullable|email',
+        'attachments.*' => 'file|max:10240',
+        'csvFile' => 'nullable|file|mimes:csv,txt',
     ];
 
     public function addRecipient()
@@ -85,16 +134,19 @@ class ComposeEmail extends Component
 
         if (empty($this->manualEmail)) {
             $this->manualEmailError = 'Please enter a valid email address.';
+
             return;
         }
 
-        if (!filter_var($this->manualEmail, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var($this->manualEmail, FILTER_VALIDATE_EMAIL)) {
             $this->manualEmailError = 'Please enter a valid email address.';
+
             return;
         }
 
         if (in_array($this->manualEmail, $this->recipients)) {
             $this->manualEmailError = 'This email is already added.';
+
             return;
         }
 
@@ -105,7 +157,7 @@ class ComposeEmail extends Component
 
     public function removeRecipient(string $email)
     {
-        $this->recipients = array_values(array_filter($this->recipients, fn($r) => $r !== $email));
+        $this->recipients = array_values(array_filter($this->recipients, fn ($r) => $r !== $email));
         unset($this->recipientStatuses[$email]);
     }
 
@@ -141,15 +193,16 @@ class ComposeEmail extends Component
         $this->csvRows = [];
         $this->selectedEmailColumn = '';
 
-        if (!$this->csvFile) {
+        if (! $this->csvFile) {
             return;
         }
 
         $this->validateOnly('csvFile');
 
         $path = $this->csvFile->getRealPath();
-        if (!$path || !is_file($path)) {
+        if (! $path || ! is_file($path)) {
             $this->csvParseError = 'Upload not ready yet. Please wait a moment and try again.';
+
             return;
         }
 
@@ -169,6 +222,7 @@ class ComposeEmail extends Component
 
             if ($firstLine === '') {
                 $this->csvParseError = 'CSV file appears to be empty.';
+
                 return;
             }
 
@@ -189,7 +243,7 @@ class ComposeEmail extends Component
 
             $headers = null;
             foreach ($file as $row) {
-                if (!is_array($row)) {
+                if (! is_array($row)) {
                     continue;
                 }
                 // Some CSV parsers return [null] at EOF
@@ -198,7 +252,7 @@ class ComposeEmail extends Component
                 }
 
                 // Trim all cells
-                $row = array_map(static fn($v) => is_string($v) ? trim($v) : $v, $row);
+                $row = array_map(static fn ($v) => is_string($v) ? trim($v) : $v, $row);
 
                 if ($headers === null) {
                     // Remove UTF-8 BOM if present
@@ -206,6 +260,7 @@ class ComposeEmail extends Component
                         $row[0] = preg_replace('/^\xEF\xBB\xBF/', '', $row[0]) ?? $row[0];
                     }
                     $headers = $row;
+
                     continue;
                 }
 
@@ -217,7 +272,7 @@ class ComposeEmail extends Component
                         break;
                     }
                 }
-                if (!$hasAny) {
+                if (! $hasAny) {
                     continue;
                 }
 
@@ -228,6 +283,7 @@ class ComposeEmail extends Component
 
             if (count($this->csvHeaders) < 1 || count($this->csvRows) < 1) {
                 $this->csvParseError = 'Could not read rows from this CSV. Make sure it has a header row and at least 1 data row.';
+
                 return;
             }
 
@@ -239,13 +295,15 @@ class ComposeEmail extends Component
                 }
             }
         } catch (\Throwable $e) {
-            $this->csvParseError = 'Failed to parse CSV: ' . $e->getMessage();
+            $this->csvParseError = 'Failed to parse CSV: '.$e->getMessage();
         }
     }
 
     public function importFromCsv()
     {
-        if ($this->selectedEmailColumn === '') return;
+        if ($this->selectedEmailColumn === '') {
+            return;
+        }
 
         $colIndex = (int) $this->selectedEmailColumn;
 
@@ -254,7 +312,7 @@ class ComposeEmail extends Component
 
         foreach ($this->csvRows as $row) {
             $email = trim($row[$colIndex] ?? '');
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 continue;
             }
 
@@ -270,7 +328,7 @@ class ComposeEmail extends Component
 
         // Merge into existing recipients and CSV data
         foreach ($emails as $email) {
-            if (!in_array($email, $this->recipients)) {
+            if (! in_array($email, $this->recipients)) {
                 $this->recipients[] = $email;
                 $this->recipientStatuses[$email] = 'pending';
             }
@@ -295,29 +353,30 @@ class ComposeEmail extends Component
         $this->body = is_array($body) ? ($body['body'] ?? '') : (string) $body;
 
         // Only save if there's something to save (subject, body, or recipients)
-        $hasContent = !empty(trim($this->subject))
-            || !empty(strip_tags($this->body))
-            || !empty($this->recipients);
+        $hasContent = ! empty(trim($this->subject))
+            || ! empty(strip_tags($this->body))
+            || ! empty($this->recipients);
 
-        if (!$hasContent) {
+        if (! $hasContent) {
             if ($redirectTo) {
                 $this->redirect($redirectTo, navigate: true);
             }
+
             return;
         }
 
         $email = Email::create([
             'user_id' => Auth::id(),
             'subject' => $this->subject ?: '(No Subject)',
-            'body'    => $this->body,
-            'status'  => 'draft',
+            'body' => $this->body,
+            'status' => 'draft',
         ]);
 
         foreach ($this->recipients as $recipient) {
             EmailRecipient::create([
                 'email_id' => $email->id,
-                'email'    => $recipient,
-                'status'   => 'pending',
+                'email' => $recipient,
+                'status' => 'pending',
             ]);
         }
 
@@ -329,11 +388,13 @@ class ComposeEmail extends Component
     {
         if (empty($this->recipients)) {
             $this->addError('recipients', 'Please add at least one recipient.');
+
             return;
         }
 
         if (empty(strip_tags($this->body))) {
             $this->addError('body', 'Please write something before sending.');
+
             return;
         }
         $this->sendTotal = count($this->recipients);
@@ -348,33 +409,108 @@ class ComposeEmail extends Component
                 ->findOrFail($this->editingDraftId);
             $email->update([
                 'subject' => $this->subject ?: '(No Subject)',
-                'body'    => $this->body,
-                'status'  => 'sent',
+                'body' => $this->body,
+                'status' => 'sent',
             ]);
             $email->recipients()->delete();
         } else {
             $email = Email::create([
                 'user_id' => Auth::id(),
                 'subject' => $this->subject ?: '(No Subject)',
-                'body'    => $this->body,
-                'status'  => 'sent',
+                'body' => $this->body,
+                'status' => 'sent',
             ]);
         }
 
         // Store attachments first
         $attachmentPaths = [];
-        if (!empty($this->attachments)) {
+        if (! empty($this->attachments)) {
             foreach ($this->attachments as $attachment) {
                 $path = $attachment->store('email_attachments', 'public');
                 EmailAttachment::create([
                     'email_id' => $email->id,
                     'filename' => $attachment->getClientOriginalName(),
-                    'path'     => $path,
+                    'path' => $path,
                 ]);
                 $attachmentPaths[] = [
-                    'path'     => $path,
+                    'path' => $path,
                     'filename' => $attachment->getClientOriginalName(),
                 ];
+            }
+        }
+
+        // Generate and attach proposal PDF
+        if (! empty($this->selectedProposalId)) {
+            $proposal = Proposal::where('user_id', Auth::id())
+                ->with('slides')
+                ->find($this->selectedProposalId);
+
+            if ($proposal) {
+                try {
+                    $slides = $proposal->slides()->orderBy('order')->get();
+                    $theme = $proposal->theme;
+                    $html = view('exports.proposal-pdf', compact('proposal', 'slides', 'theme'))->render();
+
+                    // Try using Browsershot first (same as export PDF)
+                    if (class_exists(Browsershot::class)) {
+                        $a4lWidthPx = (int) round((297 / 25.4) * 96);
+                        $a4lHeightPx = (int) round((210 / 25.4) * 96);
+
+                        $browsershot = Browsershot::html($html)
+                            ->timeout(120)
+                            ->waitUntilNetworkIdle(false)
+                            ->delay(500)
+                            ->showBackground()
+                            ->emulateMedia('print')
+                            ->windowSize($a4lWidthPx, $a4lHeightPx)
+                            ->deviceScaleFactor(2)
+                            ->margins(0, 0, 0, 0)
+                            ->noSandbox()
+                            ->scale(1)
+                            ->setOption('preferCSSPageSize', true);
+
+                        $nodeModules = config('services.browsershot.node_modules') ?: base_path('node_modules');
+                        if (is_string($nodeModules) && is_dir($nodeModules)) {
+                            $browsershot->setNodeModulePath($nodeModules);
+                        }
+                        if ($node = config('services.browsershot.node_binary')) {
+                            $browsershot->setNodeBinary($node);
+                        }
+                        if ($npm = config('services.browsershot.npm_binary')) {
+                            $browsershot->setNpmBinary($npm);
+                        }
+                        if ($chrome = config('services.browsershot.chrome_path')) {
+                            $browsershot->setChromePath($chrome);
+                        }
+
+                        $pdfContent = $browsershot->pdf();
+                    } else {
+                        // Fall back to Dompdf
+                        $dompdf = new Dompdf;
+                        $dompdf->setPaper('A4', 'landscape');
+                        $dompdf->loadHtml($html);
+                        $dompdf->render();
+                        $pdfContent = $dompdf->output();
+                    }
+
+                    $pdfFilename = str($proposal->title)->slug()->toString().'.pdf';
+                    $pdfPath = 'email_attachments/'.$pdfFilename;
+                    Storage::disk('public')->put($pdfPath, $pdfContent);
+
+                    EmailAttachment::create([
+                        'email_id' => $email->id,
+                        'filename' => $pdfFilename,
+                        'path' => $pdfPath,
+                        'is_proposal' => true,
+                    ]);
+
+                    $attachmentPaths[] = [
+                        'path' => $pdfPath,
+                        'filename' => $pdfFilename,
+                    ];
+                } catch (\Exception $e) {
+                    // Silent fail - attachment is optional
+                }
             }
         }
 
@@ -386,7 +522,7 @@ class ComposeEmail extends Component
         ], 300);
 
         // Dispatch job
-        \App\Jobs\SendBulkEmail::dispatch(
+        SendBulkEmail::dispatch(
             $email->id,
             $this->recipients,
             $this->subject ?: '(No Subject)',
@@ -396,7 +532,7 @@ class ComposeEmail extends Component
             $this->csvData,
             null,
             null,
-            null,
+            Auth::user()?->email,
             Auth::user()?->name,
             Auth::user()?->email
         );
@@ -412,12 +548,15 @@ class ComposeEmail extends Component
         $this->attachments = [];
         $this->recipients = [];
         $this->recipientStatuses = [];
+        $this->selectedProposalId = null;
         $this->sendCurrent = 0;
     }
 
     public function checkSendingProgress()
     {
-        if (!$this->sendingEmailId) return;
+        if (! $this->sendingEmailId) {
+            return;
+        }
 
         $progress = Cache::get("sending_progress_{$this->sendingEmailId}");
         if ($progress) {
@@ -429,7 +568,7 @@ class ComposeEmail extends Component
                 $this->showSendingModal = false;
                 $this->sendingEmailId = null;
                 $this->showToast = true;
-                $this->toastMessage = 'Sent to ' . $progress['total'] . ' recipient' . ($progress['total'] !== 1 ? 's' : '');
+                $this->toastMessage = 'Sent to '.$progress['total'].' recipient'.($progress['total'] !== 1 ? 's' : '');
                 Cache::forget("sending_progress_{$this->sendingEmailId}");
                 $this->redirect(route('dashboard'), navigate: true);
             }
@@ -451,9 +590,9 @@ class ComposeEmail extends Component
         $previewRows = array_slice($this->csvRows, 0, 5);
 
         $filteredRecipients = $this->recipients;
-        if (!empty(trim($this->recipientsSearch))) {
+        if (! empty(trim($this->recipientsSearch))) {
             $term = strtolower(trim($this->recipientsSearch));
-            $filteredRecipients = array_values(array_filter($this->recipients, fn($email) => str_contains(strtolower($email), $term)));
+            $filteredRecipients = array_values(array_filter($this->recipients, fn ($email) => str_contains(strtolower($email), $term)));
         }
 
         $page = max(1, (int) request()->query('recipientsPage', $this->recipientsPage));
@@ -466,11 +605,11 @@ class ComposeEmail extends Component
         );
 
         return view('components.livewire.compose-email', [
-            'visibleRecipients'    => $visibleRecipients,
-            'previewRows'          => $previewRows,
-            'recipientsPaginator'  => $recipientsPaginator,
-            'csvHeaders'           => $this->csvHeaders,
-            'csvData'              => $this->csvData,
+            'visibleRecipients' => $visibleRecipients,
+            'previewRows' => $previewRows,
+            'recipientsPaginator' => $recipientsPaginator,
+            'csvHeaders' => $this->csvHeaders,
+            'csvData' => $this->csvData,
         ]);
     }
 }

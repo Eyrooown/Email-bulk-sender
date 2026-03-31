@@ -1,4 +1,29 @@
 <div x-data="composePage()" @compose-dirty.window="dirty = true" @compose-saved.window="dirty = false">
+    {{-- Proposals --}}
+    <div class="mb-4">
+        <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Attach Proposal</p>
+        <div class="bg-white border border-base-300 rounded-xl shadow-sm overflow-hidden">
+            <div class="p-4">
+                <select wire:model="selectedProposalId" class="select select-sm select-bordered w-full h-12">
+                    <option value="">— Select a proposal —</option>
+                    @foreach ($this->proposals as $proposal)
+                        <option value="{{ $proposal->id }}">{{ $proposal->title }}
+                            ({{ $proposal->slides_count ?? $proposal->slides->count() }} slides)
+                        </option>
+                    @endforeach
+                </select>
+                @if ($this->selectedProposal)
+                    <div class="mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p class="text-xs text-blue-700">
+                            <strong>{{ $this->selectedProposal->title }}</strong> will be attached as PDF when you send
+                            this email.
+                        </p>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
     {{-- Recipients --}}
     <div class="mb-4">
         <p class="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">Recipients</p>
@@ -510,9 +535,7 @@
 
 {{-- Toast --}}
 @if ($showToast)
-    <div
-        x-data
-        x-init="setTimeout(() => $wire.dismissToast(), 4000)"
+    <div x-data x-init="setTimeout(() => $wire.dismissToast(), 4000)"
         class="fixed bottom-8 right-8 z-50 bg-gray-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
         <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
             <svg class="w-3 h-3" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"

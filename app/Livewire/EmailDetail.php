@@ -183,7 +183,7 @@ class EmailDetail extends Component
             [], // no csv data for resend from details
             null,
             null,
-            null,
+            \Illuminate\Support\Facades\Auth::user()?->email,
             \Illuminate\Support\Facades\Auth::user()?->name,
             \Illuminate\Support\Facades\Auth::user()?->email
         );
