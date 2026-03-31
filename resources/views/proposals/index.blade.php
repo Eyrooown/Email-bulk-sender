@@ -4,7 +4,8 @@
             <h1 class="text-3xl font-bold clr-txt-primary mb-1">
                 My Proposals
             </h1>
-            <p class="text-gray-400 text-sm">{{ $proposals->count() }} {{ str('proposal')->plural($proposals->count()) }}</p>
+            <p class="text-gray-400 text-sm">{{ $proposals->count() }} {{ str('proposal')->plural($proposals->count()) }}
+            </p>
         </div>
 
         <form method="POST" action="{{ route('proposal.store') }}">
@@ -16,6 +17,9 @@
                 </svg>
                 New Proposal
             </button>
+            <a href="{{ route('proposal.print') }}" target="_blank" class="btn">
+                Download PDF
+            </a>
         </form>
     </div>
 
@@ -32,9 +36,11 @@
     @else
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             @foreach ($proposals as $proposal)
-                <div class="group relative bg-gray-900 border border-gray-800 hover:border-gray-600 rounded-xl overflow-hidden transition-all">
+                <div
+                    class="group relative bg-gray-900 border border-gray-800 hover:border-gray-600 rounded-xl overflow-hidden transition-all">
                     <a href="{{ route('proposal.edit', $proposal) }}" class="block">
-                        <div class="aspect-video w-full flex items-center justify-center
+                        <div
+                            class="aspect-video w-full flex items-center justify-center
                             @switch($proposal->theme)
                                 @case('midnight') bg-gradient-to-br from-gray-900 to-indigo-950 @break
                                 @case('aurora') bg-gradient-to-br from-purple-950 to-teal-950 @break
@@ -61,6 +67,10 @@
                             </p>
 
                             <div class="flex items-center gap-2">
+                                <a href="{{ route('proposal.preview', $proposal) }}" target="_blank"
+                                    class="text-xs text-gray-400 hover:text-white transition">
+                                    Preview
+                                </a>
                                 <a href="{{ route('proposal.export.pdf', $proposal) }}"
                                     class="text-xs text-indigo-300 hover:text-indigo-200 transition">
                                     PDF
@@ -70,7 +80,8 @@
                                     @csrf
                                     @method('DELETE')
                                     <button class="text-gray-600 hover:text-rose-400 transition" title="Delete">
-                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                            stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79" />
                                         </svg>
