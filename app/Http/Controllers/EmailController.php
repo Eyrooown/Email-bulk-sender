@@ -48,15 +48,14 @@ class EmailController extends Controller
             'status' => 'sent',
         ]);
 
-        // Save recipients and send
         foreach ($request->recipients as $recipient) {
             try {
                 $mailable = new BulkEmail(
                     subject: $request->subject ?? '(No Subject)',
                     body: $request->body,
-                    fromAddress: Auth::user()?->email,   // ← was null before
+                    fromAddress: Auth::user()?->email,
                     fromName: Auth::user()?->name,
-                    replyToEmail: Auth::user()?->email    // ← optional, keep if you want reply-to
+                    replyToEmail: Auth::user()?->email
                 );
 
                 // Attach files if any

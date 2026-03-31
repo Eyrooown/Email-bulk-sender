@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/proposal/{proposal}/edit', ProposalEditor::class)->name('proposal.edit');
     Route::delete('/proposal/{proposal}', [ProposalController::class, 'destroy'])->name('proposal.destroy');
     Route::get('/proposal/{proposal}/export/pdf', [ProposalExportController::class, 'pdf'])->name('proposal.export.pdf');
+    Route::get('/proposal/{proposal}/preview', [ProposalExportController::class, 'preview'])->name('proposal.preview');
 
     /** Isolated test page for ProposalSlide Livewire (not wired to proposal editor). */
     Route::get('/proposal-slide-test', function () {

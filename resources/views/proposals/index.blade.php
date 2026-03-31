@@ -67,6 +67,10 @@
                             </p>
 
                             <div class="flex items-center gap-2">
+                                <a href="{{ route('proposal.preview', $proposal) }}" target="_blank"
+                                    class="text-xs text-gray-400 hover:text-white transition">
+                                    Preview
+                                </a>
                                 <a href="{{ route('proposal.export.pdf', $proposal) }}"
                                     class="text-xs text-indigo-300 hover:text-indigo-200 transition">
                                     PDF
