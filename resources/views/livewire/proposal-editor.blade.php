@@ -86,6 +86,10 @@
                 <div wire:click.outside="$set('addSlideMenuOpen', false)"
                     class="absolute bottom-full left-0 right-0 mb-1 bg-gray-800 border border-gray-700 rounded-lg overflow-hidden shadow-xl z-50">
                     @foreach ([
+        'fixed-cover' => 'Fixed Cover',
+        'fixed-executive' => 'Fixed Executive Summary',
+        'fixed-whois' => 'Fixed Who is Odecci',
+        'fixed-strategy-cards' => 'Fixed Strategy Cards',
         'fixed-problem-statement' => 'Fixed Problem Statement',
         'fixed-custom-solution' => 'Fixed Custom Solution',
         'fixed-scope-basic' => 'Fixed Scope Basic',
