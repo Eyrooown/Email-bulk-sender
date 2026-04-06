@@ -120,6 +120,8 @@
                     'heading' => $heading,
                     'subheading' => $subheading,
                     'body' => $body,
+                    'bodyHighlights' => $bodyHighlights,
+                    'bodyFooter' => $bodyFooter,
                     'quote' => $quote,
                     'author' => $author,
                     'col1' => $col1,
@@ -276,8 +278,31 @@
                         class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
                 </div>
                 <div class="mt-4">
-                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Body Text</label>
-                    <textarea wire:model.live.debounce.400ms="body" rows="7"
+                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Opening Paragraphs</label>
+                    <textarea wire:model.live.debounce.400ms="body" rows="5"
+                        class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                </div>
+                <div class="mt-4 pt-2 border-t border-gray-700">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-xs text-gray-400 font-semibold">Key Highlights</label>
+                        <button type="button" wire:click="addBodyHighlight"
+                            class="text-xs text-indigo-400 hover:text-indigo-300">+ Add</button>
+                    </div>
+                    @forelse($bodyHighlights as $index => $highlight)
+                        <div class="flex items-start gap-2 mb-2">
+                            <input wire:model.live.debounce.400ms="bodyHighlights.{{ $index }}" type="text"
+                                placeholder="**Bold Label:** Description"
+                                class="flex-1 bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1.5 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                            <button type="button" wire:click="removeBodyHighlight({{ $index }})"
+                                class="text-gray-500 hover:text-rose-400 p-1.5">x</button>
+                        </div>
+                    @empty
+                        <p class="text-xs text-gray-500 italic">No highlights</p>
+                    @endforelse
+                </div>
+                <div class="mt-4 pt-2 border-t border-gray-700">
+                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Closing Paragraph</label>
+                    <textarea wire:model.live.debounce.400ms="bodyFooter" rows="3"
                         class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
                 </div>
             @endif

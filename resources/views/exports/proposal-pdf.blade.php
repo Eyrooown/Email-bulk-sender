@@ -102,7 +102,28 @@
                 @php
                     $c = $slide->content ?? [];
                     $layout = $slide->layout ?? 'blank';
+
+                    if ($layout === 'fixed-executive') {
+                        $c['body'] = !empty($c['body'])
+                            ? $c['body']
+                            : "Odecci Solutions Inc., is committed to delivering innovative, user-centric digital solutions that empower businesses to thrive in today's competitive landscape. This proposal outlines our comprehensive website development service designed to enhance your brand presence, improve customer engagement, and drive measurable business growth.\n\nOur approach combines cutting-edge technology, intuitive design, and strategic functionality to create a website that is not only visually appealing but also optimized for performance, security, and scalability. By leveraging modern frameworks and best practices, we ensure your website becomes a powerful tool for marketing, communication, and conversion.";
+                        $c['bodyHighlights'] = !empty($c['bodyHighlights'])
+                            ? $c['bodyHighlights']
+                            : [
+                                '**Custom Design & Branding:** Tailored to reflect your unique identity and values.',
+                                '**Responsive & Mobile-First Development:** Seamless experience across all devices.',
+                                '**SEO & Performance Optimization:** Enhanced visibility and faster load times.',
+                                '**Content Management System (CMS):** Easy updates and scalability for future growth.',
+                                '**Security & Compliance:** Robust measures to protect data and maintain trust.',
+                                '**Analytics Integration:** Actionable insights to monitor and improve performance.',
+                            ];
+                        $c['bodyFooter'] = !empty($c['bodyFooter'])
+                            ? $c['bodyFooter']
+                            : 'Partnering with Odecci means gaining a strategic ally focused on delivering a website that aligns with your business objectives, strengthens your digital footprint, and creates lasting impact. Our team ensures timely delivery, transparent communication, and ongoing support to maximize your investment.';
+                    }
                 @endphp
+
+
 
                 {{-- ══════════════════════════════════════════════
          FIXED-COVER  (Page 1 style)
@@ -154,9 +175,29 @@
                                         class="relative h-9/10 w-4/5 clr-txt-primary bg-white shadow-xl rounded-xl p-4 z-10">
                                         @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
                                             @if (trim($line) !== '')
-                                                <p class="mb-3">{{ trim($line) }}</p>
+                                                <p class="mb-3">{!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($line))) !!}</p>
                                             @endif
                                         @endforeach
+                                        @if (!empty($c['bodyHighlights']))
+                                            @php
+                                                $highlights = is_array($c['bodyHighlights'])
+                                                    ? $c['bodyHighlights']
+                                                    : json_decode($c['bodyHighlights'], true) ?? [];
+                                            @endphp
+                                            <p class="font-bold mb-2">Key Highlights of Our Service:</p>
+                                            @foreach ($highlights as $highlight)
+                                                @if (trim($highlight) !== '')
+                                                    <p class="mb-1">• {!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($highlight))) !!}</p>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                        @if (!empty($c['bodyFooter']))
+                                            @foreach (explode("\n", (string) $c['bodyFooter']) as $line)
+                                                @if (trim($line) !== '')
+                                                    <p class="mt-3">{!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($line))) !!}</p>
+                                                @endif
+                                            @endforeach
+                                        @endif
                                     </div>
                                     <div class="flex flex-col relative -ml-44 justify-end">
                                         <img src="{{ asset('images/executive-bg.png') }}" alt="Icon"

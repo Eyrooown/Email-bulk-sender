@@ -25,6 +25,10 @@ class ProposalEditor extends Component
 
     public string $body = '';
 
+    public array $bodyHighlights = [];
+
+    public string $bodyFooter = '';
+
     public string $quote = '';
 
     public string $author = '';
@@ -160,6 +164,8 @@ class ProposalEditor extends Component
         $this->heading = $c['heading'] ?? $defaults['heading'] ?? '';
         $this->subheading = $c['subheading'] ?? $defaults['subheading'] ?? '';
         $this->body = $c['body'] ?? $defaults['body'] ?? '';
+        $this->bodyHighlights = is_array($c['bodyHighlights'] ?? null) ? $c['bodyHighlights'] : ($defaults['bodyHighlights'] ?? []);
+        $this->bodyFooter = $c['bodyFooter'] ?? $defaults['bodyFooter'] ?? '';
         $this->quote = $c['quote'] ?? $defaults['quote'] ?? '';
         $this->author = $c['author'] ?? $defaults['author'] ?? '';
         $this->col1 = $c['col1'] ?? $defaults['col1'] ?? '';
@@ -264,6 +270,15 @@ class ProposalEditor extends Component
             'fixed-executive' => [
                 'heading' => 'Executive Summary',
                 'body' => "Odecci Solutions Inc., is committed to delivering innovative, user-centric digital solutions that empower businesses to thrive in today's competitive landscape. This proposal outlines our comprehensive website development service designed to enhance your brand presence, improve customer engagement, and drive measurable business growth.\n\nOur approach combines cutting-edge technology, intuitive design, and strategic functionality to create a website that is not only visually appealing but also optimized for performance, security, and scalability. By leveraging modern frameworks and best practices, we ensure your website becomes a powerful tool for marketing, communication, and conversion.",
+                'bodyHighlights' => [
+                    '**Custom Design & Branding:** Tailored to reflect your unique identity and values.',
+                    '**Responsive & Mobile-First Development:** Seamless experience across all devices.',
+                    '**SEO & Performance Optimization:** Enhanced visibility and faster load times.',
+                    '**Content Management System (CMS):** Easy updates and scalability for future growth.',
+                    '**Security & Compliance:** Robust measures to protect data and maintain trust.',
+                    '**Analytics Integration:** Actionable insights to monitor and improve performance.',
+                ],
+                'bodyFooter' => 'Partnering with Odecci means gaining a strategic ally focused on delivering a website that aligns with your business objectives, strengthens your digital footprint, and creates lasting impact. Our team ensures timely delivery, transparent communication, and ongoing support to maximize your investment.',
             ],
             'fixed-whois' => [
                 'top_heading' => 'OUR STRATEGY',
@@ -454,6 +469,8 @@ class ProposalEditor extends Component
             'heading',
             'subheading',
             'body',
+            'bodyHighlights',
+            'bodyFooter',
             'quote',
             'author',
             'col1',
@@ -525,9 +542,18 @@ class ProposalEditor extends Component
         if (! empty($this->subheading) && $this->subheading !== ($defaults['subheading'] ?? '')) {
             $content['subheading'] = $this->subheading;
         }
-        if (! empty($this->body) && $this->body !== ($defaults['body'] ?? '')) {
+
+        if (! empty($this->body)) {
             $content['body'] = $this->body;
         }
+
+        if (! empty($this->bodyHighlights)) {
+            $content['bodyHighlights'] = array_values($this->bodyHighlights);
+        }
+        if (! empty($this->bodyFooter)) {
+            $content['bodyFooter'] = $this->bodyFooter;
+        }
+
         if (! empty($this->quote) && $this->quote !== ($defaults['quote'] ?? '')) {
             $content['quote'] = $this->quote;
         }
@@ -700,6 +726,18 @@ class ProposalEditor extends Component
         $this->proposal->load('slides');
     }
 
+    public function addBodyHighlight(): void
+    {
+        $this->bodyHighlights[] = '';
+    }
+
+    public function removeBodyHighlight(int $index): void
+    {
+        unset($this->bodyHighlights[$index]);
+        $this->bodyHighlights = array_values($this->bodyHighlights);
+        $this->saveCurrentSlide();
+    }
+
     public function addWhatYouGetItem(): void
     {
         $this->whatYouGet[] = ['title' => '', 'desc' => ''];
@@ -762,7 +800,6 @@ class ProposalEditor extends Component
             ],
             'fixed-executive' => [
                 'heading' => 'Executive Summary',
-                'body' => 'Your executive summary text...',
             ],
             'fixed-whois' => [
                 'top_heading' => 'OUR STRATEGY',
