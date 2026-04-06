@@ -554,9 +554,10 @@
                 ];
             }
         @endphp
-        <div class="absolute inset-0 bg-white overflow-hidden">
-            <x-scope-card :packageName="$c['packageName'] ?? 'Package'" :idealFor="$c['idealFor'] ?? ''" :revision="$c['revision'] ?? ''" :tags="$tags" :benefit="$c['benefit'] ?? 'What You\'ll Get'"
-                :whatYouGet="$whatYouGet" :inclusions="$inclusions" />
+        <div
+            class="absolute inset-0 bg-white {{ $mini ? 'overflow-hidden' : ($printMode ?? false ? 'overflow-hidden' : 'overflow-y-auto') }}">
+            <x-scope-card :mini="$mini" :packageName="$c['packageName'] ?? 'Package'" :idealFor="$c['idealFor'] ?? ''" :revision="$c['revision'] ?? ''" :tags="$tags"
+                :benefit="$c['benefit'] ?? 'What You\'ll Get'" :whatYouGet="$whatYouGet" :inclusions="$inclusions" />
         </div>
     @break
 
