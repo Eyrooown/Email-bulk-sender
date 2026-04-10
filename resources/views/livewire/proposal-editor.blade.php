@@ -120,6 +120,8 @@
                     'heading' => $heading,
                     'subheading' => $subheading,
                     'body' => $body,
+                    'bodyHighlights' => $bodyHighlights,
+                    'bodyFooter' => $bodyFooter,
                     'quote' => $quote,
                     'author' => $author,
                     'col1' => $col1,
@@ -146,7 +148,7 @@
             <div class="w-full max-w-4xl {{ $viewMode === 'print' ? 'max-w-[1122px]' : '' }}">
                 @if ($viewMode === 'print')
                     <div class="flex flex-col gap-4">
-                        @foreach($proposal->slides as $index => $slide)
+                        @foreach ($proposal->slides as $index => $slide)
                             <div class="relative w-full" style="aspect-ratio: 1.414 / 1;">
                                 <div
                                     class="absolute inset-0 rounded-xl overflow-hidden shadow-2xl shadow-black/60 {{ $this->themeClass() }}">
@@ -158,15 +160,16 @@
                                     ])
                                 </div>
                             </div>
-                            @if($index < $proposal->slides->count() - 1)
-                                <div class="text-center text-xs text-gray-500 py-2">--- Page {{ $index + 1 }} ---</div>
+                            @if ($index < $proposal->slides->count() - 1)
+                                <div class="text-center text-xs text-gray-500 py-2">--- Page {{ $index + 1 }} ---
+                                </div>
                             @endif
                         @endforeach
                     </div>
                 @else
                     <div class="relative w-full" style="aspect-ratio: 1.414 / 1;">
                         <div
-                            class="absolute inset-0 rounded-xl overflow-hidden shadow-2xl shadow-black/60 {{ $this->themeClass() }} overflow-auto">
+                            class="absolute inset-0 rounded-xl overflow-y-auto shadow-2xl shadow-black/60 {{ $this->themeClass() }}">
                             @include('livewire.partials.proposal-slide-content', [
                                 'slide' => $currentSlide,
                                 'mini' => false,
@@ -275,8 +278,31 @@
                         class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
                 </div>
                 <div class="mt-4">
-                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Body Text</label>
-                    <textarea wire:model.live.debounce.400ms="body" rows="7"
+                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Opening Paragraphs</label>
+                    <textarea wire:model.live.debounce.400ms="body" rows="5"
+                        class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
+                </div>
+                <div class="mt-4 pt-2 border-t border-gray-700">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="text-xs text-gray-400 font-semibold">Key Highlights</label>
+                        <button type="button" wire:click="addBodyHighlight"
+                            class="text-xs text-indigo-400 hover:text-indigo-300">+ Add</button>
+                    </div>
+                    @forelse($bodyHighlights as $index => $highlight)
+                        <div class="flex items-start gap-2 mb-2">
+                            <input wire:model.live.debounce.400ms="bodyHighlights.{{ $index }}" type="text"
+                                placeholder="**Bold Label:** Description"
+                                class="flex-1 bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1.5 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                            <button type="button" wire:click="removeBodyHighlight({{ $index }})"
+                                class="text-gray-500 hover:text-rose-400 p-1.5">x</button>
+                        </div>
+                    @empty
+                        <p class="text-xs text-gray-500 italic">No highlights</p>
+                    @endforelse
+                </div>
+                <div class="mt-4 pt-2 border-t border-gray-700">
+                    <label class="text-xs text-gray-400 font-medium mb-1.5 block">Closing Paragraph</label>
+                    <textarea wire:model.live.debounce.400ms="bodyFooter" rows="3"
                         class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
                 </div>
             @endif
@@ -337,11 +363,13 @@
 
                     @foreach (range(1, 5) as $i)
                         <div class="pt-2 border-t border-gray-700">
-                            <label class="text-xs text-gray-400 font-medium mb-1.5 block">Card {{ $i }} Title</label>
+                            <label class="text-xs text-gray-400 font-medium mb-1.5 block">Card {{ $i }}
+                                Title</label>
                             <textarea wire:model.live.debounce.400ms="cardTitles.{{ $i }}" rows="2"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
 
-                            <label class="text-xs text-gray-400 font-medium mb-1.5 block mt-3">Card {{ $i }} Description</label>
+                            <label class="text-xs text-gray-400 font-medium mb-1.5 block mt-3">Card
+                                {{ $i }} Description</label>
                             <textarea wire:model.live.debounce.400ms="cardBodies.{{ $i }}" rows="3"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
                         </div>
@@ -370,7 +398,8 @@
                         <div class="text-xs text-gray-400 font-semibold mb-2">Problems (5 items)</div>
                         @foreach (range(0, 4) as $idx)
                             <div class="mt-2">
-                                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Problem {{ $idx + 1 }}</label>
+                                <label class="text-xs text-gray-400 font-medium mb-1.5 block">Problem
+                                    {{ $idx + 1 }}</label>
                                 <input wire:model.live.debounce.400ms="problems.{{ $idx }}" type="text"
                                     class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                             </div>
@@ -393,10 +422,12 @@
                     </div>
                     @foreach (range(1, 5) as $i)
                         <div class="pt-2 border-t border-gray-700">
-                            <label class="text-xs text-gray-400 font-medium mb-1.5 block">Solution {{ $i }} Title</label>
+                            <label class="text-xs text-gray-400 font-medium mb-1.5 block">Solution {{ $i }}
+                                Title</label>
                             <input wire:model.live.debounce.400ms="solutionTitles.{{ $i }}" type="text"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
-                            <label class="text-xs text-gray-400 font-medium mb-1.5 block mt-2">Solution {{ $i }} Description</label>
+                            <label class="text-xs text-gray-400 font-medium mb-1.5 block mt-2">Solution
+                                {{ $i }} Description</label>
                             <textarea wire:model.live.debounce.400ms="solutionDescs.{{ $i }}" rows="2"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 resize-none transition placeholder-gray-600"></textarea>
                         </div>
@@ -455,11 +486,11 @@
                         @forelse($whatYouGet as $index => $item)
                             <div class="flex items-start gap-2 mb-2">
                                 <div class="flex-1 space-y-1">
-                                    <input wire:model.live.debounce.400ms="whatYouGet.{{ $index }}.title" type="text"
-                                        placeholder="Title (bold)"
+                                    <input wire:model.live.debounce.400ms="whatYouGet.{{ $index }}.title"
+                                        type="text" placeholder="Title (bold)"
                                         class="w-full bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1.5 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
-                                    <input wire:model.live.debounce.400ms="whatYouGet.{{ $index }}.desc" type="text"
-                                        placeholder="Description"
+                                    <input wire:model.live.debounce.400ms="whatYouGet.{{ $index }}.desc"
+                                        type="text" placeholder="Description"
                                         class="w-full bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1.5 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                                 </div>
                                 <button type="button" wire:click="removeWhatYouGetItem({{ $index }})"
@@ -479,11 +510,11 @@
                         @forelse($inclusions as $index => $item)
                             <div class="flex items-start gap-2 mb-2">
                                 <div class="flex-1 space-y-1">
-                                    <input wire:model.live.debounce.400ms="inclusions.{{ $index }}.title" type="text"
-                                        placeholder="Title (bold)"
+                                    <input wire:model.live.debounce.400ms="inclusions.{{ $index }}.title"
+                                        type="text" placeholder="Title (bold)"
                                         class="w-full bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1.5 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
-                                    <input wire:model.live.debounce.400ms="inclusions.{{ $index }}.desc" type="text"
-                                        placeholder="Description"
+                                    <input wire:model.live.debounce.400ms="inclusions.{{ $index }}.desc"
+                                        type="text" placeholder="Description"
                                         class="w-full bg-gray-800 border border-gray-700 text-white text-xs rounded px-2 py-1.5 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                                 </div>
                                 <button type="button" wire:click="removeInclusionItem({{ $index }})"
@@ -531,21 +562,24 @@
                     <div class="pt-2 border-t border-gray-700">
                         <div class="text-xs text-gray-400 font-semibold mb-2">Terms Bullets</div>
                         @foreach (range(0, 2) as $idx)
-                            <input wire:model.live.debounce.400ms="termsBullets.{{ $idx }}" type="text" placeholder="Bullet {{ $idx + 1 }}"
+                            <input wire:model.live.debounce.400ms="termsBullets.{{ $idx }}" type="text"
+                                placeholder="Bullet {{ $idx + 1 }}"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 mt-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                         @endforeach
                     </div>
                     <div class="pt-2 border-t border-gray-700">
                         <div class="text-xs text-gray-400 font-semibold mb-2">Client Responsibilities</div>
                         @foreach (range(0, 2) as $idx)
-                            <input wire:model.live.debounce.400ms="clientBullets.{{ $idx }}" type="text" placeholder="Item {{ $idx + 1 }}"
+                            <input wire:model.live.debounce.400ms="clientBullets.{{ $idx }}" type="text"
+                                placeholder="Item {{ $idx + 1 }}"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 mt-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                         @endforeach
                     </div>
                     <div class="pt-2 border-t border-gray-700">
                         <div class="text-xs text-gray-400 font-semibold mb-2">Liability</div>
                         @foreach (range(0, 2) as $idx)
-                            <input wire:model.live.debounce.400ms="liabilityBullets.{{ $idx }}" type="text" placeholder="Item {{ $idx + 1 }}"
+                            <input wire:model.live.debounce.400ms="liabilityBullets.{{ $idx }}"
+                                type="text" placeholder="Item {{ $idx + 1 }}"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 mt-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                         @endforeach
                     </div>
@@ -605,7 +639,8 @@
                     <div class="pt-2 border-t border-gray-700">
                         <div class="text-xs text-gray-400 font-semibold mb-2">Organizations</div>
                         @foreach (range(0, 11) as $idx)
-                            <input wire:model.live.debounce.400ms="organizations.{{ $idx }}" type="text" placeholder="Organization {{ $idx + 1 }}"
+                            <input wire:model.live.debounce.400ms="organizations.{{ $idx }}" type="text"
+                                placeholder="Organization {{ $idx + 1 }}"
                                 class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 mt-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
                         @endforeach
                     </div>

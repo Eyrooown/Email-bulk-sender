@@ -129,6 +129,12 @@
          FIXED-EXECUTIVE
     ══════════════════════════════════════ --}}
     @case('fixed-executive')
+        @php
+            $defaults = [
+                'body' =>
+                    "Odecci Solutions Inc., is committed to delivering innovative, user-centric digital solutions that empower businesses to thrive in today's competitive landscape. This proposal outlines our comprehensive website development service designed to enhance your brand presence, improve customer engagement, and drive measurable business growth.\n\nOur approach combines cutting-edge technology, intuitive design, and strategic functionality to create a website that is not only visually appealing but also optimized for performance, security, and scalability. By leveraging modern frameworks and best practices, we ensure your website becomes a powerful tool for marketing, communication, and conversion.\n\nKey Highlights of Our Service:\n\nCustom Design & Branding: Tailored to reflect your unique identity and values.\nResponsive & Mobile-First Development: Seamless experience across all devices.\nSEO & Performance Optimization: Enhanced visibility and faster load times.\nContent Management System (CMS): Easy updates and scalability for future growth.\nSecurity & Compliance: Robust measures to protect data and maintain trust.\nAnalytics Integration: Actionable insights to monitor and improve performance.\n\nPartnering with Odecci means gaining a strategic ally focused on delivering a website that aligns with your business objectives, strengthens your digital footprint, and creates lasting impact. Our team ensures timely delivery, transparent communication, and ongoing support to maximize your investment.",
+            ];
+        @endphp
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div class="flex w-full h-full">
                 <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
@@ -144,11 +150,34 @@
                         <div
                             class="relative {{ $mini ? 'w-[70%]' : 'w-4/5' }} bg-white shadow-xl rounded-xl {{ $mini ? 'p-2' : 'p-4' }} z-10">
                             <div class="{{ $mini ? 'text-[3px]' : 'text-base' }} clr-txt-primary leading-relaxed space-y-2">
-                                @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
-                                    @if (trim($line) !== '')
-                                        <p>{{ trim($line) }}</p>
+                                <div
+                                    class="{{ $mini ? 'text-[3px]' : 'text-base' }} clr-txt-primary leading-relaxed space-y-2">
+                                    @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
+                                        @if (trim($line) !== '')
+                                            <p>{!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($line))) !!}</p>
+                                        @endif
+                                    @endforeach
+                                    @if (!empty($c['bodyHighlights']))
+                                        @php
+                                            $highlights = is_array($c['bodyHighlights'])
+                                                ? $c['bodyHighlights']
+                                                : json_decode($c['bodyHighlights'], true) ?? [];
+                                        @endphp
+                                        <p class="font-bold mb-2">Key Highlights of Our Service:</p>
+                                        @foreach ($highlights as $highlight)
+                                            @if (trim($highlight) !== '')
+                                                <p class="mb-1">• {!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($highlight))) !!}</p>
+                                            @endif
+                                        @endforeach
                                     @endif
-                                @endforeach
+                                    @if (!empty($c['bodyFooter']))
+                                        @foreach (explode("\n", (string) $c['bodyFooter']) as $line)
+                                            @if (trim($line) !== '')
+                                                <p>{!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($line))) !!}</p>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         <div class="flex flex-col relative {{ $mini ? '-ml-6' : '-ml-44' }} justify-end">
@@ -554,9 +583,10 @@
                 ];
             }
         @endphp
-        <div class="absolute inset-0 bg-white overflow-hidden">
-            <x-scope-card :packageName="$c['packageName'] ?? 'Package'" :idealFor="$c['idealFor'] ?? ''" :revision="$c['revision'] ?? ''" :tags="$tags" :benefit="$c['benefit'] ?? 'What You\'ll Get'"
-                :whatYouGet="$whatYouGet" :inclusions="$inclusions" />
+        <div
+            class="absolute inset-0 bg-white {{ $mini ? 'overflow-hidden' : ($printMode ?? false ? 'overflow-hidden' : 'overflow-y-auto') }}">
+            <x-scope-card :mini="$mini" :packageName="$c['packageName'] ?? 'Package'" :idealFor="$c['idealFor'] ?? ''" :revision="$c['revision'] ?? ''" :tags="$tags"
+                :benefit="$c['benefit'] ?? 'What You\'ll Get'" :whatYouGet="$whatYouGet" :inclusions="$inclusions" />
         </div>
     @break
 

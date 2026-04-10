@@ -1,8 +1,17 @@
-@props(['packageName', 'tags' => [], 'idealFor', 'revision', 'whatYouGet' => [], 'inclusions' => [], 'benefit'])
+@props([
+    'packageName',
+    'tags' => [],
+    'idealFor',
+    'revision',
+    'whatYouGet' => [],
+    'inclusions' => [],
+    'benefit',
+    'mini' => false,
+])
 <div class="flex flex-col mt-4 p-4">
     <div class="flex flex-row justify-between">
         <div class="flex flex-col gap-4">
-            <h1 class="text-7xl font-bold clr-txt-primary">Scope of Work</h1>
+            <h1 class="{{ $mini ? 'text-[10px]' : 'text-7xl' }} font-bold clr-txt-primary">Scope of Work</h1>
             <hr class="border-2 w-1/3 border-gray-300">
         </div>
 
@@ -23,25 +32,28 @@
             </div>
 
             <div class="flex flex-col px-6 py-4 gap-3">
-                <div class="flex gap-2 shrink-0">
+                <div class="flex flex-wrap gap-2 shrink-0">
                     @foreach ($tags as $tag)
                         <span
-                            class="clr-primary text-white text-md font-semibold px-4 py-2 rounded-md">{{ $tag }}</span>
+                            class="clr-primary text-white {{ $mini ? 'text-[3px] px-1 py-0.5' : 'text-md px-4 py-2' }} font-semibold rounded-md">{{ $tag }}</span>
                     @endforeach
                 </div>
 
                 <div class="flex flex-col gap-1">
-                    <p class="text-md font-bold clr-txt-primary">Ideal For:</p>
-                    <p class="text-sm clr-txt-secondary leading-relaxed">{{ $idealFor }}</p>
+                    <p class="{{ $mini ? 'text-[3px]' : 'text-md' }} font-bold clr-txt-primary">Ideal For:</p>
+                    <p class="{{ $mini ? 'text-[2px]' : 'text-sm' }} clr-txt-secondary leading-relaxed">
+                        {{ $idealFor }}</p>
                 </div>
 
-                <p class="text-md font-bold clr-txt-primary">{{ $revision }}</p>
+                <p class="{{ $mini ? 'text-[3px]' : 'text-md' }} font-bold clr-txt-primary">{{ $revision }}</p>
 
                 <div class="flex flex-col gap-1.5">
-                    <p class="text-md font-bold clr-txt-primary">{{ $benefit }} <br></p>
+                    <p class="{{ $mini ? 'text-[3px]' : 'text-md' }} font-bold clr-txt-primary">{{ $benefit }}
+                        <br>
+                    </p>
                     <ul class="flex flex-col gap-1">
                         @foreach ($whatYouGet as $item)
-                            <li class="text-sm clr-txt-secondary leading-snug">
+                            <li class="{{ $mini ? 'text-[2px]' : 'text-sm' }} clr-txt-secondary leading-snug">
                                 • <span class="font-bold clr-txt-primary">{{ $item['title'] }}</span>
                                 @if (!empty($item['desc']))
                                     – {{ $item['desc'] }}
@@ -58,7 +70,7 @@
 
         {{-- Right Column --}}
         <div class="flex flex-col w-1/2 px-6 py-5 gap-3">
-            <p class="text-lg font-bold clr-txt-primary shrink-0">Inclusions:</p>
+            <p class="{{ $mini ? 'text-[3px]' : 'text-lg' }} font-bold clr-txt-primary shrink-0">Inclusions:</p>
             <div class="flex flex-col gap-2">
                 @foreach ($inclusions as $item)
                     <div class="flex items-start gap-2">
@@ -69,7 +81,7 @@
                                     clip-rule="evenodd" />
                             </svg>
                         </span>
-                        <p class="text-md clr-txt-secondary leading-snug">
+                        <p class="{{ $mini ? 'text-[2px]' : 'text-md' }} clr-txt-secondary leading-snug">
                             <span class="font-bold clr-txt-primary">{{ $item['title'] }}</span>
                             – {{ $item['desc'] }}
                         </p>
