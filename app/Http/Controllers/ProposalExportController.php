@@ -6,6 +6,7 @@ use App\Models\Proposal;
 use Dompdf\Dompdf;
 use Illuminate\Http\Response;
 use Spatie\Browsershot\Browsershot;
+use Throwable;
 
 class ProposalExportController extends Controller
 {
@@ -28,41 +29,45 @@ class ProposalExportController extends Controller
         $html = view('exports.proposal-pdf', compact('proposal', 'slides', 'theme'))->render();
 
         if (class_exists(Browsershot::class)) {
-            $a4lWidthPx = (int) round((297 / 25.4) * 96);
-            $a4lHeightPx = (int) round((210 / 25.4) * 96);
+            try {
+                $a4lWidthPx = (int) round((297 / 25.4) * 96);
+                $a4lHeightPx = (int) round((210 / 25.4) * 96);
 
-            $browsershot = Browsershot::html($html)
-                ->timeout(120)
-                ->waitUntilNetworkIdle(false)
-                ->delay(500)
-                ->showBackground()
-                ->emulateMedia('print')
-                ->windowSize($a4lWidthPx, $a4lHeightPx)
-                ->deviceScaleFactor(2)
-                ->margins(0, 0, 0, 0)
-                ->noSandbox()
-                ->scale(1)
-                ->setOption('preferCSSPageSize', true);
+                $browsershot = Browsershot::html($html)
+                    ->timeout(120)
+                    ->waitUntilNetworkIdle(false)
+                    ->delay(500)
+                    ->showBackground()
+                    ->emulateMedia('print')
+                    ->windowSize($a4lWidthPx, $a4lHeightPx)
+                    ->deviceScaleFactor(2)
+                    ->margins(0, 0, 0, 0)
+                    ->noSandbox()
+                    ->scale(1)
+                    ->setOption('preferCSSPageSize', true);
 
-            $nodeModules = config('services.browsershot.node_modules') ?: base_path('node_modules');
-            if (is_string($nodeModules) && is_dir($nodeModules)) {
-                $browsershot->setNodeModulePath($nodeModules);
-            }
+                $nodeModules = config('services.browsershot.node_modules') ?: base_path('node_modules');
+                if (is_string($nodeModules) && is_dir($nodeModules)) {
+                    $browsershot->setNodeModulePath($nodeModules);
+                }
 
-            if ($node = config('services.browsershot.node_binary')) {
-                $browsershot->setNodeBinary($node);
-            }
-            if ($npm = config('services.browsershot.npm_binary')) {
-                $browsershot->setNpmBinary($npm);
-            }
-            if ($chrome = config('services.browsershot.chrome_path')) {
-                $browsershot->setChromePath($chrome);
-            }
+                if ($node = config('services.browsershot.node_binary')) {
+                    $browsershot->setNodeBinary($node);
+                }
+                if ($npm = config('services.browsershot.npm_binary')) {
+                    $browsershot->setNpmBinary($npm);
+                }
+                if ($chrome = config('services.browsershot.chrome_path')) {
+                    $browsershot->setChromePath($chrome);
+                }
 
-            return response($browsershot->pdf(), 200, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="'.str($proposal->title)->slug().'.pdf"',
-            ]);
+                return response($browsershot->pdf(), 200, [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'attachment; filename="'.str($proposal->title)->slug().'.pdf"',
+                ]);
+            } catch (Throwable $e) {
+                // If Browsershot fails in production (missing node/chrome), fall back to Dompdf.
+            }
         }
 
         $dompdf = new Dompdf;

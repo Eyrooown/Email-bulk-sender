@@ -58,9 +58,7 @@ class ProposalController extends Controller
 
         $url = route('proposal.print-view');
 
-        $pdf = Browsershot::url($url)
-            ->setNodeBinary('C:\Program Files\nodejs\node.exe')
-            ->setNpmBinary('C:\Program Files\nodejs\npm.cmd')
+        $browsershot = Browsershot::url($url)
             ->margins(0, 0, 0, 0)
             ->windowSize(1123, 794) // A4 landscape in pixels at 96dpi
             ->paperSize(297, 210, 'mm') // explicit A4 landscape
@@ -68,8 +66,23 @@ class ProposalController extends Controller
             ->setOption('printBackground', true)
             ->waitUntilNetworkIdle()
             ->noSandbox()
-            ->timeout(120)
-            ->pdf();
+            ->timeout(120);
+
+        $nodeModules = config('services.browsershot.node_modules') ?: base_path('node_modules');
+        if (is_string($nodeModules) && is_dir($nodeModules)) {
+            $browsershot->setNodeModulePath($nodeModules);
+        }
+        if ($node = config('services.browsershot.node_binary')) {
+            $browsershot->setNodeBinary($node);
+        }
+        if ($npm = config('services.browsershot.npm_binary')) {
+            $browsershot->setNpmBinary($npm);
+        }
+        if ($chrome = config('services.browsershot.chrome_path')) {
+            $browsershot->setChromePath($chrome);
+        }
+
+        $pdf = $browsershot->pdf();
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
