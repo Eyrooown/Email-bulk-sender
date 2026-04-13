@@ -254,8 +254,106 @@ class ProposalEditor extends Component
         $this->testimonial3 = $c['testimonial3'] ?? '';
 
         $this->ctaText = $c['cta_text'] ?? '';
+        $this->ctaUrl = $c['cta_url'] ?? '';
         $this->email = $c['email'] ?? '';
         $this->phone = $c['phone'] ?? '';
+    }
+
+    /**
+     * Full content overlay for the active slide (matches the main canvas preview).
+     */
+    public function activeSlidePreviewContent(): array
+    {
+        $slide = $this->proposal->slides->get($this->activeSlideIndex);
+        if (! $slide) {
+            return [];
+        }
+
+        $bullets = array_values($this->bullets);
+        for ($i = 0; $i < 6; $i++) {
+            $bullets[$i] = $bullets[$i] ?? '';
+        }
+
+        $organizations = $this->organizations;
+        for ($i = 0; $i < 12; $i++) {
+            $organizations[$i] = $organizations[$i] ?? '';
+        }
+
+        return array_merge($slide->content ?? [], [
+            'heading' => $this->heading,
+            'subheading' => $this->subheading,
+            'body' => $this->body,
+            'bodyHighlights' => array_values($this->bodyHighlights),
+            'bodyFooter' => $this->bodyFooter,
+            'quote' => $this->quote,
+            'author' => $this->author,
+            'col1' => $this->col1,
+            'col2' => $this->col2,
+            'card1_title' => $this->cardTitles[1] ?? '',
+            'card2_title' => $this->cardTitles[2] ?? '',
+            'card3_title' => $this->cardTitles[3] ?? '',
+            'card4_title' => $this->cardTitles[4] ?? '',
+            'card5_title' => $this->cardTitles[5] ?? '',
+            'card1_body' => $this->cardBodies[1] ?? '',
+            'card2_body' => $this->cardBodies[2] ?? '',
+            'card3_body' => $this->cardBodies[3] ?? '',
+            'card4_body' => $this->cardBodies[4] ?? '',
+            'card5_body' => $this->cardBodies[5] ?? '',
+            'tagline' => $this->tagline,
+            'line1' => $this->line1,
+            'line2' => $this->line2,
+            'line3' => $this->line3,
+            'top_heading' => $this->top_heading,
+            'website' => $this->website,
+            'bullets' => $bullets,
+            'pill' => $this->pill,
+            'problem1' => $this->problems[0] ?? '',
+            'problem2' => $this->problems[1] ?? '',
+            'problem3' => $this->problems[2] ?? '',
+            'problem4' => $this->problems[3] ?? '',
+            'problem5' => $this->problems[4] ?? '',
+            'solution1_title' => $this->solutionTitles[1] ?? '',
+            'solution1_desc' => $this->solutionDescs[1] ?? '',
+            'solution2_title' => $this->solutionTitles[2] ?? '',
+            'solution2_desc' => $this->solutionDescs[2] ?? '',
+            'solution3_title' => $this->solutionTitles[3] ?? '',
+            'solution3_desc' => $this->solutionDescs[3] ?? '',
+            'solution4_title' => $this->solutionTitles[4] ?? '',
+            'solution4_desc' => $this->solutionDescs[4] ?? '',
+            'solution5_title' => $this->solutionTitles[5] ?? '',
+            'solution5_desc' => $this->solutionDescs[5] ?? '',
+            'packageName' => $this->packageName,
+            'idealFor' => $this->idealFor,
+            'revision' => $this->revision,
+            'benefit' => $this->benefit,
+            'tags' => $this->tags,
+            'whatYouGet' => $this->whatYouGet,
+            'inclusions' => $this->inclusions,
+            'payment_row1_pct' => $this->paymentRow1Pct,
+            'payment_row1_desc' => $this->paymentRow1Desc,
+            'payment_row2_pct' => $this->paymentRow2Pct,
+            'payment_row2_desc' => $this->paymentRow2Desc,
+            'terms_bullets' => array_values($this->termsBullets),
+            'client_bullets' => array_values($this->clientBullets),
+            'liability_bullets' => array_values($this->liabilityBullets),
+            'sla_text' => $this->slaText,
+            'project1_url' => $this->project1Url,
+            'project1_label' => $this->project1Label,
+            'project2_url' => $this->project2Url,
+            'project2_label' => $this->project2Label,
+            'project3_url' => $this->project3Url,
+            'project3_label' => $this->project3Label,
+            'portfolio_url' => $this->portfolioUrl,
+            'portfolio_label' => $this->portfolioLabel,
+            'organizations' => array_values($organizations),
+            'testimonial1' => $this->testimonial1,
+            'testimonial2' => $this->testimonial2,
+            'testimonial3' => $this->testimonial3,
+            'cta_text' => $this->ctaText,
+            'cta_url' => $this->ctaUrl,
+            'email' => $this->email,
+            'phone' => $this->phone,
+        ]);
     }
 
     private function getDefaultsForLayout(string $layout): array

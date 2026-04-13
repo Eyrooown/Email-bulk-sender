@@ -215,8 +215,13 @@
                     </div>
                     <div class="flex flex-row justify-between w-full flex-1 min-w-0">
                         <div class="flex flex-col flex-1 min-w-0">
-                            <h1 class="{{ $fxH1 }} font-medium clr-txt-primary">
-                                {!! nl2br(e($c['heading'] ?? "Who is\nOdecci?")) !!}
+                            @php $heading = $c['heading'] ?? null; @endphp
+                            <h1 class="font-medium text-6xl clr-txt-primary">
+                                @if ($heading)
+                                    {!! nl2br(e(str_replace('\n', "\n", $heading))) !!}
+                                @else
+                                    Who is<br>Odecci?
+                                @endif
                             </h1>
                             <div
                                 class="{{ $mini ? 'mt-2' : 'mt-10' }} {{ $mini ? 'text-[3px]' : 'text-base' }} clr-txt-primary space-y-2">

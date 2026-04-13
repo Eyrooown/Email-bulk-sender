@@ -52,19 +52,33 @@
         class="fixed left-0 top-12 bottom-0 w-[200px] bg-gray-900 border-r border-gray-800 overflow-y-auto z-40 flex flex-col">
         <div class="p-2 space-y-1.5">
             @foreach ($proposal->slides as $i => $slide)
-                <button wire:click="selectSlide({{ $i }})"
+                @php
+                    $thumbContentOverride = $i === $activeSlideIndex ? $this->activeSlidePreviewContent() : null;
+                @endphp
+                <button type="button" wire:click="selectSlide({{ $i }})" wire:key="proposal-thumb-{{ $slide->id }}"
                     class="group relative w-full rounded-lg overflow-hidden border-2 transition-all {{ $activeSlideIndex === $i ? 'border-indigo-500 shadow-lg shadow-indigo-900/30' : 'border-transparent hover:border-gray-600' }}"
                     title="Slide {{ $i + 1 }}">
-                    <div class="aspect-video w-full text-left overflow-hidden pointer-events-none relative {{ $this->themeClass() }}"
-                        style="transform: scale(1); font-size: 3px;">
-                        @include('livewire.partials.proposal-slide-content', [
-                            'slide' => $slide,
-                            'mini' => true,
-                        ])
+                    {{-- Same markup as main canvas (max-w-4xl = 56rem), scaled to sidebar width via container queries --}}
+                    <div
+                        class="relative w-full aspect-[1.414/1] overflow-hidden text-left pointer-events-none [container-type:inline-size]">
+                        <div
+                            class="absolute left-0 top-0 h-[calc(56rem/1.414)] w-[56rem] origin-top-left will-change-transform [transform:scale(calc(100cqw/56rem))]">
+                            <div class="relative h-full w-full overflow-hidden rounded-lg shadow-md shadow-black/40">
+                                <div
+                                    class="absolute inset-0 overflow-y-auto rounded-lg {{ $this->themeClass() }}">
+                                    @include('livewire.partials.proposal-slide-content', [
+                                        'slide' => $slide,
+                                        'mini' => false,
+                                        'contentOverride' => $thumbContentOverride,
+                                        'printMode' => false,
+                                    ])
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <span
-                        class="absolute bottom-1 right-1.5 text-[8px] text-white/40 font-mono">{{ $i + 1 }}</span>
+                        class="absolute bottom-1 right-1.5 text-[8px] text-white/40 font-mono z-10">{{ $i + 1 }}</span>
 
                     @if ($proposal->slides->count() > 1)
                         <button wire:click.stop="deleteSlide({{ $i }})"
@@ -115,36 +129,7 @@
 
     <main class="flex-1 ml-[200px] mr-[290px] mt-12 flex items-center justify-center overflow-hidden bg-gray-950 p-8">
         @if ($currentSlide = $proposal->slides->get($activeSlideIndex))
-            @php
-                $previewContent = array_merge($currentSlide->content ?? [], [
-                    'heading' => $heading,
-                    'subheading' => $subheading,
-                    'body' => $body,
-                    'bodyHighlights' => $bodyHighlights,
-                    'bodyFooter' => $bodyFooter,
-                    'quote' => $quote,
-                    'author' => $author,
-                    'col1' => $col1,
-                    'col2' => $col2,
-                    'card1_title' => $cardTitles[1] ?? '',
-                    'card2_title' => $cardTitles[2] ?? '',
-                    'card3_title' => $cardTitles[3] ?? '',
-                    'card4_title' => $cardTitles[4] ?? '',
-                    'card5_title' => $cardTitles[5] ?? '',
-                    'card1_body' => $cardBodies[1] ?? '',
-                    'card2_body' => $cardBodies[2] ?? '',
-                    'card3_body' => $cardBodies[3] ?? '',
-                    'card4_body' => $cardBodies[4] ?? '',
-                    'card5_body' => $cardBodies[5] ?? '',
-                    'tagline' => $tagline,
-                    'line1' => $line1,
-                    'line2' => $line2,
-                    'line3' => $line3,
-                    'top_heading' => $top_heading,
-                    'website' => $website,
-                    'bullets' => $bullets,
-                ]);
-            @endphp
+            @php $previewContent = $this->activeSlidePreviewContent(); @endphp
             <div class="w-full max-w-4xl {{ $viewMode === 'print' ? 'max-w-[1122px]' : '' }}">
                 @if ($viewMode === 'print')
                     <div class="flex flex-col gap-4">

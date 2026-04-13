@@ -229,9 +229,16 @@
                                     <hr class="w-3/4 border-2 border-clr-primary mt-4">
                                 </div>
                             </div>
-                            <div class="flex flex-row justify-between h-3/5 gap-2">
+                            <div class="flex flex-row justify-between flex-1 gap-2">
                                 <div class="flex flex-col flex-1 justify-center gap-4">
-                                    <h1 class="font-medium text-6xl clr-txt-primary">{!! nl2br(e($c['heading'] ?? "Who is\nOdecci?")) !!}</h1>
+                                    @php $heading = $c['heading'] ?? null; @endphp
+                                    <h1 class="font-medium text-6xl clr-txt-primary">
+                                        @if ($heading)
+                                            {!! nl2br(e(str_replace('\n', "\n", $heading))) !!}
+                                        @else
+                                            Who is<br>Odecci?
+                                        @endif
+                                    </h1>
                                     <div class="clr-txt-primary text-sm leading-relaxed space-y-2">
                                         @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
                                             @if (trim($line) !== '')
@@ -239,10 +246,13 @@
                                             @endif
                                         @endforeach
                                     </div>
-                                    @if (!empty($c['website']))
+                                    @php
+                                        $website = $c['website'] ?? 'https://odecci.com';
+                                    @endphp
+                                    @if (!empty($website))
                                         <p class="text-sm">Visit our website:
-                                            <a href="https://{{ ltrim($c['website'], 'https://') }}"
-                                                class="underline decoration-solid">{{ $c['website'] }}</a> to learn
+                                            <a href="https://{{ ltrim($website, 'https://') }}"
+                                                class="underline decoration-solid">{{ $website }}</a> to learn
                                             more
                                         </p>
                                     @endif
