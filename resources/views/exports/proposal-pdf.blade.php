@@ -302,6 +302,34 @@
          FIXED-STRATEGY-CARDS  (Page 4 style)
     ══════════════════════════════════════════════ --}}
                 @elseif ($layout === 'fixed-strategy-cards')
+                    @php
+                        $strategyDefaults = [
+                            1 => [
+                                'title' => 'Hand Tailored Solutions',
+                                'body' => "Design websites that are uniquely customized to align with each client's specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.",
+                            ],
+                            2 => [
+                                'title' => 'Enhance Client Collaboration',
+                                'body' =>
+                                    'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
+                            ],
+                            3 => [
+                                'title' => 'Boost Business Performance',
+                                'body' =>
+                                    'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
+                            ],
+                            4 => [
+                                'title' => 'Ensure Exceptional User Experience',
+                                'body' =>
+                                    'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
+                            ],
+                            5 => [
+                                'title' => 'Provide Strategic Implementation',
+                                'body' =>
+                                    'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
+                            ],
+                        ];
+                    @endphp
                     <div class="page flex w-full bg-white">
                         <div class="flex flex-col w-full h-full px-12 py-6 gap-6">
                             <div class="flex justify-between items-center shrink-0">
@@ -317,16 +345,23 @@
                             </div>
                             <div class="grid grid-cols-5 gap-4 w-full items-stretch h-3/5 mt-5">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    @php $isDark = $i % 2 === 1; @endphp
+                                    @php
+                                        $isDark = $i % 2 === 1;
+                                        $cardTitle = trim((string) ($c["card{$i}_title"] ?? $strategyDefaults[$i]['title']));
+                                        $titleWords = preg_split('/\s+/', $cardTitle) ?: [];
+                                        $iconFromTitle = \Illuminate\Support\Str::slug(implode(' ', array_slice($titleWords, 0, 2)));
+                                        $iconName = file_exists(resource_path("views/components/icons/proposal/{$iconFromTitle}.blade.php")) ? $iconFromTitle : 'diamond';
+                                    @endphp
                                     <div
                                         class="flex flex-col min-w-0 {{ $isDark ? 'clr-primary text-white' : 'bg-white clr-txt-primary shadow-md' }} rounded-2xl p-6 w-full h-full">
                                         <div class="flex flex-col items-center gap-3">
-                                            <x-icons.proposal.bulb class="w-12 h-12 mb-1" />
+                                            <x-dynamic-component :component="'icons.proposal.' . $iconName"
+                                                :classes="'w-12 h-12 mb-1'" />
                                             <hr
                                                 class="w-full border {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
                                             <h1 class="text-base font-bold text-center w-full">
-                                                {{ $c["card{$i}_title"] ?? "Card {$i}" }}</h1>
-                                            <p class="text-center text-xs leading-snug">{{ $c["card{$i}_body"] ?? '' }}
+                                                {{ $c["card{$i}_title"] ?? $strategyDefaults[$i]['title'] }}</h1>
+                                            <p class="text-center text-xs leading-snug">{{ $c["card{$i}_body"] ?? $strategyDefaults[$i]['body'] }}
                                             </p>
                                         </div>
                                     </div>

@@ -436,14 +436,19 @@ class ProposalEditor extends Component
             'fixed-strategy-cards' => [
                 'heading' => 'Our Strategy',
                 'subheading' => "We understand that every business has\nunique goals for its system, such as:",
+                'card1_icon' => 'diamond',
                 'card1_title' => 'Hand Tailored Solutions',
                 'card1_body' => 'Design websites that are uniquely customized to align with each client\'s specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.',
+                'card2_icon' => 'paperplane',
                 'card2_title' => 'Enhance Client Collaboration',
                 'card2_body' => 'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
+                'card3_icon' => 'chart',
                 'card3_title' => 'Boost Business Performance',
                 'card3_body' => 'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
+                'card4_icon' => 'calendar-check',
                 'card4_title' => 'Ensure Exceptional User Experience',
                 'card4_body' => 'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
+                'card5_icon' => 'bulb',
                 'card5_title' => 'Provide Strategic Implementation',
                 'card5_body' => 'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
             ],
@@ -708,6 +713,10 @@ class ProposalEditor extends Component
         }
 
         for ($i = 1; $i <= 5; $i++) {
+            $existingIcon = $slide->content["card{$i}_icon"] ?? null;
+            if (is_string($existingIcon) && $existingIcon !== '') {
+                $content["card{$i}_icon"] = $existingIcon;
+            }
             if (! empty($this->cardTitles[$i]) && $this->cardTitles[$i] !== ($defaults["card{$i}_title"] ?? '')) {
                 $content["card{$i}_title"] = $this->cardTitles[$i];
             }
@@ -979,14 +988,19 @@ class ProposalEditor extends Component
             'fixed-strategy-cards' => [
                 'heading' => 'Our Strategy',
                 'subheading' => "We understand that every business has\nunique goals for its system, such as:",
+                'card1_icon' => 'diamond',
                 'card1_title' => 'Hand Tailored Solutions',
                 'card1_body' => 'Design websites that are uniquely customized to align with each client\'s specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.',
+                'card2_icon' => 'paperplane',
                 'card2_title' => 'Enhance Client Collaboration',
                 'card2_body' => 'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
+                'card3_icon' => 'chart',
                 'card3_title' => 'Boost Business Performance',
                 'card3_body' => 'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
+                'card4_icon' => 'calendar-check',
                 'card4_title' => 'Ensure Exceptional User Experience',
                 'card4_body' => 'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
+                'card5_icon' => 'bulb',
                 'card5_title' => 'Provide Strategic Implementation',
                 'card5_body' => 'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
             ],
