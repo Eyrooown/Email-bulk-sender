@@ -159,7 +159,7 @@
                 @else
                     <div class="relative w-full" style="aspect-ratio: 1.414 / 1;">
                         <div
-                            class="absolute inset-0 rounded-xl overflow-y-auto shadow-2xl shadow-black/60 {{ $this->themeClass() }}">
+                            class="absolute inset-0 overflow-y-auto rounded-xl shadow-2xl shadow-black/60 {{ $this->themeClass() }}">
                             @include('livewire.partials.proposal-slide-content', [
                                 'slide' => $currentSlide,
                                 'mini' => false,
