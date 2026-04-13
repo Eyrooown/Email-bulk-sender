@@ -257,11 +257,13 @@ class ProposalEditor extends Component
 
         $this->paymentRow1Pct = $c['payment_row1_pct'] ?? $defaults['payment_row1_pct'] ?? '';
         $this->paymentRow1Desc = $c['payment_row1_desc'] ?? $defaults['payment_row1_desc'] ?? '';
-        $this->paymentRow2Desc = $c['payment_row2_desc'] ?? '';
-        $this->termsBullets = is_array($c['terms_bullets'] ?? null) ? $c['terms_bullets'] : [];
-        $this->clientBullets = is_array($c['client_bullets'] ?? null) ? $c['client_bullets'] : [];
-        $this->liabilityBullets = is_array($c['liability_bullets'] ?? null) ? $c['liability_bullets'] : [];
-        $this->slaText = $c['sla_text'] ?? '';
+        $this->paymentRow2Pct = $c['payment_row2_pct'] ?? $defaults['payment_row2_pct'] ?? '';
+        $this->paymentRow2Desc = $c['payment_row2_desc'] ?? $defaults['payment_row2_desc'] ?? '';
+
+        $this->termsBullets = is_array($c['terms_bullets'] ?? null) ? $c['terms_bullets'] : ($defaults['terms_bullets'] ?? []);
+        $this->clientBullets = is_array($c['client_bullets'] ?? null) ? $c['client_bullets'] : ($defaults['client_bullets'] ?? []);
+        $this->liabilityBullets = is_array($c['liability_bullets'] ?? null) ? $c['liability_bullets'] : ($defaults['liability_bullets'] ?? []);
+        $this->slaText = $c['sla_text'] ?? ($defaults['sla_text'] ?? '');
 
         $this->project1Url = $c['project1_url'] ?? '';
         $this->project1Label = $c['project1_label'] ?? '';
@@ -296,6 +298,8 @@ class ProposalEditor extends Component
         if (! $slide) {
             return [];
         }
+        $layout = $slide->layout ?? '';
+        $defaults = $this->getDefaultsForLayout($layout);
 
         $bullets = array_values($this->bullets);
         for ($i = 0; $i < 6; $i++) {
@@ -307,7 +311,7 @@ class ProposalEditor extends Component
             $organizations[$i] = $organizations[$i] ?? '';
         }
 
-        return array_merge($slide->content ?? [], [
+        $preview = [
             'heading' => $this->heading,
             'subheading' => $this->subheading,
             'body' => $this->body,
@@ -357,14 +361,6 @@ class ProposalEditor extends Component
             'tags' => $this->tags,
             'whatYouGet' => $this->whatYouGet,
             'inclusions' => $this->inclusions,
-            'payment_row1_pct' => $this->paymentRow1Pct,
-            'payment_row1_desc' => $this->paymentRow1Desc,
-            'payment_row2_pct' => $this->paymentRow2Pct,
-            'payment_row2_desc' => $this->paymentRow2Desc,
-            'terms_bullets' => array_values($this->termsBullets),
-            'client_bullets' => array_values($this->clientBullets),
-            'liability_bullets' => array_values($this->liabilityBullets),
-            'sla_text' => $this->slaText,
             'project1_url' => $this->project1Url,
             'project1_label' => $this->project1Label,
             'project2_url' => $this->project2Url,
@@ -381,7 +377,25 @@ class ProposalEditor extends Component
             'cta_url' => $this->ctaUrl,
             'email' => $this->email,
             'phone' => $this->phone,
-        ]);
+        ];
+
+        // Terms: do not overwrite defaults with empty values in preview
+        $preview['payment_row1_pct'] = $this->paymentRow1Pct !== '' ? $this->paymentRow1Pct : ($slide->content['payment_row1_pct'] ?? ($defaults['payment_row1_pct'] ?? ''));
+        $preview['payment_row1_desc'] = $this->paymentRow1Desc !== '' ? $this->paymentRow1Desc : ($slide->content['payment_row1_desc'] ?? ($defaults['payment_row1_desc'] ?? ''));
+        $preview['payment_row2_pct'] = $this->paymentRow2Pct !== '' ? $this->paymentRow2Pct : ($slide->content['payment_row2_pct'] ?? ($defaults['payment_row2_pct'] ?? ''));
+        $preview['payment_row2_desc'] = $this->paymentRow2Desc !== '' ? $this->paymentRow2Desc : ($slide->content['payment_row2_desc'] ?? ($defaults['payment_row2_desc'] ?? ''));
+
+        $terms = array_values(array_filter($this->termsBullets));
+        $client = array_values(array_filter($this->clientBullets));
+        $liability = array_values(array_filter($this->liabilityBullets));
+
+        $preview['terms_bullets'] = ! empty($terms) ? $terms : ($slide->content['terms_bullets'] ?? ($defaults['terms_bullets'] ?? []));
+        $preview['client_bullets'] = ! empty($client) ? $client : ($slide->content['client_bullets'] ?? ($defaults['client_bullets'] ?? []));
+        $preview['liability_bullets'] = ! empty($liability) ? $liability : ($slide->content['liability_bullets'] ?? ($defaults['liability_bullets'] ?? []));
+
+        $preview['sla_text'] = $this->slaText !== '' ? $this->slaText : ($slide->content['sla_text'] ?? ($defaults['sla_text'] ?? ''));
+
+        return array_merge($slide->content ?? [], $preview);
     }
 
     private function getDefaultsForLayout(string $layout): array
@@ -966,15 +980,15 @@ class ProposalEditor extends Component
                 'heading' => 'Our Strategy',
                 'subheading' => "We understand that every business has\nunique goals for its system, such as:",
                 'card1_title' => 'Hand Tailored Solutions',
-                'card1_body' => 'Design websites that are uniquely customized...',
+                'card1_body' => 'Design websites that are uniquely customized to align with each client\'s specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.',
                 'card2_title' => 'Enhance Client Collaboration',
-                'card2_body' => 'Integrate closely with clients throughout...',
+                'card2_body' => 'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
                 'card3_title' => 'Boost Business Performance',
-                'card3_body' => 'Develop a maintenance and support process...',
+                'card3_body' => 'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
                 'card4_title' => 'Ensure Exceptional User Experience',
-                'card4_body' => 'Create intuitive, visually appealing interfaces...',
+                'card4_body' => 'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
                 'card5_title' => 'Provide Strategic Implementation',
-                'card5_body' => 'Support clients with comprehensive strategies...',
+                'card5_body' => 'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
             ],
             default => ['heading' => 'New Slide'],
         };

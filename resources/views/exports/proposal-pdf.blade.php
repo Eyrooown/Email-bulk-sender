@@ -260,12 +260,35 @@
                                 <div class="flex flex-1 flex-row justify-center items-center">
                                     <div class="grid grid-cols-2 gap-8 w-full">
                                         @foreach ($c['bullets'] ?? [] as $bullet)
+                                            @php
+                                                $bulletText = is_array($bullet) ? $bullet['text'] ?? '' : $bullet;
+                                                $bulletIcon = is_array($bullet) ? $bullet['icon'] ?? 'diamond' : 'diamond';
+                                            @endphp
                                             <div class="flex flex-row items-center gap-4">
                                                 <div
                                                     class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
-                                                    <x-icons.proposal.diamond class="w-6 h-6" />
+                                                    @switch($bulletIcon)
+                                                        @case('paperplane')
+                                                            <x-icons.proposal.paperplane class="w-6 h-6" />
+                                                        @break
+
+                                                        @case('chart')
+                                                            <x-icons.proposal.chart class="w-6 h-6" />
+                                                        @break
+
+                                                        @case('calendar-check')
+                                                            <x-icons.proposal.calendar-check class="w-6 h-6" />
+                                                        @break
+
+                                                        @case('bulb')
+                                                            <x-icons.proposal.bulb class="w-6 h-6" />
+                                                        @break
+
+                                                        @default
+                                                            <x-icons.proposal.diamond class="w-6 h-6" />
+                                                    @endswitch
                                                 </div>
-                                                <p class="clr-txt-secondary font-bold text-base">{{ $bullet }}
+                                                <p class="clr-txt-secondary font-bold text-base">{{ $bulletText }}
                                                 </p>
                                             </div>
                                         @endforeach

@@ -335,30 +335,29 @@
         <div class="{{ $vpWhite }}">
             <div
                 class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center shrink-0">
                     <div class="flex flex-row items-center justify-between {{ $mini ? 'gap-4' : 'gap-20' }}">
-                        <div class="flex flex-col {{ $mini ? 'gap-2' : 'gap-10' }}">
-                            <h1 class="{{ $fxH2 }} font-bold clr-txt-primary">{{ $c['heading'] ?? 'Our Strategy' }}
-                            </h1>
+                        <div class="flex flex-col {{ $mini ? 'gap-2' : 'gap-4' }}">
+                            <h1 class="{{ $mini ? $fxH2 : 'text-6xl' }} font-bold clr-txt-primary">
+                                {{ $c['heading'] ?? 'Our Strategy' }}</h1>
                             <hr class="w-3/4 border border-clr-primary">
                         </div>
-                        <p class="{{ $mini ? 'text-[4px]' : 'text-lg' }} clr-txt-secondary">
-                            {!! nl2br(e($c['subheading'] ?? "We understand that every business has\nunique goals for its system, such as:")) !!}
-                        </p>
+                        <p class="{{ $mini ? 'text-[4px]' : 'text-lg' }} clr-txt-secondary">{!! nl2br(e($c['subheading'] ?? "We understand that every business has\nunique goals for its system, such as:")) !!}</p>
                     </div>
                     <x-circles />
                 </div>
-                <div class="grid grid-cols-5 {{ $mini ? 'gap-2' : 'gap-8' }} w-full flex-1 min-w-0">
+                <div class="grid grid-cols-5 {{ $mini ? 'gap-2' : 'gap-4 mt-5 items-stretch h-3/5' }} w-full">
                     @for ($i = 1; $i <= 5; $i++)
                         @php $isDark = $i % 2 === 1; @endphp
                         <div
-                            class="flex flex-col min-w-0 rounded-lg {{ $isDark ? 'clr-primary text-base-100' : 'bg-white clr-txt-primary' }} {{ $fxCardPad }} min-h-0 w-full">
-                            <div class="flex flex-col items-center {{ $mini ? 'gap-1' : 'gap-4' }} my-auto">
-                                <x-icons.proposal.bulb class="{{ $fxIcon }} {{ $mini ? 'mb-0' : 'mb-2' }}" />
-                                <hr class="w-full border-2 {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
-                                <h1 class="{{ $fxTitle }} font-bold text-center w-full">
+                            class="flex flex-col min-w-0 {{ $isDark ? 'clr-primary text-white' : 'bg-white clr-txt-primary shadow-md' }} {{ $mini ? 'rounded-lg p-2' : 'rounded-2xl p-6 w-full h-full' }}">
+                            <div class="flex flex-col items-center {{ $mini ? 'gap-1' : 'gap-3' }}">
+                                <x-icons.proposal.bulb class="{{ $mini ? $fxIcon : 'w-12 h-12 mb-1' }}" />
+                                <hr class="w-full border {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
+                                <h1 class="{{ $mini ? $fxTitle : 'text-base' }} font-bold text-center w-full">
                                     {{ $c["card{$i}_title"] ?? "Card {$i}" }}</h1>
-                                <p class="{{ $fxBody }} text-center">{{ $c["card{$i}_body"] ?? '' }}</p>
+                                <p class="{{ $mini ? $fxBody : 'text-xs leading-snug' }} text-center">
+                                    {{ $c["card{$i}_body"] ?? '' }}</p>
                             </div>
                         </div>
                     @endfor

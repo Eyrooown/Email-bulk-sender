@@ -6,7 +6,7 @@
         <div class="w-32 clr-primary shrink-0"></div>
 
         {{-- Content --}}
-        <div class="flex flex-col w-full h-full px-12 py-6 gap-8">
+        <div class="proposal-slide-cqw flex flex-col w-full h-full px-[clamp(1rem,4cqw,3rem)] py-[clamp(0.75rem,3cqw,1.5rem)] gap-[clamp(0.75rem,2.5cqw,2rem)]">
 
             {{-- Header --}}
             <div class="flex justify-between items-center">
@@ -230,68 +230,68 @@
 
             {{-- Header --}}
             <div class="flex justify-between items-center">
-                <div class="flex flex-row items-center justify-between gap-20">
-                    <div class="flex flex-col gap-10">
-                        <h1 class="text-6xl font-bold clr-txt-primary">Our Strategy</h1>
+                <div class="flex flex-row items-center justify-between gap-[clamp(2rem,8cqw,6rem)]">
+                    <div class="flex flex-col gap-[clamp(0.75rem,3.5cqw,2rem)]">
+                        <h1 class="proposal-fluid-fx1 font-bold clr-txt-primary">Our Strategy</h1>
                         <hr class="w-3/4 border border-clr-primary">
                     </div>
-                    <p class="text-lg clr-txt-secondary">We understand that <span class="font-bold">every business
+                    <p class="proposal-fluid-subheading leading-relaxed clr-txt-secondary">We understand that <span class="font-bold">every business
                             has<br>unique goals for its system</span>, such as: </p>
                 </div>
                 <x-circles />
             </div>
 
             {{-- Body --}}
-            <div class="grid grid-cols-5 gap-8 w-full flex-1 min-w-0">
-                <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
-                    <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
+            <div class="grid grid-cols-5 gap-[clamp(0.5rem,2cqw,2rem)] w-full flex-1 min-w-0">
+                <div class="flex flex-col min-w-0 clr-primary rounded-xl text-base-100 px-[clamp(0.75rem,2.2cqw,1.5rem)] py-[clamp(0.75rem,2.2cqw,1.5rem)] min-h-[clamp(14rem,28cqw,22rem)] w-full">
+                    <div class="flex flex-col items-center gap-[clamp(0.35rem,1cqw,0.85rem)] my-auto">
+                        <x-icons.proposal.bulb class="[width:clamp(1.125rem,3.5cqw,2rem)] [height:clamp(1.125rem,3.5cqw,2rem)] mb-1" />
                         <hr class="w-full border-2 border-white">
-                        <h1 class="text-xl font-bold text-center w-full">Hand Tailored Solutions</h1>
-                        <p class="text-center text-sm">Design websites that are uniquely customized to align with each
+                        <h1 class="proposal-fluid-subheading font-bold text-center w-full leading-snug">Hand Tailored Solutions</h1>
+                        <p class="proposal-fluid-body-sm text-center leading-relaxed">Design websites that are uniquely customized to align with each
                             client's specific business needs, from branded interfaces to intricate technical
                             functionalities, ensuring a perfect fit for their operations.</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
-                    <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
+                <div class="flex flex-col min-w-0 bg-white rounded-xl shadow-md shadow-gray-300/40 clr-txt-primary px-[clamp(0.75rem,2.2cqw,1.5rem)] py-[clamp(0.75rem,2.2cqw,1.5rem)] min-h-[clamp(14rem,28cqw,22rem)] w-full">
+                    <div class="flex flex-col items-center gap-[clamp(0.35rem,1cqw,0.85rem)] my-auto">
+                        <x-icons.proposal.bulb class="[width:clamp(1.125rem,3.5cqw,2rem)] [height:clamp(1.125rem,3.5cqw,2rem)] mb-1" />
                         <hr class="w-full border-2 border-clr-primary">
-                        <h1 class="text-xl font-bold text-center w-full">Enhance Client Collaboration</h1>
-                        <p class="text-center text-sm">Integrate closely with clients throughout the support process,
+                        <h1 class="proposal-fluid-subheading font-bold text-center w-full leading-snug">Enhance Client Collaboration</h1>
+                        <p class="proposal-fluid-body-sm text-center leading-relaxed">Integrate closely with clients throughout the support process,
                             fostering a partnership that incorporates their vision and feedback to create solutions that
                             reflect their goals.</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
-                    <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
+                <div class="flex flex-col min-w-0 clr-primary rounded-xl text-base-100 px-[clamp(0.75rem,2.2cqw,1.5rem)] py-[clamp(0.75rem,2.2cqw,1.5rem)] min-h-[clamp(14rem,28cqw,22rem)] w-full">
+                    <div class="flex flex-col items-center gap-[clamp(0.35rem,1cqw,0.85rem)] my-auto">
+                        <x-icons.proposal.bulb class="[width:clamp(1.125rem,3.5cqw,2rem)] [height:clamp(1.125rem,3.5cqw,2rem)] mb-1" />
                         <hr class="w-full border-2 border-white">
-                        <h1 class="text-xl font-bold text-center w-full">Boost Business Performance</h1>
-                        <p class="text-center text-sm">Develop a maintenance and support process that drives measurable
+                        <h1 class="proposal-fluid-subheading font-bold text-center w-full leading-snug">Boost Business Performance</h1>
+                        <p class="proposal-fluid-body-sm text-center leading-relaxed">Develop a maintenance and support process that drives measurable
                             outcomes, such as increased website performance and improved visibility.</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
-                    <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
+                <div class="flex flex-col min-w-0 bg-white rounded-xl shadow-md shadow-gray-300/40 clr-txt-primary px-[clamp(0.75rem,2.2cqw,1.5rem)] py-[clamp(0.75rem,2.2cqw,1.5rem)] min-h-[clamp(14rem,28cqw,22rem)] w-full">
+                    <div class="flex flex-col items-center gap-[clamp(0.35rem,1cqw,0.85rem)] my-auto">
+                        <x-icons.proposal.bulb class="[width:clamp(1.125rem,3.5cqw,2rem)] [height:clamp(1.125rem,3.5cqw,2rem)] mb-1" />
                         <hr class="w-full border-2 border-clr-primary">
-                        <h1 class="text-xl font-bold text-center w-full">Ensure Exceptional User Experience</h1>
-                        <p class="text-center text-sm">Create intuitive, visually appealing interfaces that enhance
+                        <h1 class="proposal-fluid-subheading font-bold text-center w-full leading-snug">Ensure Exceptional User Experience</h1>
+                        <p class="proposal-fluid-body-sm text-center leading-relaxed">Create intuitive, visually appealing interfaces that enhance
                             user engagement and satisfaction, making the application both functional and accessible for
                             end-users.</p>
                     </div>
                 </div>
 
-                <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
-                    <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
+                <div class="flex flex-col min-w-0 clr-primary rounded-xl text-base-100 px-[clamp(0.75rem,2.2cqw,1.5rem)] py-[clamp(0.75rem,2.2cqw,1.5rem)] min-h-[clamp(14rem,28cqw,22rem)] w-full">
+                    <div class="flex flex-col items-center gap-[clamp(0.35rem,1cqw,0.85rem)] my-auto">
+                        <x-icons.proposal.bulb class="[width:clamp(1.125rem,3.5cqw,2rem)] [height:clamp(1.125rem,3.5cqw,2rem)] mb-1" />
                         <hr class="w-full border-2 border-white">
-                        <h1 class="text-xl font-bold text-center w-full">Provide Strategic Implementation</h1>
-                        <p class="text-center text-sm">Support clients with comprehensive strategies, including case
+                        <h1 class="proposal-fluid-subheading font-bold text-center w-full leading-snug">Provide Strategic Implementation</h1>
+                        <p class="proposal-fluid-body-sm text-center leading-relaxed">Support clients with comprehensive strategies, including case
                             studies and development roadmaps, to ensure seamless deployment and long-term success of the
                             website.</p>
                     </div>
