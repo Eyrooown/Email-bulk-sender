@@ -162,6 +162,10 @@ class ProposalEditor extends Component
         $defaults = $this->getDefaultsForLayout($layout);
 
         $this->heading = $c['heading'] ?? $defaults['heading'] ?? '';
+        if ($layout === 'fixed-whois') {
+            // Legacy / mistaken saves used literal backslash-n (PHP single-quoted defaults); normalize for the textarea.
+            $this->heading = str_replace('\n', "\n", $this->heading);
+        }
         $this->subheading = $c['subheading'] ?? $defaults['subheading'] ?? '';
         $this->body = $c['body'] ?? $defaults['body'] ?? '';
         $this->bodyHighlights = is_array($c['bodyHighlights'] ?? null) ? $c['bodyHighlights'] : ($defaults['bodyHighlights'] ?? []);
@@ -901,7 +905,7 @@ class ProposalEditor extends Component
             ],
             'fixed-whois' => [
                 'top_heading' => 'OUR STRATEGY',
-                'heading' => 'Who is\nOdecci?',
+                'heading' => "Who is\nOdecci?",
                 'body' => 'Your who-is text...',
                 'website' => 'www.odecci.com',
                 'bullets' => [
