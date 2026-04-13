@@ -263,7 +263,7 @@
                                             <div class="flex flex-row items-center gap-4">
                                                 <div
                                                     class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
-                                                    <x-icons.diamond class="w-6 h-6" />
+                                                    <x-icons.proposal.diamond class="w-6 h-6" />
                                                 </div>
                                                 <p class="clr-txt-secondary font-bold text-base">{{ $bullet }}
                                                 </p>
@@ -298,7 +298,7 @@
                                     <div
                                         class="flex flex-col min-w-0 {{ $isDark ? 'clr-primary text-white' : 'bg-white clr-txt-primary shadow-md' }} rounded-2xl p-6 w-full h-full">
                                         <div class="flex flex-col items-center gap-3">
-                                            <x-icons.bulb class="w-12 h-12 mb-1" />
+                                            <x-icons.proposal.bulb class="w-12 h-12 mb-1" />
                                             <hr
                                                 class="w-full border {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
                                             <h1 class="text-base font-bold text-center w-full">
@@ -468,7 +468,7 @@
                                     <div class="flex flex-col items-center gap-0 h-full">
                                         <div
                                             class="{{ $item['boxClass'] }} text-white rounded-xl flex items-center justify-center px-4 py-6 w-full">
-                                            <x-icons.bulb class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
+                                            <x-icons.proposal.bulb class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
                                         </div>
                                         <div class="w-px h-6 border-l border-dashed border-gray-400"></div>
                                         <div class="flex flex-col gap-1 h-2/5">
@@ -1007,7 +1007,7 @@
                                 <div class="flex flex-row items-start gap-16 pb-2">
                                     <div class="flex flex-col gap-3">
                                         <div class="flex items-center gap-3">
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                                             <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[180px]">
                                                 <a href="mailto:{{ $c['email1'] ?? 'info@odecci.com' }}"
                                                     class="text-xs clr-txt-primary">{{ $c['email1'] ?? 'info@odecci.com' }}</a>
@@ -1016,7 +1016,7 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-3">
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                                             <div class="border-b border-gray-400 pb-1 min-w-[180px]">
                                                 <a href="https://{{ ltrim($c['website'] ?? 'www.odecci.com', 'https://') }}"
                                                     target="_blank"
@@ -1025,7 +1025,7 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                                        <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                                         <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[200px]">
                                             <span
                                                 class="text-xs clr-txt-primary">{{ $c['phone1'] ?? '+044 760 5422 – Sales Office' }}</span>
@@ -1037,8 +1037,8 @@
                                         <p class="text-xs clr-txt-secondary">
                                             {{ $c['social_label'] ?? 'Visit and follow us on:' }}</p>
                                         <div class="flex gap-3">
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary" />
                                         </div>
                                     </div>
                                 </div>

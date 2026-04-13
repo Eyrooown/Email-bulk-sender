@@ -24,7 +24,7 @@
         <div class="flex flex-col w-1/2 min-h-0">
             <div class="flex items-center gap-0 shrink-0">
                 <div class="clr-primary flex items-center justify-center p-4 shrink-0">
-                    <x-icons.bulb class="w-10 h-10 text-white" />
+                    <x-icons.proposal.bulb class="w-10 h-10 text-white" />
                 </div>
                 <div class="clr-bg-light flex-1 flex items-center px-5 py-4">
                     <h2 class="text-base sm:text-lg font-bold clr-txt-primary">{{ $packageName }}</h2>

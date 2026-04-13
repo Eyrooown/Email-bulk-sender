@@ -183,36 +183,36 @@
                     <div class="grid grid-cols-2 grid-rows-3 gap-20">
                         <div class="flex flex-row justify-center items-center gap-4">
                             <div
-                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                <x-icons.diamond class="w-6 h-6" />
+                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-white">
+                                <x-icons.proposal.diamond class="w-6 h-6" />
                             </div>
                             <p class="clr-txt-secondary font-bold text-xl">Client-Centric Solutions</p>
                         </div>
                         <div class="flex flex-row justify-center items-center gap-4">
                             <div
-                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                <x-icons.paperplane class="w-6 h-6" />
+                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-white">
+                                <x-icons.proposal.paperplane class="w-6 h-6" />
                             </div>
                             <p class="clr-txt-secondary font-bold text-xl">Data-Driven Decision Making</p>
                         </div>
                         <div class="flex flex-row justify-center items-center gap-4">
                             <div
-                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                <x-icons.chart class="w-6 h-6" />
+                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-white">
+                                <x-icons.proposal.chart class="w-6 h-6" />
                             </div>
                             <p class="clr-txt-secondary font-bold text-xl">Agile Development</p>
                         </div>
                         <div class="flex flex-row justify-center items-center gap-4">
                             <div
-                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                <x-icons.calendar-check class="w-6 h-6" />
+                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-white">
+                                <x-icons.proposal.calendar-check class="w-6 h-6" />
                             </div>
                             <p class="clr-txt-secondary font-bold text-xl">Sustainable Growth</p>
                         </div>
                         <div class="flex flex-row justify-center items-center gap-4">
                             <div
-                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                <x-icons.bulb class="w-10 h-10" />
+                                class="flex justify-center items-center h-20 w-20 shrink-0 rounded-full clr-bg-secondary text-white">
+                                <x-icons.proposal.bulb class="w-10 h-10" />
                             </div>
                             <p class="clr-txt-secondary font-bold text-xl">Collaborative Partnership</p>
                         </div>
@@ -245,7 +245,7 @@
             <div class="grid grid-cols-5 gap-8 w-full flex-1 min-w-0">
                 <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.bulb class="w-16 h-16 mb-2" />
+                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-white">
                         <h1 class="text-xl font-bold text-center w-full">Hand Tailored Solutions</h1>
                         <p class="text-center text-sm">Design websites that are uniquely customized to align with each
@@ -256,7 +256,7 @@
 
                 <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.bulb class="w-16 h-16 mb-2" />
+                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-clr-primary">
                         <h1 class="text-xl font-bold text-center w-full">Enhance Client Collaboration</h1>
                         <p class="text-center text-sm">Integrate closely with clients throughout the support process,
@@ -267,7 +267,7 @@
 
                 <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.bulb class="w-16 h-16 mb-2" />
+                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-white">
                         <h1 class="text-xl font-bold text-center w-full">Boost Business Performance</h1>
                         <p class="text-center text-sm">Develop a maintenance and support process that drives measurable
@@ -277,7 +277,7 @@
 
                 <div class="flex flex-col min-w-0 bg-white rounded-lg clr-txt-primary p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.bulb class="w-16 h-16 mb-2" />
+                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-clr-primary">
                         <h1 class="text-xl font-bold text-center w-full">Ensure Exceptional User Experience</h1>
                         <p class="text-center text-sm">Create intuitive, visually appealing interfaces that enhance
@@ -288,7 +288,7 @@
 
                 <div class="flex flex-col min-w-0 clr-primary rounded-lg text-base-100 p-8 min-h-96 w-full">
                     <div class="flex flex-col items-center gap-4 my-auto">
-                        <x-icons.bulb class="w-16 h-16 mb-2" />
+                        <x-icons.proposal.bulb class="w-16 h-16 mb-2" />
                         <hr class="w-full border-2 border-white">
                         <h1 class="text-xl font-bold text-center w-full">Provide Strategic Implementation</h1>
                         <p class="text-center text-sm">Support clients with comprehensive strategies, including case
@@ -453,7 +453,7 @@
                         {{-- Icon box --}}
                         <div
                             class="{{ $item['boxClass'] }} rounded-xl flex items-center justify-center shadow-md shadow-gray-400/15 px-4 py-6 w-full">
-                            <x-icons.bulb class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 {{ $item['iconClass'] }}" />
+                            <x-icons.proposal.bulb class="w-12 h-12 sm:w-14 sm:h-14 shrink-0 {{ $item['iconClass'] }}" />
                         </div>
 
                         {{-- Dashed connector line --}}
@@ -934,7 +934,7 @@
                     <div class="flex flex-col gap-3">
                         {{-- Email --}}
                         <div class="flex items-center gap-3">
-                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                             <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[180px]">
                                 <a href="mailto:info@odecci.com" class="text-xs clr-txt-primary">info@odecci.com</a>
                                 <a href="mailto:sales@odecci.com" class="text-xs clr-txt-primary">sales@odecci.com</a>
@@ -942,7 +942,7 @@
                         </div>
                         {{-- Website --}}
                         <div class="flex items-center gap-3">
-                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                             <div class="border-b border-gray-400 pb-1 min-w-[180px]">
                                 <a href="https://www.odecci.com" target="_blank"
                                     class="text-xs clr-txt-primary">www.odecci.com</a>
@@ -952,7 +952,7 @@
 
                     {{-- Phone --}}
                     <div class="flex items-center gap-3">
-                        <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                        <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                         <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[200px]">
                             <span class="text-xs clr-txt-primary">+044 760 5422 – Sales Office</span>
                             <span class="text-xs clr-txt-primary">0961 645 8938 – Sales Office</span>
@@ -963,8 +963,8 @@
                     <div class="flex flex-col gap-2">
                         <p class="text-xs clr-txt-secondary">Visit and follow us on:</p>
                         <div class="flex gap-3">
-                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
-                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
+                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary" />
+                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary" />
                         </div>
                     </div>
 

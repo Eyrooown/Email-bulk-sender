@@ -6,7 +6,7 @@
 
 <div class="dropdown dropdown-bottom shrink-0">
     <button tabindex="0" type="button" class="btn md:w-36 border-2 border-black rounded-xl hover-clr-bg-accent">
-        <x-icons.sort classes="w-4 h-4 inline-block" /> {{ $buttonLabel }}
+        <x-icons.actions.sort classes="w-4 h-4 inline-block" /> {{ $buttonLabel }}
     </button>
     <div tabindex="-1" class="dropdown-content z-50 mt-2 w-[22rem] max-w-[90vw] rounded-2xl bg-base-100 p-4 shadow-xl border border-base-200">
         <div class="flex items-center justify-between mb-3">

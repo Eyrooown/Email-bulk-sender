@@ -202,9 +202,33 @@ class ProposalEditor extends Component
         $this->website = $c['website'] ?? $defaults['website'] ?? '';
 
         $bullets = $c['bullets'] ?? $defaults['bullets'] ?? [];
-        $this->bullets = array_values(is_array($bullets) ? $bullets : []);
-        for ($i = 0; $i < 6; $i++) {
-            $this->bullets[$i] = $this->bullets[$i] ?? '';
+        if ($layout === 'fixed-whois') {
+            $src = array_values(is_array($bullets) ? $bullets : []);
+            $normalized = [];
+            foreach ($src as $b) {
+                if (is_array($b)) {
+                    $normalized[] = [
+                        'text' => (string) ($b['text'] ?? ''),
+                        'icon' => (string) ($b['icon'] ?? 'diamond'),
+                    ];
+                } else {
+                    $normalized[] = ['text' => (string) $b, 'icon' => 'diamond'];
+                }
+            }
+            for ($i = 0; $i < 6; $i++) {
+                $normalized[$i] = $normalized[$i] ?? ['text' => '', 'icon' => 'diamond'];
+                $normalized[$i]['text'] = (string) ($normalized[$i]['text'] ?? '');
+                $normalized[$i]['icon'] = (string) ($normalized[$i]['icon'] ?? 'diamond');
+                if ($normalized[$i]['icon'] === '') {
+                    $normalized[$i]['icon'] = 'diamond';
+                }
+            }
+            $this->bullets = $normalized;
+        } else {
+            $this->bullets = array_values(is_array($bullets) ? $bullets : []);
+            for ($i = 0; $i < 6; $i++) {
+                $this->bullets[$i] = $this->bullets[$i] ?? '';
+            }
         }
 
         $this->pill = $c['pill'] ?? $defaults['pill'] ?? '';
@@ -387,12 +411,12 @@ class ProposalEditor extends Component
                 'heading' => "Who is\nOdecci?",
                 'website' => 'www.odecci.com',
                 'bullets' => [
-                    'Client-Centric Solutions',
-                    'Data-Driven Decision Making',
-                    'Agile Development',
-                    'Sustainable Growth',
-                    'Collaborative Partnership',
-                    'Support & Maintenance',
+                    ['text' => 'Client-Centric Solutions', 'icon' => 'diamond'],
+                    ['text' => 'Data-Driven Decision Making', 'icon' => 'paperplane'],
+                    ['text' => 'Agile Development', 'icon' => 'chart'],
+                    ['text' => 'Sustainable Growth', 'icon' => 'calendar-check'],
+                    ['text' => 'Collaborative Partnership', 'icon' => 'bulb'],
+                    ['text' => 'Support & Maintenance', 'icon' => 'diamond'],
                 ],
             ],
             'fixed-strategy-cards' => [
@@ -697,9 +721,30 @@ class ProposalEditor extends Component
             $content['website'] = $this->website;
         }
 
-        $bullets = array_values(array_filter($this->bullets));
-        if (! empty($bullets)) {
-            $content['bullets'] = $bullets;
+        if ($layout === 'fixed-whois') {
+            $bullets = [];
+            foreach (array_values($this->bullets) as $b) {
+                if (! is_array($b)) {
+                    $b = ['text' => (string) $b, 'icon' => 'diamond'];
+                }
+                $text = trim((string) ($b['text'] ?? ''));
+                if ($text === '') {
+                    continue;
+                }
+                $icon = (string) ($b['icon'] ?? 'diamond');
+                if ($icon === '') {
+                    $icon = 'diamond';
+                }
+                $bullets[] = ['text' => $text, 'icon' => $icon];
+            }
+            if (! empty($bullets)) {
+                $content['bullets'] = $bullets;
+            }
+        } else {
+            $bullets = array_values(array_filter($this->bullets));
+            if (! empty($bullets)) {
+                $content['bullets'] = $bullets;
+            }
         }
 
         if (! empty($this->pill) && $this->pill !== ($defaults['pill'] ?? '')) {
@@ -909,12 +954,12 @@ class ProposalEditor extends Component
                 'body' => 'Your who-is text...',
                 'website' => 'www.odecci.com',
                 'bullets' => [
-                    'Client-Centric Solutions',
-                    'Data-Driven Decision Making',
-                    'Agile Development',
-                    'Sustainable Growth',
-                    'Collaborative Partnership',
-                    'Support & Maintenance',
+                    ['text' => 'Client-Centric Solutions', 'icon' => 'diamond'],
+                    ['text' => 'Data-Driven Decision Making', 'icon' => 'paperplane'],
+                    ['text' => 'Agile Development', 'icon' => 'chart'],
+                    ['text' => 'Sustainable Growth', 'icon' => 'calendar-check'],
+                    ['text' => 'Collaborative Partnership', 'icon' => 'bulb'],
+                    ['text' => 'Support & Maintenance', 'icon' => 'diamond'],
                 ],
             ],
             'fixed-strategy-cards' => [

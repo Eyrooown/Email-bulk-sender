@@ -54,7 +54,7 @@
     }
 
     // Editor preview: fixed inset frame (same height as before); overflow-y-auto only scrolls when content exceeds it.
-    $scrollableViewport = ! $mini && ! ($printMode ?? false);
+    $scrollableViewport = !$mini && !($printMode ?? false);
     $vpWhite = $scrollableViewport
         ? 'absolute inset-0 bg-white overflow-y-auto overflow-x-hidden'
         : 'absolute inset-0 bg-white overflow-hidden';
@@ -73,7 +73,8 @@
         <div class="{{ $vpWhite }}">
             <div class="flex w-full {{ $fillH }}">
                 <div class="{{ $fxBarW }} clr-primary shrink-0"></div>
-                <div class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+                <div
+                    class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                     <div class="flex justify-between items-center">
                         <div class="flex flex-row items-center {{ $mini ? 'gap-1' : 'gap-4' }}">
                             <x-logo />
@@ -114,7 +115,8 @@
         @endphp
         <div class="{{ $vpWhite }}">
             <div class="flex w-full {{ $fillH }}">
-                <div class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+                <div
+                    class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                     <div class="flex justify-between items-center">
                         <p class="{{ $fxH1 }} clr-txt-primary">
                             {{ $c['heading'] ?? 'Executive Summary' }}
@@ -189,12 +191,14 @@
             <div class="{{ $vpWhite }}">
                 <div class="flex w-full {{ $fillH }}">
                     <div class="{{ $fxBarW }} clr-primary shrink-0"></div>
-                    <div class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+                    <div
+                        class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                         <div class="flex justify-between items-center">
                             <x-logo />
                             <div class="flex flex-col">
                                 <div class="flex flex-row justify-center items-center">
-                                    <h1 class="{{ $fxH2 }} clr-txt-secondary mt-1">{{ $c['top_heading'] ?? 'OUR STRATEGY' }}</h1>
+                                    <h1 class="{{ $fxH2 }} clr-txt-secondary mt-1">
+                                        {{ $c['top_heading'] ?? 'OUR STRATEGY' }}</h1>
                                     <x-circles />
                                 </div>
                                 <hr class="w-1/2 mt-2 border border-clr-primary">
@@ -221,7 +225,9 @@
                 if ($whoisWebsite === '') {
                     $whoisWebsite = 'https://odecci.com';
                 }
-                $whoisHref = preg_match('#^https?://#i', $whoisWebsite) ? $whoisWebsite : 'https://' . ltrim($whoisWebsite, '/');
+                $whoisHref = preg_match('#^https?://#i', $whoisWebsite)
+                    ? $whoisWebsite
+                    : 'https://' . ltrim($whoisWebsite, '/');
             @endphp
             <div class="{{ $vpWhite }}">
                 <div class="flex w-full {{ $fillH }} flex-col md:min-h-0 {{ $fillHMd }} md:flex-row">
@@ -232,15 +238,16 @@
                         <div
                             class="grid w-full grid-cols-1 gap-[clamp(0.75rem,3cqw,1.5rem)] sm:grid-cols-[minmax(0,auto)_1fr_minmax(0,auto)] sm:items-center sm:gap-x-[clamp(0.75rem,3cqw,1.75rem)]">
                             <div class="flex justify-center sm:justify-self-start">
-                                <div class="flex flex-row items-center gap-4 [&_img]:max-h-[clamp(2rem,12cqw,4rem)] [&_img]:w-auto">
-                                    <x-logo /></div>
+                                <div
+                                    class="flex flex-row items-center gap-4 [&_img]:max-h-[clamp(2rem,12cqw,4rem)] [&_img]:w-auto">
+                                    <x-logo />
+                                </div>
                             </div>
                             <div
                                 class="mt-[clamp(0.25rem,1.5cqw,1.5rem)] flex min-w-0 flex-col items-center text-center sm:justify-self-center">
                                 <h1 class="proposal-fluid-fx2 clr-txt-secondary">
                                     {{ $c['top_heading'] ?? 'OUR STRATEGY' }}</h1>
-                                <hr
-                                    class="mx-auto mt-[clamp(0.375rem,1.5cqw,1rem)] w-3/4 max-w-xl border-2 border-clr-primary">
+                                <hr class="mx-auto mt-[clamp(0.375rem,1.5cqw,1rem)] w-3/4 max-w-xl border-2 border-clr-primary">
                             </div>
                             <div
                                 class="flex justify-center sm:justify-self-end sm:justify-end [&>div]:h-[clamp(2.25rem,8cqw,3rem)] [&>div]:w-[clamp(7rem,22cqw,10rem)] [&>div]:gap-[clamp(0.1rem,0.4cqw,0.125rem)] [&>div_.rounded-full]:!h-[clamp(0.75rem,2.5cqw,1rem)] [&>div_.rounded-full]:!w-[clamp(0.75rem,2.5cqw,1rem)]">
@@ -249,8 +256,7 @@
                         </div>
                         <div
                             class="flex min-h-0 flex-1 flex-col gap-[clamp(1rem,3.5cqw,1.75rem)] md:flex-row md:justify-between md:gap-[clamp(0.5rem,2cqw,0.75rem)]">
-                            <div
-                                class="flex min-w-0 flex-1 flex-col justify-center gap-[clamp(0.75rem,2.5cqw,1.25rem)]">
+                            <div class="flex min-w-0 flex-1 flex-col justify-center gap-[clamp(0.75rem,2.5cqw,1.25rem)]">
                                 @php $heading = $c['heading'] ?? null; @endphp
                                 <h1 class="proposal-fluid-fx1 clr-txt-primary">
                                     @if ($heading)
@@ -273,18 +279,44 @@
                                 </p>
                             </div>
                             <div class="flex min-w-0 flex-1 flex-row items-center justify-center">
-                                <div
-                                    class="grid w-full grid-cols-1 gap-[clamp(0.75rem,3cqw,2rem)] sm:grid-cols-2">
+                                <div class="grid w-full grid-cols-1 gap-[clamp(0.75rem,3cqw,2rem)] sm:grid-cols-2">
                                     @foreach ($c['bullets'] ?? [] as $bullet)
-                                        <div
-                                            class="flex flex-row items-center gap-[clamp(0.5rem,2.5cqw,1.25rem)]">
+                                        @php
+                                            $bulletText = is_array($bullet) ? $bullet['text'] ?? '' : $bullet;
+                                            $bulletIcon = is_array($bullet) ? $bullet['icon'] ?? 'diamond' : 'diamond';
+                                        @endphp
+                                        <div class="flex flex-row items-center gap-[clamp(0.5rem,2.5cqw,1.25rem)]">
                                             <div
-                                                class="flex shrink-0 items-center justify-center rounded-full clr-bg-secondary text-base-100 [width:clamp(2.375rem,7.5cqw,4rem)] [height:clamp(2.375rem,7.5cqw,4rem)]">
-                                                <x-icons.diamond
-                                                    classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                                class="flex shrink-0 items-center justify-center rounded-full clr-bg-secondary text-white [width:clamp(2.375rem,7.5cqw,4rem)] [height:clamp(2.375rem,7.5cqw,4rem)]">
+                                                @switch($bulletIcon)
+                                                    @case('paperplane')
+                                                        <x-icons.proposal.paperplane
+                                                            classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                                    @break
+
+                                                    @case('chart')
+                                                        <x-icons.proposal.chart
+                                                            classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                                    @break
+
+                                                    @case('calendar-check')
+                                                        <x-icons.proposal.calendar-check
+                                                            classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                                    @break
+
+                                                    @case('bulb')
+                                                        <x-icons.proposal.bulb
+                                                            classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                                    @break
+
+                                                    @default
+                                                        <x-icons.proposal.diamond
+                                                            classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                                @endswitch
                                             </div>
                                             <p class="proposal-fluid-body font-bold leading-snug clr-txt-secondary">
-                                                {{ $bullet }}</p>
+                                                {{ $bulletText }}
+                                            </p>
                                         </div>
                                     @endforeach
                                 </div>
@@ -301,7 +333,8 @@
     ══════════════════════════════════════ --}}
     @case('fixed-strategy-cards')
         <div class="{{ $vpWhite }}">
-            <div class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+            <div
+                class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                 <div class="flex justify-between items-center">
                     <div class="flex flex-row items-center justify-between {{ $mini ? 'gap-4' : 'gap-20' }}">
                         <div class="flex flex-col {{ $mini ? 'gap-2' : 'gap-10' }}">
@@ -321,7 +354,7 @@
                         <div
                             class="flex flex-col min-w-0 rounded-lg {{ $isDark ? 'clr-primary text-base-100' : 'bg-white clr-txt-primary' }} {{ $fxCardPad }} min-h-0 w-full">
                             <div class="flex flex-col items-center {{ $mini ? 'gap-1' : 'gap-4' }} my-auto">
-                                <x-icons.bulb class="{{ $fxIcon }} {{ $mini ? 'mb-0' : 'mb-2' }}" />
+                                <x-icons.proposal.bulb class="{{ $fxIcon }} {{ $mini ? 'mb-0' : 'mb-2' }}" />
                                 <hr class="w-full border-2 {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
                                 <h1 class="{{ $fxTitle }} font-bold text-center w-full">
                                     {{ $c["card{$i}_title"] ?? "Card {$i}" }}</h1>
@@ -359,7 +392,8 @@
             }
         @endphp
         <div class="{{ $vpWhite }}">
-            <div class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+            <div
+                class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH1 }} font-bold clr-txt-primary tracking-tight">
@@ -481,7 +515,7 @@
                         <div class="flex flex-col items-center gap-0 h-full">
                             <div
                                 class="{{ $item['boxClass'] }} rounded-xl flex items-center justify-center {{ $mini ? 'px-1 py-2' : 'px-4 py-6' }} w-full">
-                                <x-icons.bulb class="{{ $fxIconMd }} shrink-0 {{ $item['iconClass'] }}" />
+                                <x-icons.proposal.bulb class="{{ $fxIconMd }} shrink-0 {{ $item['iconClass'] }}" />
                             </div>
                             <div class="w-px {{ $mini ? 'h-2' : 'h-6' }} border-l border-dashed border-gray-400"></div>
                             <h2 class="{{ $fxBody }} font-bold clr-txt-primary text-center">{{ $item['title'] }}</h2>
@@ -724,8 +758,7 @@
                     </div>
                     <x-circles />
                 </div>
-                <div
-                    class="grid grid-cols-2 grid-rows-2 {{ $mini ? 'gap-1' : 'gap-4' }} mt-1 flex-1">
+                <div class="grid grid-cols-2 grid-rows-2 {{ $mini ? 'gap-1' : 'gap-4' }} mt-1 flex-1">
                     <div class="w-full h-full overflow-hidden rounded-lg shadow-md">
                         <img src="{{ asset('images/htms.png') }}" alt="{{ $c['project1_label'] ?? 'HTMS Website' }}"
                             class="w-full h-full object-cover">
@@ -951,7 +984,8 @@
         <div class="{{ $vpWhite }}">
             <div class="flex w-full {{ $fillH }}">
                 <div class="{{ $fxBarW }} clr-primary shrink-0 {{ $fillH }}"></div>
-                <div class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $mini ? 'py-2' : 'py-6' }} justify-between">
+                <div
+                    class="proposal-slide-cqw min-w-0 flex flex-col w-full {{ $fillH }} {{ $fxPadX }} {{ $mini ? 'py-2' : 'py-6' }} justify-between">
                     <div class="flex justify-between items-start w-full">
                         <x-logo />
                     </div>
@@ -968,7 +1002,7 @@
                     <div class="flex flex-row items-start {{ $mini ? 'gap-3' : 'gap-16' }} pb-2">
                         <div class="flex flex-col {{ $mini ? 'gap-1' : 'gap-3' }}">
                             <div class="flex items-center {{ $mini ? 'gap-1' : 'gap-3' }}">
-                                <x-icons.bulb class="{{ $fxIconSm }} clr-txt-primary shrink-0" />
+                                <x-icons.proposal.bulb class="{{ $fxIconSm }} clr-txt-primary shrink-0" />
                                 <div class="flex flex-col border-b border-gray-400 pb-1 min-w-0">
                                     <span
                                         class="{{ $fxBody }} clr-txt-primary">{{ $c['email1'] ?? 'info@odecci.com' }}</span>
@@ -977,13 +1011,13 @@
                                 </div>
                             </div>
                             <div class="flex items-center {{ $mini ? 'gap-1' : 'gap-3' }}">
-                                <x-icons.bulb class="{{ $fxIconSm }} clr-txt-primary shrink-0" />
+                                <x-icons.proposal.bulb class="{{ $fxIconSm }} clr-txt-primary shrink-0" />
                                 <span
                                     class="{{ $fxBody }} clr-txt-primary border-b border-gray-400 pb-1">{{ $c['website'] ?? 'www.odecci.com' }}</span>
                             </div>
                         </div>
                         <div class="flex items-center {{ $mini ? 'gap-1' : 'gap-3' }}">
-                            <x-icons.bulb class="{{ $fxIconSm }} clr-txt-primary shrink-0" />
+                            <x-icons.proposal.bulb class="{{ $fxIconSm }} clr-txt-primary shrink-0" />
                             <div class="flex flex-col border-b border-gray-400 pb-1 min-w-0">
                                 <span
                                     class="{{ $fxBody }} clr-txt-primary">{{ $c['phone1'] ?? '+044 760 5422 – Sales Office' }}</span>
@@ -995,8 +1029,8 @@
                             <p class="{{ $fxBody }} clr-txt-secondary">
                                 {{ $c['social_label'] ?? 'Visit and follow us on:' }}</p>
                             <div class="flex {{ $mini ? 'gap-1' : 'gap-3' }}">
-                                <x-icons.bulb class="{{ $fxIconSm }} clr-txt-primary" />
-                                <x-icons.bulb class="{{ $fxIconSm }} clr-txt-primary" />
+                                <x-icons.proposal.bulb class="{{ $fxIconSm }} clr-txt-primary" />
+                                <x-icons.proposal.bulb class="{{ $fxIconSm }} clr-txt-primary" />
                             </div>
                         </div>
                     </div>

@@ -329,8 +329,18 @@
                             <div class="mt-2">
                                 <label class="text-xs text-gray-400 font-medium mb-1.5 block">Bullet
                                     {{ $idx + 1 }}</label>
-                                <input wire:model.live.debounce.400ms="bullets.{{ $idx }}" type="text"
-                                    class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                                <div class="flex gap-2">
+                                    <select wire:model.live.debounce.400ms="bullets.{{ $idx }}.icon"
+                                        class="w-28 bg-gray-800 border border-gray-700 text-white text-xs rounded-lg px-2 py-2 focus:outline-none focus:border-indigo-400 transition">
+                                        <option value="diamond">Diamond</option>
+                                        <option value="paperplane">Paperplane</option>
+                                        <option value="chart">Chart</option>
+                                        <option value="calendar-check">Calendar</option>
+                                        <option value="bulb">Bulb</option>
+                                    </select>
+                                    <input wire:model.live.debounce.400ms="bullets.{{ $idx }}.text" type="text"
+                                        class="flex-1 bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                                </div>
                             </div>
                         @endforeach
                     </div>
