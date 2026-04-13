@@ -25,65 +25,32 @@
         $fxIconMd = 'w-4 h-4';
         $fxCircle = 'h-6 w-6';
         $fxSmPad = 'px-1 py-0.5';
-    } elseif ($printMode ?? false) {
-        $h1 = 'text-4xl md:text-5xl leading-tight';
-        $h2 = 'text-2xl md:text-3xl leading-tight';
-        $sub = 'text-lg leading-relaxed';
-        $body = 'text-base leading-relaxed';
-        $qot = 'text-2xl md:text-3xl italic leading-snug';
-        $auth = 'text-sm';
-        $pad = 'p-10 md:p-16';
-        $fxPadX = 'px-12';
-        $fxPadY = 'py-6';
-        $fxGap = 'gap-8';
-        $fxBarW = 'w-32';
-        $fxH1 = 'text-7xl';
-        $fxH2 = 'text-6xl';
-        $fxH3 = 'text-5xl';
-        $fxTitle = 'text-xl';
-        $fxBody = 'text-sm';
-        $fxCardPad = 'p-8';
-        $fxIcon = 'w-16 h-16';
-        $fxIconSm = 'w-6 h-6';
-        $fxIconMd = 'w-12 h-12';
-        $fxCircle = 'h-20 w-20';
-        $fxSmPad = 'px-4 py-2.5';
+        $fxTagline = 'text-[4px]';
     } else {
-        $h1 = 'text-4xl md:text-5xl leading-tight';
-        $h2 = 'text-2xl md:text-3xl leading-tight';
-        $sub = 'text-lg leading-relaxed';
-        $body = 'text-base leading-relaxed';
-        $qot = 'text-2xl md:text-3xl italic leading-snug';
-        $auth = 'text-sm';
-        $pad = 'p-10 md:p-16';
-        $fxPadX = 'px-12';
-        $fxPadY = 'py-6';
-        $fxGap = 'gap-8';
-        $fxBarW = 'w-32';
-        $fxH1 = 'text-7xl';
-        $fxH2 = 'text-6xl';
-        $fxH3 = 'text-5xl';
-        $fxTitle = 'text-xl';
-        $fxBody = 'text-sm';
-        $fxCardPad = 'p-8';
-        $fxIcon = 'w-16 h-16';
-        $fxIconSm = 'w-6 h-6';
-        $fxIconMd = 'w-12 h-12';
-        $fxCircle = 'h-20 w-20';
-        $fxSmPad = 'px-4 py-2.5';
-        $fxGap = 'gap-4 md:gap-6';
-        $fxBarW = 'w-16 md:w-24';
-        $fxH1 = 'text-3xl md:text-5xl';
-        $fxH2 = 'text-2xl md:text-4xl';
-        $fxH3 = 'text-xl md:text-3xl';
-        $fxTitle = 'text-sm md:text-lg';
-        $fxBody = 'text-xs md:text-sm';
-        $fxCardPad = 'p-4 md:p-6';
-        $fxIcon = 'w-10 md:w-14';
-        $fxIconSm = 'w-4 md:w-5';
-        $fxIconMd = 'w-8 md:w-10';
-        $fxCircle = 'h-12 md:h-16 w-12 md:w-16';
-        $fxSmPad = 'px-2 md:px-3 py-1 md:py-2';
+        // Fluid typography for editor + print view (container: .proposal-slide-cqw on content column)
+        $h1 = 'proposal-fluid-h1 leading-tight';
+        $h2 = 'proposal-fluid-h2 leading-tight';
+        $sub = 'proposal-fluid-subheading leading-relaxed';
+        $body = 'proposal-fluid-body leading-relaxed';
+        $qot = 'proposal-fluid-quote italic leading-snug';
+        $auth = 'proposal-fluid-body-sm';
+        $pad = 'p-[clamp(1.5rem,5cqw,4rem)]';
+        $fxPadX = 'px-[clamp(1rem,4cqw,3rem)]';
+        $fxPadY = 'py-[clamp(0.75rem,3cqw,1.5rem)]';
+        $fxGap = 'gap-[clamp(0.75rem,2.5cqw,2rem)]';
+        $fxBarW = 'w-[clamp(3rem,10cqw,8rem)] shrink-0';
+        $fxH1 = 'proposal-fluid-fx1';
+        $fxH2 = 'proposal-fluid-fx2';
+        $fxH3 = 'proposal-fluid-fx3';
+        $fxTitle = 'proposal-fluid-subheading';
+        $fxBody = 'proposal-fluid-body';
+        $fxCardPad = 'p-[clamp(0.75rem,3cqw,2rem)]';
+        $fxIcon = '[width:clamp(2.25rem,8cqw,4rem)] [height:clamp(2.25rem,8cqw,4rem)]';
+        $fxIconSm = '[width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]';
+        $fxIconMd = '[width:clamp(1.5rem,5cqw,3rem)] [height:clamp(1.5rem,5cqw,3rem)]';
+        $fxCircle = 'min-w-0 shrink-0 [width:clamp(2.375rem,7.5cqw,5rem)] [height:clamp(2.375rem,7.5cqw,5rem)]';
+        $fxSmPad = 'px-[clamp(0.5rem,1.5cqw,1rem)] py-[clamp(0.25rem,1cqw,0.75rem)]';
+        $fxTagline = 'proposal-fluid-subheading';
     }
 @endphp
 
@@ -96,12 +63,12 @@
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div class="flex w-full h-full">
                 <div class="{{ $fxBarW }} clr-primary shrink-0"></div>
-                <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+                <div class="proposal-slide-cqw min-w-0 flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                     <div class="flex justify-between items-center">
                         <div class="flex flex-row items-center {{ $mini ? 'gap-1' : 'gap-4' }}">
                             <x-logo />
                             <div class="w-px {{ $mini ? 'h-6' : 'h-12' }} clr-primary shrink-0"></div>
-                            <p class="{{ $mini ? 'text-[4px]' : 'text-lg' }} clr-txt-secondary">
+                            <p class="{{ $fxTagline }} clr-txt-secondary">
                                 {{ $c['tagline'] ?? 'Your Partner Towards Digital Innovation' }}
                             </p>
                         </div>
@@ -137,7 +104,7 @@
         @endphp
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div class="flex w-full h-full">
-                <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+                <div class="proposal-slide-cqw min-w-0 flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                     <div class="flex justify-between items-center">
                         <p class="{{ $fxH1 }} clr-txt-primary">
                             {{ $c['heading'] ?? 'Executive Summary' }}
@@ -145,13 +112,14 @@
                         <x-circles />
                     </div>
                     <hr class="border-clr-primary {{ $mini ? 'w-1/3 border' : 'w-2/5 border-2' }}">
+                    {{-- Match design: card overlaps right-side art; building then large navy disc on top of building corner; card reads above art where they meet --}}
                     <div
-                        class="flex flex-row w-full flex-1 justify-center items-center {{ $mini ? 'gap-1' : 'gap-2' }} overflow-hidden">
+                        class="{{ $mini ? 'flex min-h-0 w-full flex-1 flex-row items-center gap-1 overflow-hidden' : 'relative flex min-h-0 w-full flex-1 flex-col gap-4 overflow-visible sm:flex-row sm:items-center sm:gap-0' }}">
                         <div
-                            class="relative {{ $mini ? 'w-[70%]' : 'w-4/5' }} bg-white shadow-xl rounded-xl {{ $mini ? 'p-2' : 'p-4' }} z-10">
-                            <div class="{{ $mini ? 'text-[3px]' : 'text-base' }} clr-txt-primary leading-relaxed space-y-2">
-                                <div
-                                    class="{{ $mini ? 'text-[3px]' : 'text-base' }} clr-txt-primary leading-relaxed space-y-2">
+                            class="proposal-slide-cqw flex min-w-0 items-center justify-center sm:justify-start {{ $mini ? 'z-20 w-[70%] shrink-0' : 'relative z-30 w-full max-w-full sm:w-[58%] sm:max-w-[62%] sm:shrink-0 sm:pr-1' }}">
+                            <div
+                                class="relative w-full max-w-full bg-white shadow-xl rounded-xl {{ $mini ? 'p-2' : $fxCardPad }}">
+                                <div class="{{ $mini ? 'text-[3px]' : $fxBody }} clr-txt-primary leading-relaxed space-y-2">
                                     @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
                                         @if (trim($line) !== '')
                                             <p>{!! preg_replace('/\*\*(.*?)\*\*/', '<span class="font-bold">$1</span>', e(trim($line))) !!}</p>
@@ -180,11 +148,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="flex flex-col relative {{ $mini ? '-ml-6' : '-ml-44' }} justify-end">
-                            <img src="{{ asset('images/executive-bg.png') }}" alt="BG"
-                                class="{{ $mini ? 'h-16' : 'h-3/4' }} w-auto" />
-                            <div
-                                class="absolute rounded-full {{ $mini ? 'h-20 w-20 -bottom-8 -right-8' : 'h-96 w-96 -bottom-40 -right-40' }} clr-primary z-10">
+                        <div
+                            class="{{ $mini ? 'relative flex h-[42cqw] max-h-[88%] w-full items-end justify-end overflow-hidden' : 'proposal-slide-cqw relative z-0 flex min-h-0 min-w-0 flex-1 flex-col items-end justify-end self-stretch overflow-visible sm:-ml-[clamp(1.25rem,6cqw,4rem)]' }}">
+                            <div class="relative flex max-h-full w-full items-end justify-end overflow-hidden">
+                                <img src="{{ asset('images/executive-bg.png') }}" alt=""
+                                    class="{{ $mini ? 'relative z-10 h-16 w-auto' : 'relative z-10 max-h-full w-auto max-w-full object-contain object-right-bottom' }}" />
+                                @if ($mini)
+                                    <div
+                                        class="pointer-events-none absolute z-20 rounded-full clr-primary h-20 w-20 -bottom-2 -right-2">
+                                    </div>
+                                @else
+                                    {{-- cqw is relative to this column only; disc sits on top of building like the mockup --}}
+                                    <div
+                                        class="pointer-events-none absolute z-20 rounded-full clr-primary [width:clamp(6rem,72cqw,14rem)] [height:clamp(6rem,72cqw,14rem)] -bottom-[40%] -right-[20%] sm:-bottom-[15%] sm:-right-[10%]">
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -197,65 +175,115 @@
          FIXED-WHOIS
     ══════════════════════════════════════ --}}
     @case('fixed-whois')
-        <div class="absolute inset-0 bg-white overflow-hidden">
-            <div class="flex w-full h-full">
-                <div class="{{ $fxBarW }} clr-primary shrink-0"></div>
-                <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
-                    <div class="flex justify-between items-center">
-                        <x-logo />
-                        <div class="flex flex-col">
-                            <div class="flex flex-row justify-center items-center">
-                                <h1 class="{{ $fxH2 }} clr-txt-secondary {{ $mini ? 'mt-1' : 'mt-6' }}">
-                                    {{ $c['top_heading'] ?? 'OUR STRATEGY' }}
-                                </h1>
-                                <x-circles />
+        @if ($mini)
+            <div class="absolute inset-0 bg-white overflow-hidden">
+                <div class="flex w-full h-full">
+                    <div class="{{ $fxBarW }} clr-primary shrink-0"></div>
+                    <div class="proposal-slide-cqw min-w-0 flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+                        <div class="flex justify-between items-center">
+                            <x-logo />
+                            <div class="flex flex-col">
+                                <div class="flex flex-row justify-center items-center">
+                                    <h1 class="{{ $fxH2 }} clr-txt-secondary mt-1">{{ $c['top_heading'] ?? 'OUR STRATEGY' }}</h1>
+                                    <x-circles />
+                                </div>
+                                <hr class="w-1/2 mt-2 border border-clr-primary">
                             </div>
-                            <hr class="{{ $mini ? 'w-1/2 mt-2 border' : 'w-3/4 mt-10 border-2' }} border-clr-primary">
                         </div>
-                    </div>
-                    <div class="flex flex-row justify-between w-full flex-1 min-w-0">
-                        <div class="flex flex-col flex-1 min-w-0">
-                            @php $heading = $c['heading'] ?? null; @endphp
-                            <h1 class="font-medium text-6xl clr-txt-primary">
-                                @if ($heading)
-                                    {!! nl2br(e(str_replace('\n', "\n", $heading))) !!}
-                                @else
-                                    Who is<br>Odecci?
-                                @endif
-                            </h1>
-                            <div
-                                class="{{ $mini ? 'mt-2' : 'mt-10' }} {{ $mini ? 'text-[3px]' : 'text-base' }} clr-txt-primary space-y-2">
-                                @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
-                                    @if (trim($line) !== '')
-                                        <p>{{ trim($line) }}</p>
+                        <div class="flex flex-row justify-between w-full flex-1 min-w-0">
+                            <div class="flex flex-col flex-1 min-w-0">
+                                @php $heading = $c['heading'] ?? null; @endphp
+                                <h1 class="font-medium text-[6px] clr-txt-primary">
+                                    @if ($heading)
+                                        {!! nl2br(e(str_replace('\n', "\n", $heading))) !!}
+                                    @else
+                                        Who is<br>Odecci?
                                     @endif
-                                @endforeach
-                                @if (!empty($c['website']))
-                                    <p class="{{ $mini ? 'mt-1' : 'mt-4' }}">
-                                        Visit our website:
-                                        <span class="underline decoration-solid">{{ $c['website'] }}</span>
-                                    </p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="flex flex-1 flex-row justify-center items-center min-w-0">
-                            <div class="grid grid-cols-2 grid-rows-3 {{ $mini ? 'gap-2' : 'gap-20' }}">
-                                @foreach ($c['bullets'] ?? [] as $bullet)
-                                    <div class="flex flex-row justify-center items-center {{ $mini ? 'gap-1' : 'gap-4' }}">
-                                        <div
-                                            class="flex justify-center items-center {{ $fxCircle }} shrink-0 rounded-full clr-bg-secondary text-base-100">
-                                            <x-icons.diamond class="{{ $fxIconSm }}" />
-                                        </div>
-                                        <p class="clr-txt-secondary font-bold {{ $mini ? 'text-[4px]' : 'text-xl' }}">
-                                            {{ $bullet }}</p>
-                                    </div>
-                                @endforeach
+                                </h1>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @else
+            @php
+                $whoisWebsite = trim((string) ($c['website'] ?? ''));
+                if ($whoisWebsite === '') {
+                    $whoisWebsite = 'https://odecci.com';
+                }
+                $whoisHref = preg_match('#^https?://#i', $whoisWebsite) ? $whoisWebsite : 'https://' . ltrim($whoisWebsite, '/');
+            @endphp
+            <div class="absolute inset-0 overflow-y-auto bg-white md:overflow-hidden">
+                <div class="flex min-h-full w-full flex-col md:min-h-0 md:h-full md:flex-row">
+                    <div class="h-2 w-full shrink-0 clr-primary md:h-auto md:w-[clamp(3rem,10cqw,8rem)] md:min-h-full"></div>
+                    <div
+                        class="proposal-slide-cqw flex min-h-0 w-full min-w-0 flex-1 flex-col gap-[clamp(0.75rem,2.5cqw,1.5rem)] px-[clamp(1rem,4cqw,3rem)] py-[clamp(0.75rem,3cqw,1.5rem)]">
+                        {{-- 3-column header: logo | centered title + rule | circles (matches preview at any width) --}}
+                        <div
+                            class="grid w-full grid-cols-1 gap-[clamp(0.75rem,3cqw,1.5rem)] sm:grid-cols-[minmax(0,auto)_1fr_minmax(0,auto)] sm:items-center sm:gap-x-[clamp(0.75rem,3cqw,1.75rem)]">
+                            <div class="flex justify-center sm:justify-self-start">
+                                <div class="flex flex-row items-center gap-4 [&_img]:max-h-[clamp(2rem,12cqw,4rem)] [&_img]:w-auto">
+                                    <x-logo /></div>
+                            </div>
+                            <div
+                                class="mt-[clamp(0.25rem,1.5cqw,1.5rem)] flex min-w-0 flex-col items-center text-center sm:justify-self-center">
+                                <h1 class="proposal-fluid-fx2 clr-txt-secondary">
+                                    {{ $c['top_heading'] ?? 'OUR STRATEGY' }}</h1>
+                                <hr
+                                    class="mx-auto mt-[clamp(0.375rem,1.5cqw,1rem)] w-3/4 max-w-xl border-2 border-clr-primary">
+                            </div>
+                            <div
+                                class="flex justify-center sm:justify-self-end sm:justify-end [&>div]:h-[clamp(2.25rem,8cqw,3rem)] [&>div]:w-[clamp(7rem,22cqw,10rem)] [&>div]:gap-[clamp(0.1rem,0.4cqw,0.125rem)] [&>div_.rounded-full]:!h-[clamp(0.75rem,2.5cqw,1rem)] [&>div_.rounded-full]:!w-[clamp(0.75rem,2.5cqw,1rem)]">
+                                <x-circles />
+                            </div>
+                        </div>
+                        <div
+                            class="flex min-h-0 flex-1 flex-col gap-[clamp(1rem,3.5cqw,1.75rem)] md:flex-row md:justify-between md:gap-[clamp(0.5rem,2cqw,0.75rem)]">
+                            <div
+                                class="flex min-w-0 flex-1 flex-col justify-center gap-[clamp(0.75rem,2.5cqw,1.25rem)]">
+                                @php $heading = $c['heading'] ?? null; @endphp
+                                <h1 class="proposal-fluid-fx1 clr-txt-primary">
+                                    @if ($heading)
+                                        {!! nl2br(e(str_replace('\n', "\n", $heading))) !!}
+                                    @else
+                                        Who is<br>Odecci?
+                                    @endif
+                                </h1>
+                                <div class="proposal-fluid-body space-y-2 clr-txt-primary">
+                                    @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
+                                        @if (trim($line) !== '')
+                                            <p>{{ trim($line) }}</p>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <p class="proposal-fluid-body clr-txt-primary">
+                                    Visit our website:
+                                    <a href="{{ $whoisHref }}" class="underline decoration-solid">{{ $whoisWebsite }}</a>
+                                    to learn more
+                                </p>
+                            </div>
+                            <div class="flex min-w-0 flex-1 flex-row items-center justify-center">
+                                <div
+                                    class="grid w-full grid-cols-1 gap-[clamp(0.75rem,3cqw,2rem)] sm:grid-cols-2">
+                                    @foreach ($c['bullets'] ?? [] as $bullet)
+                                        <div
+                                            class="flex flex-row items-center gap-[clamp(0.5rem,2.5cqw,1.25rem)]">
+                                            <div
+                                                class="flex shrink-0 items-center justify-center rounded-full clr-bg-secondary text-base-100 [width:clamp(2.375rem,7.5cqw,4rem)] [height:clamp(2.375rem,7.5cqw,4rem)]">
+                                                <x-icons.diamond
+                                                    classes="shrink-0 [width:clamp(0.875rem,2.8cqw,1.5rem)] [height:clamp(0.875rem,2.8cqw,1.5rem)]" />
+                                            </div>
+                                            <p class="proposal-fluid-body font-bold leading-snug clr-txt-secondary">
+                                                {{ $bullet }}</p>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
     @break
 
     {{-- ══════════════════════════════════════
@@ -263,7 +291,7 @@
     ══════════════════════════════════════ --}}
     @case('fixed-strategy-cards')
         <div class="absolute inset-0 bg-white overflow-hidden">
-            <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
+            <div class="proposal-slide-cqw min-w-0 flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $fxGap }}">
                 <div class="flex justify-between items-center">
                     <div class="flex flex-row items-center justify-between {{ $mini ? 'gap-4' : 'gap-20' }}">
                         <div class="flex flex-col {{ $mini ? 'gap-2' : 'gap-10' }}">
@@ -321,7 +349,7 @@
             }
         @endphp
         <div class="absolute inset-0 bg-white overflow-hidden">
-            <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+            <div class="proposal-slide-cqw min-w-0 flex flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH1 }} font-bold clr-txt-primary tracking-tight">
@@ -426,7 +454,7 @@
         @endphp
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div
-                class="flex flex-1 flex-col justify-between w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+                class="proposal-slide-cqw min-w-0 flex flex-1 flex-col justify-between w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH1 }} font-bold clr-txt-primary tracking-tight">
@@ -601,7 +629,7 @@
     @case('fixed-terms')
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div
-                class="flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+                class="proposal-slide-cqw min-w-0 flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH3 }} font-bold clr-txt-primary tracking-tight">
@@ -677,7 +705,7 @@
     @case('fixed-projects')
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div
-                class="flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+                class="proposal-slide-cqw min-w-0 flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH3 }} font-bold clr-txt-primary tracking-tight">
@@ -723,7 +751,7 @@
         @endphp
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div
-                class="flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+                class="proposal-slide-cqw min-w-0 flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH3 }} font-bold clr-txt-primary tracking-tight">
@@ -747,7 +775,7 @@
     @case('fixed-testimonial')
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div
-                class="flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
+                class="proposal-slide-cqw min-w-0 flex flex-1 flex-col w-full h-full {{ $fxPadX }} {{ $fxPadY }} {{ $mini ? 'gap-1' : 'gap-3' }}">
                 <div class="flex justify-between items-start shrink-0 gap-4">
                     <div class="flex flex-col {{ $mini ? 'gap-0.5' : 'gap-1.5' }}">
                         <h1 class="{{ $fxH3 }} font-bold clr-txt-primary tracking-tight">
@@ -912,7 +940,7 @@
         <div class="absolute inset-0 bg-white overflow-hidden">
             <div class="flex w-full h-full">
                 <div class="{{ $fxBarW }} clr-primary shrink-0 h-full"></div>
-                <div class="flex flex-col w-full h-full {{ $fxPadX }} {{ $mini ? 'py-2' : 'py-6' }} justify-between">
+                <div class="proposal-slide-cqw min-w-0 flex flex-col w-full h-full {{ $fxPadX }} {{ $mini ? 'py-2' : 'py-6' }} justify-between">
                     <div class="flex justify-between items-start w-full">
                         <x-logo />
                     </div>
