@@ -839,8 +839,14 @@
                     <x-circles />
                 </div>
                 <div class="grid grid-cols-3 grid-rows-4 {{ $mini ? 'gap-1' : 'gap-4' }} mt-4">
-                    @foreach ($orgs as $org)
-                        <p class="{{ $mini ? 'text-[4px]' : 'text-xl' }} font-bold clr-txt-primary">{{ $org }}</p>
+                    @foreach ($organizations as $org)
+                        <div class="flex justify-center items-center">
+                            <img
+                                src="{{ asset($org['image']) }}"
+                                alt="{{ $org['name'] }}"
+                                class="w-32 h-32 object-contain"
+                            >
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -1025,10 +1031,8 @@
                     </div>
                     <div class="flex row justify-between items-center w-full gap-4">
                         <div class="flex flex-col leading-none">
-                            <span
-                                class="{{ $fxH1 }} font-bold clr-txt-primary tracking-tight">{{ $c['line1'] ?? 'CONTACT' }}</span>
-                            <span
-                                class="{{ $fxH1 }} font-light text-gray-300 tracking-tight">{{ $c['line2'] ?? 'US NOW' }}</span>
+                            <h1
+                                class="{{ $fxH1 }} font-bold clr-txt-primary tracking-tight">{!! $c['heading'] !!}</h1>
                         </div>
                         <img src="{{ asset('images/icon-dark.png') }}" alt="Logo"
                             class="{{ $mini ? 'w-12' : 'w-1/3' }} h-auto object-contain">

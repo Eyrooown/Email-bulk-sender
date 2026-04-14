@@ -262,7 +262,9 @@
                                         @foreach ($c['bullets'] ?? [] as $bullet)
                                             @php
                                                 $bulletText = is_array($bullet) ? $bullet['text'] ?? '' : $bullet;
-                                                $bulletIcon = is_array($bullet) ? $bullet['icon'] ?? 'diamond' : 'diamond';
+                                                $bulletIcon = is_array($bullet)
+                                                    ? $bullet['icon'] ?? 'diamond'
+                                                    : 'diamond';
                                             @endphp
                                             <div class="flex flex-row items-center gap-4">
                                                 <div
@@ -306,7 +308,8 @@
                         $strategyDefaults = [
                             1 => [
                                 'title' => 'Hand Tailored Solutions',
-                                'body' => "Design websites that are uniquely customized to align with each client's specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.",
+                                'body' =>
+                                    "Design websites that are uniquely customized to align with each client's specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.",
                             ],
                             2 => [
                                 'title' => 'Enhance Client Collaboration',
@@ -347,21 +350,29 @@
                                 @for ($i = 1; $i <= 5; $i++)
                                     @php
                                         $isDark = $i % 2 === 1;
-                                        $cardTitle = trim((string) ($c["card{$i}_title"] ?? $strategyDefaults[$i]['title']));
+                                        $cardTitle = trim(
+                                            (string) ($c["card{$i}_title"] ?? $strategyDefaults[$i]['title']),
+                                        );
                                         $titleWords = preg_split('/\s+/', $cardTitle) ?: [];
-                                        $iconFromTitle = \Illuminate\Support\Str::slug(implode(' ', array_slice($titleWords, 0, 2)));
-                                        $iconName = file_exists(resource_path("views/components/icons/proposal/{$iconFromTitle}.blade.php")) ? $iconFromTitle : 'diamond';
+                                        $iconFromTitle = \Illuminate\Support\Str::slug(
+                                            implode(' ', array_slice($titleWords, 0, 2)),
+                                        );
+                                        $iconName = file_exists(
+                                            resource_path("views/components/icons/proposal/{$iconFromTitle}.blade.php"),
+                                        )
+                                            ? $iconFromTitle
+                                            : 'diamond';
                                     @endphp
                                     <div
                                         class="flex flex-col min-w-0 {{ $isDark ? 'clr-primary text-white' : 'bg-white clr-txt-primary shadow-md' }} rounded-2xl p-6 w-full h-full">
                                         <div class="flex flex-col items-center gap-3">
-                                            <x-dynamic-component :component="'icons.proposal.' . $iconName"
-                                                :classes="'w-12 h-12 mb-1'" />
+                                            <x-dynamic-component :component="'icons.proposal.' . $iconName" :classes="'w-12 h-12 mb-1'" />
                                             <hr
                                                 class="w-full border {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
                                             <h1 class="text-base font-bold text-center w-full">
                                                 {{ $c["card{$i}_title"] ?? $strategyDefaults[$i]['title'] }}</h1>
-                                            <p class="text-center text-xs leading-snug">{{ $c["card{$i}_body"] ?? $strategyDefaults[$i]['body'] }}
+                                            <p class="text-center text-xs leading-snug">
+                                                {{ $c["card{$i}_body"] ?? $strategyDefaults[$i]['body'] }}
                                             </p>
                                         </div>
                                     </div>
@@ -526,7 +537,8 @@
                                     <div class="flex flex-col items-center gap-0 h-full">
                                         <div
                                             class="{{ $item['boxClass'] }} text-white rounded-xl flex items-center justify-center px-4 py-6 w-full">
-                                            <x-icons.proposal.bulb class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
+                                            <x-icons.proposal.bulb
+                                                class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
                                         </div>
                                         <div class="w-px h-6 border-l border-dashed border-gray-400"></div>
                                         <div class="flex flex-col gap-1 h-2/5">
@@ -857,13 +869,12 @@
     ══════════════════════════════════════════════ --}}
                 @elseif ($layout === 'fixed-organizations')
                     @php
-                        $orgs = $c['organizations'] ?? [];
-                        if (is_string($orgs)) {
-                            $orgs = json_decode($orgs, true) ?? [];
-                        }
-                        if (empty($orgs)) {
-                            $orgs = array_map(fn($i) => "Organization {$i}", range(1, 11));
-                        }
+                        $organizations =
+                            $c['organizations'] ??
+                            array_map(
+                                fn($i) => ['name' => "Organization {$i}", 'image' => "images/organization{$i}.png"],
+                                range(1, 12),
+                            );
                     @endphp
                     <div class="page flex w-full bg-white">
                         <div class="flex flex-1 flex-col w-full h-full px-10 py-5 gap-3">
@@ -875,9 +886,12 @@
                                 </div>
                                 <x-circles />
                             </div>
-                            <div class="grid grid-cols-3 grid-rows-4 gap-4 mt-4">
-                                @foreach ($orgs as $org)
-                                    <h1 class="text-xl font-bold clr-txt-primary">{{ $org }}</h1>
+                            <div class="grid grid-cols-3 grid-rows-4 gap-8 mt-4">
+                                @foreach ($organizations as $org)
+                                    <div class="flex justify-center items-center">
+                                        <img src="{{ asset($org['image']) }}" alt="{{ $org['name'] }}"
+                                            class="w-32 h-32 object-contain">
+                                    </div>
                                 @endforeach
                             </div>
                         </div>

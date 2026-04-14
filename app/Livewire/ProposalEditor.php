@@ -274,10 +274,8 @@ class ProposalEditor extends Component
         $this->portfolioUrl = $c['portfolio_url'] ?? '';
         $this->portfolioLabel = $c['portfolio_label'] ?? '';
 
-        $this->organizations = is_array($c['organizations'] ?? null) ? $c['organizations'] : [];
-        for ($i = 0; $i < 12; $i++) {
-            $this->organizations[$i] = $this->organizations[$i] ?? '';
-        }
+        $defaults = $this->getDefaultsForLayout($layout);
+        $this->organizations = is_array($c['organizations'] ?? null) ? $c['organizations'] : ($defaults['organizations'] ?? []);
 
         $this->testimonial1 = $c['testimonial1'] ?? '';
         $this->testimonial2 = $c['testimonial2'] ?? '';
@@ -306,10 +304,10 @@ class ProposalEditor extends Component
             $bullets[$i] = $bullets[$i] ?? '';
         }
 
-        $organizations = $this->organizations;
-        for ($i = 0; $i < 12; $i++) {
-            $organizations[$i] = $organizations[$i] ?? '';
-        }
+        $organizations = $this->organizations = array_map(fn ($i) => [
+            'name' => "Organization {$i}",
+            'image' => "images/organization{$i}.png",
+        ], range(1, 12));
 
         $preview = [
             'heading' => $this->heading,
@@ -424,6 +422,15 @@ class ProposalEditor extends Component
                 'top_heading' => 'OUR STRATEGY',
                 'heading' => "Who is\nOdecci?",
                 'website' => 'www.odecci.com',
+                'body' => 'Odecci Solutions Inc. is a software
+                            development company that provides
+                            comprehensive software development
+                            services and focuses on end-to-end digital
+                            solutions that empower businesses to
+                            streamline and enhance their operations. \n
+                            The company’s goal is to help businesses by
+                            providing quality and efficient digital solutions
+                            that enable them to excel in their industry. ',
                 'bullets' => [
                     ['text' => 'Client-Centric Solutions', 'icon' => 'diamond'],
                     ['text' => 'Data-Driven Decision Making', 'icon' => 'paperplane'],
@@ -580,7 +587,10 @@ class ProposalEditor extends Component
             ],
             'fixed-organizations' => [
                 'heading' => 'Organizations we work with',
-                'organizations' => array_map(fn ($i) => "Organization {$i}", range(1, 12)),
+                'organizations' => array_map(fn ($i) => [
+                    'name' => "Organization {$i}",
+                    'image' => "images/organization{$i}.png",
+                ], range(1, 12)),
             ],
             'fixed-testimonial' => [
                 'heading' => 'Testimonial',
@@ -974,7 +984,16 @@ class ProposalEditor extends Component
             'fixed-whois' => [
                 'top_heading' => 'OUR STRATEGY',
                 'heading' => "Who is\nOdecci?",
-                'body' => 'Your who-is text...',
+                'body' => 'Odecci Solutions Inc. is a software
+                            development company that provides
+                            comprehensive software development
+                            services and focuses on end-to-end digital
+                            solutions that empower businesses to
+                            streamline and enhance their operations.
+
+                            The company’s goal is to help businesses by
+                            providing quality and efficient digital solutions
+                            that enable them to excel in their industry. ',
                 'website' => 'www.odecci.com',
                 'bullets' => [
                     ['text' => 'Client-Centric Solutions', 'icon' => 'diamond'],
@@ -986,7 +1005,7 @@ class ProposalEditor extends Component
                 ],
             ],
             'fixed-strategy-cards' => [
-                'heading' => 'Our Strategy',
+                'heading' => 'Our Goals',
                 'subheading' => "We understand that every business has\nunique goals for its system, such as:",
                 'card1_icon' => 'diamond',
                 'card1_title' => 'Hand Tailored Solutions',
@@ -1003,6 +1022,42 @@ class ProposalEditor extends Component
                 'card5_icon' => 'bulb',
                 'card5_title' => 'Provide Strategic Implementation',
                 'card5_body' => 'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
+            ],
+            'fixed-organizations' => [
+                'heading' => 'Organizations we work with',
+            ],
+            'fixed-organizations' => [
+                'heading' => 'Organizations we work with',
+            ],
+            'fixed-projects' => [
+                'heading' => 'Some of Our Website Projects',
+            ],
+            'fixed-testimonial' => [
+                'heading' => 'Testimonial',
+
+            ],
+            'fixed-terms' => [
+                'heading' => 'Terms and Conditions',
+            ],
+            'fixed-problem-statement' => [
+                'heading' => 'Problem Statement',
+            ],
+            'fixed-custom-solution' => [
+                'heading' => 'Our Custom Solution',
+            ],
+            'fixed-scope' => [
+                'heading' => 'Scope of Work',
+            ],
+            'fixed-why-customize' => [
+                'heading' => 'Why Your Business
+                                Needs a Customized
+                                Application',
+            ],
+            'fixed-guidance' => [
+                'heading' => 'Need Guidance?',
+            ],
+            'fixed-contact' => [
+                'heading' => nl2br("Contact Us\nNow"),
             ],
             default => ['heading' => 'New Slide'],
         };
