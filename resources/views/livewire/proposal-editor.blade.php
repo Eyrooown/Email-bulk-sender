@@ -696,8 +696,10 @@
                 <div class="space-y-3">
                     <div>
                         <label class="text-xs text-gray-400 font-medium mb-1.5 block">Heading</label>
-                        <input wire:model.live.debounce.400ms="heading" type="text"
-                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                        <textarea wire:model.live.debounce.400ms="heading" type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" >
+
+                        </textarea>
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 font-medium mb-1.5 block">Email</label>
