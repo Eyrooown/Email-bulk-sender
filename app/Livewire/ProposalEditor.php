@@ -1026,9 +1026,6 @@ class ProposalEditor extends Component
             'fixed-organizations' => [
                 'heading' => 'Organizations we work with',
             ],
-            'fixed-organizations' => [
-                'heading' => 'Organizations we work with',
-            ],
             'fixed-projects' => [
                 'heading' => 'Some of Our Website Projects',
             ],
@@ -1044,6 +1041,7 @@ class ProposalEditor extends Component
             ],
             'fixed-custom-solution' => [
                 'heading' => 'Our Custom Solution',
+
             ],
             'fixed-scope' => [
                 'heading' => 'Scope of Work',

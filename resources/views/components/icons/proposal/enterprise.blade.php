@@ -18,7 +18,7 @@
 
     <path d="M7.47 20a0.25 0.25 0 0 0 -0.17 0.31l0.4 1.44a0.23 0.23 0 0 0 0.12 0.15 0.25 0.25 0 0 0 0.19 0l8.52 -2.37a0.25 0.25 0 0 0 0.17 -0.31l-0.4 -1.44a0.23 0.23 0 0 0 -0.12 -0.15 0.25 0.25 0 0 0 -0.19 0Z" fill="currentColor" stroke-width="1"></path>
 
-    <path d="M2 0h2s2 0 2 2v2s0 2 -2 2H2S0 6 0 4V2s0 -2 2 -2" fill="currentColor stroke-width="1"></path>
+    <path d="M2 0h2s2 0 2 2v2s0 2 -2 2H2S0 6 0 4V2s0 -2 2 -2" fill="currentColor" stroke-width="1"></path>
 
     <path d="M20 2.5h2s2 0 2 2v2s0 2 -2 2h-2s-2 0 -2 -2v-2s0 -2 2 -2" fill="currentColor" stroke-width="1"></path>
 

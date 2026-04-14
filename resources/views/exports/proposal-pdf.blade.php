@@ -534,11 +534,22 @@
                             @endphp
                             <div class="grid grid-cols-5 gap-4 w-full mt-2 h-3/5 items-start">
                                 @foreach ($solutionItems as $item)
+                                    @php
+                                        $solutionTitle = trim((string) ($item['title'] ?? ''));
+                                        $titleWords = preg_split('/[\s-]+/', $solutionTitle) ?: [];
+                                        $iconFromTitle = \Illuminate\Support\Str::slug($titleWords[0] ?? '');
+                                        $iconName = $iconFromTitle !== '' &&
+                                            file_exists(
+                                                resource_path("views/components/icons/proposal/{$iconFromTitle}.blade.php"),
+                                            )
+                                            ? $iconFromTitle
+                                            : 'bulb';
+                                    @endphp
                                     <div class="flex flex-col items-center gap-0 h-full">
                                         <div
                                             class="{{ $item['boxClass'] }} text-white rounded-xl flex items-center justify-center px-4 py-6 w-full">
-                                            <x-icons.proposal.bulb
-                                                class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
+                                            <x-dynamic-component :component="'icons.proposal.' . $iconName"
+                                                :classes="'w-14 h-14 shrink-0 ' . $item['iconClass']" />
                                         </div>
                                         <div class="w-px h-6 border-l border-dashed border-gray-400"></div>
                                         <div class="flex flex-col gap-1 h-2/5">
