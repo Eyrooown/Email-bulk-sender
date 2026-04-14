@@ -30,10 +30,12 @@ class ProposalController extends Controller
         ]);
 
         $proposal->slides()->create([
-            'layout' => 'title',
+            'layout' => 'fixed-cover',
             'content' => [
-                'heading' => 'Your Proposal Title',
-                'subheading' => 'Subtitle or tagline',
+                'tagline' => 'Your Partner Towards Digital Innovation',
+                'line1' => 'WEBSITE',
+                'line2' => 'DEVELOPMENT',
+                'line3' => 'PROPOSAL',
             ],
             'order' => 0,
         ]);

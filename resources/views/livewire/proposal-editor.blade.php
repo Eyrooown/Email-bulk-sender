@@ -52,27 +52,46 @@
         class="fixed left-0 top-12 bottom-0 w-[200px] bg-gray-900 border-r border-gray-800 overflow-y-auto z-40 flex flex-col">
         <div class="p-2 space-y-1.5">
             @foreach ($proposal->slides as $i => $slide)
-                <button wire:click="selectSlide({{ $i }})"
-                    class="group relative w-full rounded-lg overflow-hidden border-2 transition-all {{ $activeSlideIndex === $i ? 'border-indigo-500 shadow-lg shadow-indigo-900/30' : 'border-transparent hover:border-gray-600' }}"
-                    title="Slide {{ $i + 1 }}">
-                    <div class="aspect-video w-full text-left overflow-hidden pointer-events-none relative {{ $this->themeClass() }}"
-                        style="transform: scale(1); font-size: 3px;">
-                        @include('livewire.partials.proposal-slide-content', [
-                            'slide' => $slide,
-                            'mini' => true,
-                        ])
-                    </div>
+                @php
+                    $thumbContentOverride = $i === $activeSlideIndex ? $this->activeSlidePreviewContent() : null;
+                @endphp
+                <div wire:key="proposal-thumb-{{ $slide->id }}"
+                    class="group relative w-full rounded-lg overflow-hidden border-2 transition-all {{ $activeSlideIndex === $i ? 'border-indigo-500 shadow-lg shadow-indigo-900/30' : 'border-transparent hover:border-gray-600' }}">
+                    <button type="button" wire:click="selectSlide({{ $i }})"
+                        class="block w-full cursor-pointer border-0 bg-transparent p-0 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 rounded-lg"
+                        title="Slide {{ $i + 1 }}">
+                        {{-- Same markup as main canvas (max-w-4xl = 56rem), scaled to sidebar width via container queries --}}
+                        <div
+                            class="relative w-full aspect-[1.414/1] overflow-hidden text-left pointer-events-none [container-type:inline-size]">
+                            <div
+                                class="absolute left-0 top-0 h-[calc(56rem/1.414)] w-[56rem] origin-top-left will-change-transform [transform:scale(calc(100cqw/56rem))]">
+                                <div class="relative h-full w-full overflow-hidden rounded-lg shadow-md shadow-black/40">
+                                    <div
+                                        class="absolute inset-0 overflow-y-auto rounded-lg {{ $this->themeClass() }}">
+                                        @include('livewire.partials.proposal-slide-content', [
+                                            'slide' => $slide,
+                                            'mini' => false,
+                                            'contentOverride' => $thumbContentOverride,
+                                            'printMode' => false,
+                                        ])
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </button>
 
                     <span
-                        class="absolute bottom-1 right-1.5 text-[8px] text-white/40 font-mono">{{ $i + 1 }}</span>
+                        class="pointer-events-none absolute bottom-1 right-1.5 z-10 text-[8px] font-mono text-white/40">{{ $i + 1 }}</span>
 
                     @if ($proposal->slides->count() > 1)
-                        <button wire:click.stop="deleteSlide({{ $i }})"
-                            class="absolute top-0.5 right-0.5 w-4 h-4 bg-gray-900/80 rounded text-gray-400 hover:text-rose-400 hidden group-hover:flex items-center justify-center transition">
-                            x
+                        <button type="button" wire:click.stop="deleteSlide({{ $i }})"
+                            class="absolute right-1 top-1 z-20 flex h-6 w-6 items-center justify-center rounded-md bg-gray-950/90 text-xs font-semibold text-gray-300 shadow-sm ring-1 ring-white/10 hover:bg-rose-600/90 hover:text-white hover:ring-rose-500/50"
+                            title="Delete slide {{ $i + 1 }}"
+                            aria-label="Delete slide {{ $i + 1 }}">
+                            ×
                         </button>
                     @endif
-                </button>
+                </div>
             @endforeach
         </div>
 
@@ -115,36 +134,7 @@
 
     <main class="flex-1 ml-[200px] mr-[290px] mt-12 flex items-center justify-center overflow-hidden bg-gray-950 p-8">
         @if ($currentSlide = $proposal->slides->get($activeSlideIndex))
-            @php
-                $previewContent = array_merge($currentSlide->content ?? [], [
-                    'heading' => $heading,
-                    'subheading' => $subheading,
-                    'body' => $body,
-                    'bodyHighlights' => $bodyHighlights,
-                    'bodyFooter' => $bodyFooter,
-                    'quote' => $quote,
-                    'author' => $author,
-                    'col1' => $col1,
-                    'col2' => $col2,
-                    'card1_title' => $cardTitles[1] ?? '',
-                    'card2_title' => $cardTitles[2] ?? '',
-                    'card3_title' => $cardTitles[3] ?? '',
-                    'card4_title' => $cardTitles[4] ?? '',
-                    'card5_title' => $cardTitles[5] ?? '',
-                    'card1_body' => $cardBodies[1] ?? '',
-                    'card2_body' => $cardBodies[2] ?? '',
-                    'card3_body' => $cardBodies[3] ?? '',
-                    'card4_body' => $cardBodies[4] ?? '',
-                    'card5_body' => $cardBodies[5] ?? '',
-                    'tagline' => $tagline,
-                    'line1' => $line1,
-                    'line2' => $line2,
-                    'line3' => $line3,
-                    'top_heading' => $top_heading,
-                    'website' => $website,
-                    'bullets' => $bullets,
-                ]);
-            @endphp
+            @php $previewContent = $this->activeSlidePreviewContent(); @endphp
             <div class="w-full max-w-4xl {{ $viewMode === 'print' ? 'max-w-[1122px]' : '' }}">
                 @if ($viewMode === 'print')
                     <div class="flex flex-col gap-4">
@@ -169,7 +159,7 @@
                 @else
                     <div class="relative w-full" style="aspect-ratio: 1.414 / 1;">
                         <div
-                            class="absolute inset-0 rounded-xl overflow-y-auto shadow-2xl shadow-black/60 {{ $this->themeClass() }}">
+                            class="absolute inset-0 overflow-y-auto rounded-xl shadow-2xl shadow-black/60 {{ $this->themeClass() }}">
                             @include('livewire.partials.proposal-slide-content', [
                                 'slide' => $currentSlide,
                                 'mini' => false,
@@ -339,8 +329,18 @@
                             <div class="mt-2">
                                 <label class="text-xs text-gray-400 font-medium mb-1.5 block">Bullet
                                     {{ $idx + 1 }}</label>
-                                <input wire:model.live.debounce.400ms="bullets.{{ $idx }}" type="text"
-                                    class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                                <div class="flex gap-2">
+                                    <select wire:model.live.debounce.400ms="bullets.{{ $idx }}.icon"
+                                        class="w-28 bg-gray-800 border border-gray-700 text-white text-xs rounded-lg px-2 py-2 focus:outline-none focus:border-indigo-400 transition">
+                                        <option value="diamond">Diamond</option>
+                                        <option value="paperplane">Paperplane</option>
+                                        <option value="chart">Chart</option>
+                                        <option value="calendar-check">Calendar</option>
+                                        <option value="bulb">Bulb</option>
+                                    </select>
+                                    <input wire:model.live.debounce.400ms="bullets.{{ $idx }}.text" type="text"
+                                        class="flex-1 bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                                </div>
                             </div>
                         @endforeach
                     </div>
@@ -696,8 +696,10 @@
                 <div class="space-y-3">
                     <div>
                         <label class="text-xs text-gray-400 font-medium mb-1.5 block">Heading</label>
-                        <input wire:model.live.debounce.400ms="heading" type="text"
-                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" />
+                        <textarea wire:model.live.debounce.400ms="heading" type="text"
+                            class="w-full bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-2 focus:outline-none focus:border-indigo-400 transition placeholder-gray-600" >
+
+                        </textarea>
                     </div>
                     <div>
                         <label class="text-xs text-gray-400 font-medium mb-1.5 block">Email</label>
