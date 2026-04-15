@@ -229,9 +229,16 @@
                                     <hr class="w-3/4 border-2 border-clr-primary mt-4">
                                 </div>
                             </div>
-                            <div class="flex flex-row justify-between h-3/5 gap-2">
+                            <div class="flex flex-row justify-between flex-1 gap-2">
                                 <div class="flex flex-col flex-1 justify-center gap-4">
-                                    <h1 class="font-medium text-6xl clr-txt-primary">{!! nl2br(e($c['heading'] ?? "Who is\nOdecci?")) !!}</h1>
+                                    @php $heading = $c['heading'] ?? null; @endphp
+                                    <h1 class="font-medium text-6xl clr-txt-primary">
+                                        @if ($heading)
+                                            {!! nl2br(e(str_replace('\n', "\n", $heading))) !!}
+                                        @else
+                                            Who is<br>Odecci?
+                                        @endif
+                                    </h1>
                                     <div class="clr-txt-primary text-sm leading-relaxed space-y-2">
                                         @foreach (explode("\n", (string) ($c['body'] ?? '')) as $line)
                                             @if (trim($line) !== '')
@@ -239,10 +246,13 @@
                                             @endif
                                         @endforeach
                                     </div>
-                                    @if (!empty($c['website']))
+                                    @php
+                                        $website = $c['website'] ?? 'https://odecci.com';
+                                    @endphp
+                                    @if (!empty($website))
                                         <p class="text-sm">Visit our website:
-                                            <a href="https://{{ ltrim($c['website'], 'https://') }}"
-                                                class="underline decoration-solid">{{ $c['website'] }}</a> to learn
+                                            <a href="https://{{ ltrim($website, 'https://') }}"
+                                                class="underline decoration-solid">{{ $website }}</a> to learn
                                             more
                                         </p>
                                     @endif
@@ -250,12 +260,37 @@
                                 <div class="flex flex-1 flex-row justify-center items-center">
                                     <div class="grid grid-cols-2 gap-8 w-full">
                                         @foreach ($c['bullets'] ?? [] as $bullet)
+                                            @php
+                                                $bulletText = is_array($bullet) ? $bullet['text'] ?? '' : $bullet;
+                                                $bulletIcon = is_array($bullet)
+                                                    ? $bullet['icon'] ?? 'diamond'
+                                                    : 'diamond';
+                                            @endphp
                                             <div class="flex flex-row items-center gap-4">
                                                 <div
                                                     class="flex justify-center items-center h-16 w-16 shrink-0 rounded-full clr-bg-secondary text-white">
-                                                    <x-icons.diamond class="w-6 h-6" />
+                                                    @switch($bulletIcon)
+                                                        @case('paperplane')
+                                                            <x-icons.proposal.paperplane class="w-6 h-6" />
+                                                        @break
+
+                                                        @case('chart')
+                                                            <x-icons.proposal.chart class="w-6 h-6" />
+                                                        @break
+
+                                                        @case('calendar-check')
+                                                            <x-icons.proposal.calendar-check class="w-6 h-6" />
+                                                        @break
+
+                                                        @case('bulb')
+                                                            <x-icons.proposal.bulb class="w-6 h-6" />
+                                                        @break
+
+                                                        @default
+                                                            <x-icons.proposal.diamond class="w-6 h-6" />
+                                                    @endswitch
                                                 </div>
-                                                <p class="clr-txt-secondary font-bold text-base">{{ $bullet }}
+                                                <p class="clr-txt-secondary font-bold text-base">{{ $bulletText }}
                                                 </p>
                                             </div>
                                         @endforeach
@@ -269,6 +304,35 @@
          FIXED-STRATEGY-CARDS  (Page 4 style)
     ══════════════════════════════════════════════ --}}
                 @elseif ($layout === 'fixed-strategy-cards')
+                    @php
+                        $strategyDefaults = [
+                            1 => [
+                                'title' => 'Hand Tailored Solutions',
+                                'body' =>
+                                    "Design websites that are uniquely customized to align with each client's specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.",
+                            ],
+                            2 => [
+                                'title' => 'Enhance Client Collaboration',
+                                'body' =>
+                                    'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
+                            ],
+                            3 => [
+                                'title' => 'Boost Business Performance',
+                                'body' =>
+                                    'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
+                            ],
+                            4 => [
+                                'title' => 'Ensure Exceptional User Experience',
+                                'body' =>
+                                    'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
+                            ],
+                            5 => [
+                                'title' => 'Provide Strategic Implementation',
+                                'body' =>
+                                    'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
+                            ],
+                        ];
+                    @endphp
                     <div class="page flex w-full bg-white">
                         <div class="flex flex-col w-full h-full px-12 py-6 gap-6">
                             <div class="flex justify-between items-center shrink-0">
@@ -284,16 +348,31 @@
                             </div>
                             <div class="grid grid-cols-5 gap-4 w-full items-stretch h-3/5 mt-5">
                                 @for ($i = 1; $i <= 5; $i++)
-                                    @php $isDark = $i % 2 === 1; @endphp
+                                    @php
+                                        $isDark = $i % 2 === 1;
+                                        $cardTitle = trim(
+                                            (string) ($c["card{$i}_title"] ?? $strategyDefaults[$i]['title']),
+                                        );
+                                        $titleWords = preg_split('/\s+/', $cardTitle) ?: [];
+                                        $iconFromTitle = \Illuminate\Support\Str::slug(
+                                            implode(' ', array_slice($titleWords, 0, 2)),
+                                        );
+                                        $iconName = file_exists(
+                                            resource_path("views/components/icons/proposal/{$iconFromTitle}.blade.php"),
+                                        )
+                                            ? $iconFromTitle
+                                            : 'diamond';
+                                    @endphp
                                     <div
                                         class="flex flex-col min-w-0 {{ $isDark ? 'clr-primary text-white' : 'bg-white clr-txt-primary shadow-md' }} rounded-2xl p-6 w-full h-full">
                                         <div class="flex flex-col items-center gap-3">
-                                            <x-icons.bulb class="w-12 h-12 mb-1" />
+                                            <x-dynamic-component :component="'icons.proposal.' . $iconName" :classes="'w-12 h-12 mb-1'" />
                                             <hr
                                                 class="w-full border {{ $isDark ? 'border-white' : 'border-clr-primary' }}">
                                             <h1 class="text-base font-bold text-center w-full">
-                                                {{ $c["card{$i}_title"] ?? "Card {$i}" }}</h1>
-                                            <p class="text-center text-xs leading-snug">{{ $c["card{$i}_body"] ?? '' }}
+                                                {{ $c["card{$i}_title"] ?? $strategyDefaults[$i]['title'] }}</h1>
+                                            <p class="text-center text-xs leading-snug">
+                                                {{ $c["card{$i}_body"] ?? $strategyDefaults[$i]['body'] }}
                                             </p>
                                         </div>
                                     </div>
@@ -455,10 +534,22 @@
                             @endphp
                             <div class="grid grid-cols-5 gap-4 w-full mt-2 h-3/5 items-start">
                                 @foreach ($solutionItems as $item)
+                                    @php
+                                        $solutionTitle = trim((string) ($item['title'] ?? ''));
+                                        $titleWords = preg_split('/[\s-]+/', $solutionTitle) ?: [];
+                                        $iconFromTitle = \Illuminate\Support\Str::slug($titleWords[0] ?? '');
+                                        $iconName = $iconFromTitle !== '' &&
+                                            file_exists(
+                                                resource_path("views/components/icons/proposal/{$iconFromTitle}.blade.php"),
+                                            )
+                                            ? $iconFromTitle
+                                            : 'bulb';
+                                    @endphp
                                     <div class="flex flex-col items-center gap-0 h-full">
                                         <div
                                             class="{{ $item['boxClass'] }} text-white rounded-xl flex items-center justify-center px-4 py-6 w-full">
-                                            <x-icons.bulb class="w-14 h-14 shrink-0 {{ $item['iconClass'] }}" />
+                                            <x-dynamic-component :component="'icons.proposal.' . $iconName"
+                                                :classes="'w-14 h-14 shrink-0 ' . $item['iconClass']" />
                                         </div>
                                         <div class="w-px h-6 border-l border-dashed border-gray-400"></div>
                                         <div class="flex flex-col gap-1 h-2/5">
@@ -789,13 +880,12 @@
     ══════════════════════════════════════════════ --}}
                 @elseif ($layout === 'fixed-organizations')
                     @php
-                        $orgs = $c['organizations'] ?? [];
-                        if (is_string($orgs)) {
-                            $orgs = json_decode($orgs, true) ?? [];
-                        }
-                        if (empty($orgs)) {
-                            $orgs = array_map(fn($i) => "Organization {$i}", range(1, 11));
-                        }
+                        $organizations =
+                            $c['organizations'] ??
+                            array_map(
+                                fn($i) => ['name' => "Organization {$i}", 'image' => "images/organization{$i}.png"],
+                                range(1, 12),
+                            );
                     @endphp
                     <div class="page flex w-full bg-white">
                         <div class="flex flex-1 flex-col w-full h-full px-10 py-5 gap-3">
@@ -807,9 +897,12 @@
                                 </div>
                                 <x-circles />
                             </div>
-                            <div class="grid grid-cols-3 grid-rows-4 gap-4 mt-4">
-                                @foreach ($orgs as $org)
-                                    <h1 class="text-xl font-bold clr-txt-primary">{{ $org }}</h1>
+                            <div class="grid grid-cols-3 grid-rows-4 gap-8 mt-4">
+                                @foreach ($organizations as $org)
+                                    <div class="flex justify-center items-center">
+                                        <img src="{{ asset($org['image']) }}" alt="{{ $org['name'] }}"
+                                            class="w-32 h-32 object-contain">
+                                    </div>
                                 @endforeach
                             </div>
                         </div>
@@ -997,7 +1090,7 @@
                                 <div class="flex flex-row items-start gap-16 pb-2">
                                     <div class="flex flex-col gap-3">
                                         <div class="flex items-center gap-3">
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                                             <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[180px]">
                                                 <a href="mailto:{{ $c['email1'] ?? 'info@odecci.com' }}"
                                                     class="text-xs clr-txt-primary">{{ $c['email1'] ?? 'info@odecci.com' }}</a>
@@ -1006,7 +1099,7 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center gap-3">
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                                             <div class="border-b border-gray-400 pb-1 min-w-[180px]">
                                                 <a href="https://{{ ltrim($c['website'] ?? 'www.odecci.com', 'https://') }}"
                                                     target="_blank"
@@ -1015,7 +1108,7 @@
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <x-icons.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
+                                        <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary shrink-0" />
                                         <div class="flex flex-col border-b border-gray-400 pb-1 min-w-[200px]">
                                             <span
                                                 class="text-xs clr-txt-primary">{{ $c['phone1'] ?? '+044 760 5422 – Sales Office' }}</span>
@@ -1027,8 +1120,8 @@
                                         <p class="text-xs clr-txt-secondary">
                                             {{ $c['social_label'] ?? 'Visit and follow us on:' }}</p>
                                         <div class="flex gap-3">
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
-                                            <x-icons.bulb class="w-5 h-5 clr-txt-primary" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary" />
+                                            <x-icons.proposal.bulb class="w-5 h-5 clr-txt-primary" />
                                         </div>
                                     </div>
                                 </div>

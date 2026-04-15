@@ -270,7 +270,7 @@
                 <button @click="sendEmail()" wire:loading.attr="disabled" wire:target="sendWithBody"
                     class="btn btn-sm clr-bg-accent text-white rounded-lg gap-2 p-4 hover-clr-bg-accent-light">
                     <span wire:loading.remove wire:target="sendWithBody">
-                        <x-icons.send classes="w-3 h-3" />
+                        <x-icons.actions.send classes="w-3 h-3" />
                     </span>
                     <span wire:loading wire:target="sendWithBody">
                         <span class="loading loading-spinner loading-xs"></span>

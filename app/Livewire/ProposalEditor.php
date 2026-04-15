@@ -162,6 +162,10 @@ class ProposalEditor extends Component
         $defaults = $this->getDefaultsForLayout($layout);
 
         $this->heading = $c['heading'] ?? $defaults['heading'] ?? '';
+        if ($layout === 'fixed-whois') {
+            // Legacy / mistaken saves used literal backslash-n (PHP single-quoted defaults); normalize for the textarea.
+            $this->heading = str_replace('\n', "\n", $this->heading);
+        }
         $this->subheading = $c['subheading'] ?? $defaults['subheading'] ?? '';
         $this->body = $c['body'] ?? $defaults['body'] ?? '';
         $this->bodyHighlights = is_array($c['bodyHighlights'] ?? null) ? $c['bodyHighlights'] : ($defaults['bodyHighlights'] ?? []);
@@ -198,9 +202,33 @@ class ProposalEditor extends Component
         $this->website = $c['website'] ?? $defaults['website'] ?? '';
 
         $bullets = $c['bullets'] ?? $defaults['bullets'] ?? [];
-        $this->bullets = array_values(is_array($bullets) ? $bullets : []);
-        for ($i = 0; $i < 6; $i++) {
-            $this->bullets[$i] = $this->bullets[$i] ?? '';
+        if ($layout === 'fixed-whois') {
+            $src = array_values(is_array($bullets) ? $bullets : []);
+            $normalized = [];
+            foreach ($src as $b) {
+                if (is_array($b)) {
+                    $normalized[] = [
+                        'text' => (string) ($b['text'] ?? ''),
+                        'icon' => (string) ($b['icon'] ?? 'diamond'),
+                    ];
+                } else {
+                    $normalized[] = ['text' => (string) $b, 'icon' => 'diamond'];
+                }
+            }
+            for ($i = 0; $i < 6; $i++) {
+                $normalized[$i] = $normalized[$i] ?? ['text' => '', 'icon' => 'diamond'];
+                $normalized[$i]['text'] = (string) ($normalized[$i]['text'] ?? '');
+                $normalized[$i]['icon'] = (string) ($normalized[$i]['icon'] ?? 'diamond');
+                if ($normalized[$i]['icon'] === '') {
+                    $normalized[$i]['icon'] = 'diamond';
+                }
+            }
+            $this->bullets = $normalized;
+        } else {
+            $this->bullets = array_values(is_array($bullets) ? $bullets : []);
+            for ($i = 0; $i < 6; $i++) {
+                $this->bullets[$i] = $this->bullets[$i] ?? '';
+            }
         }
 
         $this->pill = $c['pill'] ?? $defaults['pill'] ?? '';
@@ -229,11 +257,13 @@ class ProposalEditor extends Component
 
         $this->paymentRow1Pct = $c['payment_row1_pct'] ?? $defaults['payment_row1_pct'] ?? '';
         $this->paymentRow1Desc = $c['payment_row1_desc'] ?? $defaults['payment_row1_desc'] ?? '';
-        $this->paymentRow2Desc = $c['payment_row2_desc'] ?? '';
-        $this->termsBullets = is_array($c['terms_bullets'] ?? null) ? $c['terms_bullets'] : [];
-        $this->clientBullets = is_array($c['client_bullets'] ?? null) ? $c['client_bullets'] : [];
-        $this->liabilityBullets = is_array($c['liability_bullets'] ?? null) ? $c['liability_bullets'] : [];
-        $this->slaText = $c['sla_text'] ?? '';
+        $this->paymentRow2Pct = $c['payment_row2_pct'] ?? $defaults['payment_row2_pct'] ?? '';
+        $this->paymentRow2Desc = $c['payment_row2_desc'] ?? $defaults['payment_row2_desc'] ?? '';
+
+        $this->termsBullets = is_array($c['terms_bullets'] ?? null) ? $c['terms_bullets'] : ($defaults['terms_bullets'] ?? []);
+        $this->clientBullets = is_array($c['client_bullets'] ?? null) ? $c['client_bullets'] : ($defaults['client_bullets'] ?? []);
+        $this->liabilityBullets = is_array($c['liability_bullets'] ?? null) ? $c['liability_bullets'] : ($defaults['liability_bullets'] ?? []);
+        $this->slaText = $c['sla_text'] ?? ($defaults['sla_text'] ?? '');
 
         $this->project1Url = $c['project1_url'] ?? '';
         $this->project1Label = $c['project1_label'] ?? '';
@@ -244,18 +274,126 @@ class ProposalEditor extends Component
         $this->portfolioUrl = $c['portfolio_url'] ?? '';
         $this->portfolioLabel = $c['portfolio_label'] ?? '';
 
-        $this->organizations = is_array($c['organizations'] ?? null) ? $c['organizations'] : [];
-        for ($i = 0; $i < 12; $i++) {
-            $this->organizations[$i] = $this->organizations[$i] ?? '';
-        }
+        $defaults = $this->getDefaultsForLayout($layout);
+        $this->organizations = is_array($c['organizations'] ?? null) ? $c['organizations'] : ($defaults['organizations'] ?? []);
 
         $this->testimonial1 = $c['testimonial1'] ?? '';
         $this->testimonial2 = $c['testimonial2'] ?? '';
         $this->testimonial3 = $c['testimonial3'] ?? '';
 
         $this->ctaText = $c['cta_text'] ?? '';
+        $this->ctaUrl = $c['cta_url'] ?? '';
         $this->email = $c['email'] ?? '';
         $this->phone = $c['phone'] ?? '';
+    }
+
+    /**
+     * Full content overlay for the active slide (matches the main canvas preview).
+     */
+    public function activeSlidePreviewContent(): array
+    {
+        $slide = $this->proposal->slides->get($this->activeSlideIndex);
+        if (! $slide) {
+            return [];
+        }
+        $layout = $slide->layout ?? '';
+        $defaults = $this->getDefaultsForLayout($layout);
+
+        $bullets = array_values($this->bullets);
+        for ($i = 0; $i < 6; $i++) {
+            $bullets[$i] = $bullets[$i] ?? '';
+        }
+
+        $organizations = $this->organizations = array_map(fn ($i) => [
+            'name' => "Organization {$i}",
+            'image' => "images/organization{$i}.png",
+        ], range(1, 12));
+
+        $preview = [
+            'heading' => $this->heading,
+            'subheading' => $this->subheading,
+            'body' => $this->body,
+            'bodyHighlights' => array_values($this->bodyHighlights),
+            'bodyFooter' => $this->bodyFooter,
+            'quote' => $this->quote,
+            'author' => $this->author,
+            'col1' => $this->col1,
+            'col2' => $this->col2,
+            'card1_title' => $this->cardTitles[1] ?? '',
+            'card2_title' => $this->cardTitles[2] ?? '',
+            'card3_title' => $this->cardTitles[3] ?? '',
+            'card4_title' => $this->cardTitles[4] ?? '',
+            'card5_title' => $this->cardTitles[5] ?? '',
+            'card1_body' => $this->cardBodies[1] ?? '',
+            'card2_body' => $this->cardBodies[2] ?? '',
+            'card3_body' => $this->cardBodies[3] ?? '',
+            'card4_body' => $this->cardBodies[4] ?? '',
+            'card5_body' => $this->cardBodies[5] ?? '',
+            'tagline' => $this->tagline,
+            'line1' => $this->line1,
+            'line2' => $this->line2,
+            'line3' => $this->line3,
+            'top_heading' => $this->top_heading,
+            'website' => $this->website,
+            'bullets' => $bullets,
+            'pill' => $this->pill,
+            'problem1' => $this->problems[0] ?? '',
+            'problem2' => $this->problems[1] ?? '',
+            'problem3' => $this->problems[2] ?? '',
+            'problem4' => $this->problems[3] ?? '',
+            'problem5' => $this->problems[4] ?? '',
+            'solution1_title' => $this->solutionTitles[1] ?? '',
+            'solution1_desc' => $this->solutionDescs[1] ?? '',
+            'solution2_title' => $this->solutionTitles[2] ?? '',
+            'solution2_desc' => $this->solutionDescs[2] ?? '',
+            'solution3_title' => $this->solutionTitles[3] ?? '',
+            'solution3_desc' => $this->solutionDescs[3] ?? '',
+            'solution4_title' => $this->solutionTitles[4] ?? '',
+            'solution4_desc' => $this->solutionDescs[4] ?? '',
+            'solution5_title' => $this->solutionTitles[5] ?? '',
+            'solution5_desc' => $this->solutionDescs[5] ?? '',
+            'packageName' => $this->packageName,
+            'idealFor' => $this->idealFor,
+            'revision' => $this->revision,
+            'benefit' => $this->benefit,
+            'tags' => $this->tags,
+            'whatYouGet' => $this->whatYouGet,
+            'inclusions' => $this->inclusions,
+            'project1_url' => $this->project1Url,
+            'project1_label' => $this->project1Label,
+            'project2_url' => $this->project2Url,
+            'project2_label' => $this->project2Label,
+            'project3_url' => $this->project3Url,
+            'project3_label' => $this->project3Label,
+            'portfolio_url' => $this->portfolioUrl,
+            'portfolio_label' => $this->portfolioLabel,
+            'organizations' => array_values($organizations),
+            'testimonial1' => $this->testimonial1,
+            'testimonial2' => $this->testimonial2,
+            'testimonial3' => $this->testimonial3,
+            'cta_text' => $this->ctaText,
+            'cta_url' => $this->ctaUrl,
+            'email' => $this->email,
+            'phone' => $this->phone,
+        ];
+
+        // Terms: do not overwrite defaults with empty values in preview
+        $preview['payment_row1_pct'] = $this->paymentRow1Pct !== '' ? $this->paymentRow1Pct : ($slide->content['payment_row1_pct'] ?? ($defaults['payment_row1_pct'] ?? ''));
+        $preview['payment_row1_desc'] = $this->paymentRow1Desc !== '' ? $this->paymentRow1Desc : ($slide->content['payment_row1_desc'] ?? ($defaults['payment_row1_desc'] ?? ''));
+        $preview['payment_row2_pct'] = $this->paymentRow2Pct !== '' ? $this->paymentRow2Pct : ($slide->content['payment_row2_pct'] ?? ($defaults['payment_row2_pct'] ?? ''));
+        $preview['payment_row2_desc'] = $this->paymentRow2Desc !== '' ? $this->paymentRow2Desc : ($slide->content['payment_row2_desc'] ?? ($defaults['payment_row2_desc'] ?? ''));
+
+        $terms = array_values(array_filter($this->termsBullets));
+        $client = array_values(array_filter($this->clientBullets));
+        $liability = array_values(array_filter($this->liabilityBullets));
+
+        $preview['terms_bullets'] = ! empty($terms) ? $terms : ($slide->content['terms_bullets'] ?? ($defaults['terms_bullets'] ?? []));
+        $preview['client_bullets'] = ! empty($client) ? $client : ($slide->content['client_bullets'] ?? ($defaults['client_bullets'] ?? []));
+        $preview['liability_bullets'] = ! empty($liability) ? $liability : ($slide->content['liability_bullets'] ?? ($defaults['liability_bullets'] ?? []));
+
+        $preview['sla_text'] = $this->slaText !== '' ? $this->slaText : ($slide->content['sla_text'] ?? ($defaults['sla_text'] ?? ''));
+
+        return array_merge($slide->content ?? [], $preview);
     }
 
     private function getDefaultsForLayout(string $layout): array
@@ -284,26 +422,40 @@ class ProposalEditor extends Component
                 'top_heading' => 'OUR STRATEGY',
                 'heading' => "Who is\nOdecci?",
                 'website' => 'www.odecci.com',
+                'body' => 'Odecci Solutions Inc. is a software
+                            development company that provides
+                            comprehensive software development
+                            services and focuses on end-to-end digital
+                            solutions that empower businesses to
+                            streamline and enhance their operations. \n
+                            The company’s goal is to help businesses by
+                            providing quality and efficient digital solutions
+                            that enable them to excel in their industry. ',
                 'bullets' => [
-                    'Client-Centric Solutions',
-                    'Data-Driven Decision Making',
-                    'Agile Development',
-                    'Sustainable Growth',
-                    'Collaborative Partnership',
-                    'Support & Maintenance',
+                    ['text' => 'Client-Centric Solutions', 'icon' => 'diamond'],
+                    ['text' => 'Data-Driven Decision Making', 'icon' => 'paperplane'],
+                    ['text' => 'Agile Development', 'icon' => 'chart'],
+                    ['text' => 'Sustainable Growth', 'icon' => 'calendar-check'],
+                    ['text' => 'Collaborative Partnership', 'icon' => 'bulb'],
+                    ['text' => 'Support & Maintenance', 'icon' => 'diamond'],
                 ],
             ],
             'fixed-strategy-cards' => [
                 'heading' => 'Our Strategy',
                 'subheading' => "We understand that every business has\nunique goals for its system, such as:",
+                'card1_icon' => 'diamond',
                 'card1_title' => 'Hand Tailored Solutions',
                 'card1_body' => 'Design websites that are uniquely customized to align with each client\'s specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.',
+                'card2_icon' => 'paperplane',
                 'card2_title' => 'Enhance Client Collaboration',
                 'card2_body' => 'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
+                'card3_icon' => 'chart',
                 'card3_title' => 'Boost Business Performance',
                 'card3_body' => 'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
+                'card4_icon' => 'calendar-check',
                 'card4_title' => 'Ensure Exceptional User Experience',
                 'card4_body' => 'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
+                'card5_icon' => 'bulb',
                 'card5_title' => 'Provide Strategic Implementation',
                 'card5_body' => 'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
             ],
@@ -435,7 +587,10 @@ class ProposalEditor extends Component
             ],
             'fixed-organizations' => [
                 'heading' => 'Organizations we work with',
-                'organizations' => array_map(fn ($i) => "Organization {$i}", range(1, 12)),
+                'organizations' => array_map(fn ($i) => [
+                    'name' => "Organization {$i}",
+                    'image' => "images/organization{$i}.png",
+                ], range(1, 12)),
             ],
             'fixed-testimonial' => [
                 'heading' => 'Testimonial',
@@ -568,6 +723,10 @@ class ProposalEditor extends Component
         }
 
         for ($i = 1; $i <= 5; $i++) {
+            $existingIcon = $slide->content["card{$i}_icon"] ?? null;
+            if (is_string($existingIcon) && $existingIcon !== '') {
+                $content["card{$i}_icon"] = $existingIcon;
+            }
             if (! empty($this->cardTitles[$i]) && $this->cardTitles[$i] !== ($defaults["card{$i}_title"] ?? '')) {
                 $content["card{$i}_title"] = $this->cardTitles[$i];
             }
@@ -595,9 +754,30 @@ class ProposalEditor extends Component
             $content['website'] = $this->website;
         }
 
-        $bullets = array_values(array_filter($this->bullets));
-        if (! empty($bullets)) {
-            $content['bullets'] = $bullets;
+        if ($layout === 'fixed-whois') {
+            $bullets = [];
+            foreach (array_values($this->bullets) as $b) {
+                if (! is_array($b)) {
+                    $b = ['text' => (string) $b, 'icon' => 'diamond'];
+                }
+                $text = trim((string) ($b['text'] ?? ''));
+                if ($text === '') {
+                    continue;
+                }
+                $icon = (string) ($b['icon'] ?? 'diamond');
+                if ($icon === '') {
+                    $icon = 'diamond';
+                }
+                $bullets[] = ['text' => $text, 'icon' => $icon];
+            }
+            if (! empty($bullets)) {
+                $content['bullets'] = $bullets;
+            }
+        } else {
+            $bullets = array_values(array_filter($this->bullets));
+            if (! empty($bullets)) {
+                $content['bullets'] = $bullets;
+            }
         }
 
         if (! empty($this->pill) && $this->pill !== ($defaults['pill'] ?? '')) {
@@ -803,31 +983,79 @@ class ProposalEditor extends Component
             ],
             'fixed-whois' => [
                 'top_heading' => 'OUR STRATEGY',
-                'heading' => 'Who is\nOdecci?',
-                'body' => 'Your who-is text...',
+                'heading' => "Who is\nOdecci?",
+                'body' => 'Odecci Solutions Inc. is a software
+                            development company that provides
+                            comprehensive software development
+                            services and focuses on end-to-end digital
+                            solutions that empower businesses to
+                            streamline and enhance their operations.
+
+                            The company’s goal is to help businesses by
+                            providing quality and efficient digital solutions
+                            that enable them to excel in their industry. ',
                 'website' => 'www.odecci.com',
                 'bullets' => [
-                    'Client-Centric Solutions',
-                    'Data-Driven Decision Making',
-                    'Agile Development',
-                    'Sustainable Growth',
-                    'Collaborative Partnership',
-                    'Support & Maintenance',
+                    ['text' => 'Client-Centric Solutions', 'icon' => 'diamond'],
+                    ['text' => 'Data-Driven Decision Making', 'icon' => 'paperplane'],
+                    ['text' => 'Agile Development', 'icon' => 'chart'],
+                    ['text' => 'Sustainable Growth', 'icon' => 'calendar-check'],
+                    ['text' => 'Collaborative Partnership', 'icon' => 'bulb'],
+                    ['text' => 'Support & Maintenance', 'icon' => 'diamond'],
                 ],
             ],
             'fixed-strategy-cards' => [
-                'heading' => 'Our Strategy',
+                'heading' => 'Our Goals',
                 'subheading' => "We understand that every business has\nunique goals for its system, such as:",
+                'card1_icon' => 'diamond',
                 'card1_title' => 'Hand Tailored Solutions',
-                'card1_body' => 'Design websites that are uniquely customized...',
+                'card1_body' => 'Design websites that are uniquely customized to align with each client\'s specific business needs, from branded interfaces to intricate technical functionalities, ensuring a perfect fit for their operations.',
+                'card2_icon' => 'paperplane',
                 'card2_title' => 'Enhance Client Collaboration',
-                'card2_body' => 'Integrate closely with clients throughout...',
+                'card2_body' => 'Integrate closely with clients throughout the support process, fostering a partnership that incorporates their vision and feedback to create solutions that reflect their goals.',
+                'card3_icon' => 'chart',
                 'card3_title' => 'Boost Business Performance',
-                'card3_body' => 'Develop a maintenance and support process...',
+                'card3_body' => 'Develop a maintenance and support process that drives measurable outcomes, such as increased website performance and improved visibility.',
+                'card4_icon' => 'calendar-check',
                 'card4_title' => 'Ensure Exceptional User Experience',
-                'card4_body' => 'Create intuitive, visually appealing interfaces...',
+                'card4_body' => 'Create intuitive, visually appealing interfaces that enhance user engagement and satisfaction, making the application both functional and accessible for end-users.',
+                'card5_icon' => 'bulb',
                 'card5_title' => 'Provide Strategic Implementation',
-                'card5_body' => 'Support clients with comprehensive strategies...',
+                'card5_body' => 'Support clients with comprehensive strategies, including case studies and development roadmaps, to ensure seamless deployment and long-term success of the website.',
+            ],
+            'fixed-organizations' => [
+                'heading' => 'Organizations we work with',
+            ],
+            'fixed-projects' => [
+                'heading' => 'Some of Our Website Projects',
+            ],
+            'fixed-testimonial' => [
+                'heading' => 'Testimonial',
+
+            ],
+            'fixed-terms' => [
+                'heading' => 'Terms and Conditions',
+            ],
+            'fixed-problem-statement' => [
+                'heading' => 'Problem Statement',
+            ],
+            'fixed-custom-solution' => [
+                'heading' => 'Our Custom Solution',
+
+            ],
+            'fixed-scope' => [
+                'heading' => 'Scope of Work',
+            ],
+            'fixed-why-customize' => [
+                'heading' => 'Why Your Business
+                                Needs a Customized
+                                Application',
+            ],
+            'fixed-guidance' => [
+                'heading' => 'Need Guidance?',
+            ],
+            'fixed-contact' => [
+                'heading' => nl2br("Contact Us\nNow"),
             ],
             default => ['heading' => 'New Slide'],
         };

@@ -164,3 +164,96 @@ input[type="checkbox"].checkbox:indeterminate,
 .border-clr-primary {
     border-color: #102b3c;
 }
+
+/* ── Proposal slides: fluid type (scales with slide column via cqw) ── */
+.proposal-slide-cqw {
+    container-type: inline-size;
+    width: 100%;
+    min-width: 0;
+}
+
+.proposal-fluid-fx1 {
+    font-size: 2.25rem;
+    line-height: 1.05;
+    font-weight: 500;
+}
+
+.proposal-fluid-fx2 {
+    font-size: 1.875rem;
+    line-height: 1.08;
+    font-weight: 500;
+}
+
+.proposal-fluid-fx3 {
+    font-size: 1.5rem;
+    line-height: 1.1;
+    font-weight: 500;
+}
+
+.proposal-fluid-h1 {
+    font-size: 1.875rem;
+    line-height: 1.1;
+}
+
+.proposal-fluid-h2 {
+    font-size: 1.5rem;
+    line-height: 1.15;
+}
+
+.proposal-fluid-subheading {
+    font-size: 1.125rem;
+    line-height: 1.35;
+}
+
+.proposal-fluid-body {
+    font-size: 0.5rem;
+    line-height: 1.5;
+}
+
+.proposal-fluid-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.45;
+}
+
+.proposal-fluid-quote {
+    font-size: 1.25rem;
+    line-height: 1.25;
+}
+
+@supports (font-size: 1cqw) {
+    .proposal-fluid-fx1 {
+        font-size: clamp(1.35rem, 6.5cqw, 4.5rem);
+    }
+
+    .proposal-fluid-fx2 {
+        font-size: clamp(1.2rem, 5.2cqw, 3.75rem);
+    }
+
+    .proposal-fluid-fx3 {
+        font-size: clamp(1.05rem, 4.2cqw, 3rem);
+    }
+
+    .proposal-fluid-h1 {
+        font-size: clamp(1.25rem, 5cqw, 3rem);
+    }
+
+    .proposal-fluid-h2 {
+        font-size: clamp(1.1rem, 3.6cqw, 2.25rem);
+    }
+
+    .proposal-fluid-subheading {
+        font-size: clamp(0.95rem, 2.6cqw, 1.5rem);
+    }
+
+    .proposal-fluid-body {
+        font-size: clamp(0.75rem, 1.85cqw, 1.125rem);
+    }
+
+    .proposal-fluid-body-sm {
+        font-size: clamp(0.6875rem, 1.6cqw, 1rem);
+    }
+
+    .proposal-fluid-quote {
+        font-size: clamp(1rem, 3.2cqw, 2rem);
+    }
+}

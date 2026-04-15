@@ -41,32 +41,32 @@
 
             <a href="{{ route('dashboard') }}"
                class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('inbox') ? 'focus-clr-accent' : 'text-white' }}">
-                <x-icons.inbox classes="w-6 h-6" />
+                <x-icons.app.inbox classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Inbox</span>
             </a>
 
             <a href="/compose"
                class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('compose') ? 'focus-clr-accent' : '' }} hover-clr-accent">
-                <x-icons.email classes="w-6 h-6" />
+                <x-icons.app.email classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Compose Email</span>
             </a>
 
             <a href="{{ route('archive') }}"
             class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('archive') ? 'focus-clr-accent' : 'text-white' }} hover-clr-accent">
-            <x-icons.archive classes="w-6 h-6" />
+            <x-icons.app.archive classes="w-6 h-6" />
             <span class="hidden group-hover:block">Archive</span>
             </a>
 
             <a href="{{ route('proposal') }}"
             class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('proposal*') ? 'focus-clr-accent' : 'text-white' }} hover-clr-accent">
-            <x-icons.proposal classes="w-6 h-6" />
+            <x-icons.app.proposal classes="w-6 h-6" />
             <span class="hidden group-hover:block">Proposal</span>
             </a>
 
             @if(Auth::user()?->is_admin)
             <a href="{{ route('accounts') }}"
             class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap {{ request()->is('accounts') ? 'focus-clr-accent' : '' }} hover-clr-accent">
-                <x-icons.account classes="w-6 h-6" />
+                <x-icons.app.account classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Accounts</span>
             </a>
             @endif
@@ -75,7 +75,7 @@
         <div class="p-2 border-t border-white/20">
             <button type="button" onclick="document.getElementById('logout-modal').showModal()"
                 class="w-full flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent">
-                <x-icons.logout classes="w-6 h-6" />
+                <x-icons.app.logout classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Log out</span>
             </button>
 
