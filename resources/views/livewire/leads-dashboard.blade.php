@@ -42,7 +42,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <div class="flex items-center justify-between mb-3">
                 <h4 class="font-semibold clr-text-primary">All Sends</h4>
-                <select wire:model.live="selectedCampaignId" class="select select-sm select-bordered w-52">
+                <select wire:model.live="selectedCampaignId" class="select select-sm select-bordered w-52 h-10">
                     <option value="all">All Bulk Emails</option>
                     @foreach($campaigns as $campaign)
                         <option value="{{ $campaign->id }}">
@@ -66,7 +66,7 @@
                                 <td class="text-xs">{{ $recipient->email }}</td>
                                 <td class="text-xs">{{ \Illuminate\Support\Str::limit($recipient->campaign->subject ?? 'N/A', 20) }}</td>
                                 <td>
-                                    <span class="badge badge-xs {{ $recipient->status === 'replied' ? 'badge-success' : 'badge-warning' }}">
+                                    <span class="badge badge-xs {{ $recipient->status === 'replied' ? 'badge-success' : 'badge-warning' }} p-3">
                                         {{ $recipient->status === 'replied' ? 'Replied' : 'No Reply' }}
                                     </span>
                                 </td>
@@ -82,7 +82,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <div class="flex items-center justify-between mb-3">
                 <h4 class="font-semibold clr-text-primary">No Reply</h4>
-                <select wire:model.live="selectedCampaignId" class="select select-sm select-bordered w-52">
+                <select wire:model.live="selectedCampaignId" class="select select-sm select-bordered w-52 h-10">
                     <option value="all">All Bulk Emails</option>
                     @foreach($campaigns as $campaign)
                         <option value="{{ $campaign->id }}">
@@ -107,7 +107,7 @@
                                 <td class="text-xs">{{ \Illuminate\Support\Str::limit($recipient->campaign->subject ?? 'N/A', 18) }}</td>
                                 <td>
                                     <button wire:click="markAsReplied({{ $recipient->id }})"
-                                            class="btn btn-xs clr-bg-accent text-base-100">
+                                            class="btn btn-xs clr-bg-accent text-base-100 p-2">
                                         Reply
                                     </button>
                                 </td>
@@ -123,7 +123,7 @@
         <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
             <div class="flex items-center justify-between mb-3">
                 <h4 class="font-semibold clr-text-primary">Replied</h4>
-                <select wire:model.live="selectedCampaignId" class="select select-sm select-bordered w-52">
+                <select wire:model.live="selectedCampaignId" class="select select-sm select-bordered w-52 h-10">
                     <option value="all">All Bulk Emails</option>
                     @foreach($campaigns as $campaign)
                         <option value="{{ $campaign->id }}">
@@ -217,9 +217,13 @@
                                 label: 'Sent',
                                 data: this.chartData.sent,
                                 borderColor: '#3b82f6',
-                                backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                                backgroundColor: 'rgba(59, 130, 246, 0.08)',
                                 tension: 0.35,
                                 fill: false,
+                                borderDash: [6, 4],
+                                borderWidth: 2,
+                                pointRadius: 2,
+                                pointHoverRadius: 4,
                             },
                             {
                                 label: 'Replied',
@@ -228,14 +232,23 @@
                                 backgroundColor: 'rgba(22, 163, 74, 0.15)',
                                 tension: 0.35,
                                 fill: false,
+                                borderWidth: 2,
+                                pointRadius: 2,
+                                pointHoverRadius: 4,
                             },
                             {
                                 label: 'No Reply',
                                 data: this.chartData.noReply,
                                 borderColor: '#f59e0b',
-                                backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                                backgroundColor: 'rgba(245, 158, 11, 0.22)',
                                 tension: 0.35,
                                 fill: false,
+                                borderWidth: 3,
+                                pointRadius: 3,
+                                pointHoverRadius: 5,
+                                pointBackgroundColor: '#f59e0b',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 1,
                             }
                         ]
                     },
