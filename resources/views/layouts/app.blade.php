@@ -40,6 +40,12 @@
         <nav class="flex flex-col p-2 gap-1 mt-4 flex-1">
 
             <a href="{{ route('dashboard') }}"
+               class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('dashboard') ? 'focus-clr-accent' : 'text-white' }}">
+                <x-icons.app.dashboard classes="w-6 h-6" />
+                <span class="hidden group-hover:block">Leads</span>
+            </a>
+
+            <a href="{{ route('inbox') }}"
                class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('inbox') ? 'focus-clr-accent' : 'text-white' }}">
                 <x-icons.app.inbox classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Inbox</span>
