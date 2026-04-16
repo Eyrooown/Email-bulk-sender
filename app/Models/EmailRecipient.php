@@ -8,8 +8,8 @@ class EmailRecipient extends Model
 {
     protected $fillable = ['email_id', 'email', 'status'];
 
-    public function email()
+    public function campaign()
     {
-        return $this->belongsTo(Email::class);
+        return $this->belongsTo(Email::class, 'email_id');
     }
 }

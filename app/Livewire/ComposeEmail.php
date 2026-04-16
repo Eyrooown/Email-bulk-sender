@@ -570,7 +570,7 @@ class ComposeEmail extends Component
                 $this->showToast = true;
                 $this->toastMessage = 'Sent to '.$progress['total'].' recipient'.($progress['total'] !== 1 ? 's' : '');
                 Cache::forget("sending_progress_{$this->sendingEmailId}");
-                $this->redirect(route('dashboard'), navigate: true);
+                $this->redirect(route('inbox'), navigate: true);
             }
         }
     }
@@ -578,7 +578,7 @@ class ComposeEmail extends Component
     public function dismissToast()
     {
         $this->showToast = false;
-        $this->redirect(route('dashboard'));
+        $this->redirect(route('inbox'));
     }
 
     public function render()

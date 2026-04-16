@@ -17,8 +17,10 @@ Route::get('/proposal/print-view', function () {
 })->name('proposal.print-view');
 
 Route::middleware(['auth'])->group(function () {
-    Route::redirect('/dashboard', '/inbox');
-    Route::get('/inbox', [EmailController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    Route::get('/inbox', [EmailController::class, 'index'])->name('inbox');
     Route::get('/inbox/export/excel', [DashboardExportController::class, 'excel'])->name('dashboard.export.excel');
     Route::get('/inbox/export/pdf', [DashboardExportController::class, 'pdf'])->name('dashboard.export.pdf');
     Route::get('/compose', function () {

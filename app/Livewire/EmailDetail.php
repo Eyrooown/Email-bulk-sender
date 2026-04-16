@@ -210,7 +210,7 @@ class EmailDetail extends Component
                 $this->showToast = true;
                 $this->toastMessage = 'Email sent to ' . $progress['total'] . ' recipient' . ($progress['total'] !== 1 ? 's' : '');
                 Cache::forget("sending_progress_{$this->sendingEmailId}");
-                $this->redirect(route('dashboard'), navigate: true);
+                $this->redirect(route('inbox'), navigate: true);
             }
         }
     }

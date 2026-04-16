@@ -1,9 +1,9 @@
 <div>
     {{-- Back button + Edit button --}}
     <div class="flex items-center justify-between mb-4">
-        <a href="{{ route('dashboard') }}" class="btn btn-sm btn-ghost gap-2">
+        <a href="{{ route('inbox') }}" class="btn btn-sm btn-ghost gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-            Back to Dashboard
+            Back to Inbox
         </a>
         @if(!$editMode)
             <button wire:click="toggleEdit" class="btn btn-sm btn-outline hover-clr-accent rounded-lg gap-2">
