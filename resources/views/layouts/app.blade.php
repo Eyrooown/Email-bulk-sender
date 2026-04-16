@@ -41,7 +41,7 @@
 
             <a href="{{ route('dashboard') }}"
                class="flex items-center gap-4 px-3 py-3 rounded-lg whitespace-nowrap hover-clr-accent {{ request()->is('dashboard') ? 'focus-clr-accent' : 'text-white' }}">
-                <x-icons.app.home classes="w-6 h-6" />
+                <x-icons.app.dashboard classes="w-6 h-6" />
                 <span class="hidden group-hover:block">Leads</span>
             </a>
 
